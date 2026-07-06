@@ -1,0 +1,55 @@
+
+import pylab as pl
+import sys
+
+ROOT= "results/"
+def plotScoreDiffs(learnersName, envName, title, mean, median, quantile1, quantile2, times, timeHorizon, logfile='', timestamp=0,root_folder=ROOT):
+    if (logfile==''):
+        logfile=sys.stdout
+    nbFigure = pl.gcf().number+1
+    pl.figure(nbFigure)
+    textfile = root_folder+"Regrets_"
+    #colors= ['black', 'blue','gray', 'green', 'red']#['black', 'purple', 'blue','cyan','yellow', 'orange', 'red', 'chocolate']
+    colors = ['#377eb8', '#ff7f00', '#4daf4a',
+     '#f781bf', '#a65628', '#984ea3',
+     '#999999', '#e41a1c', '#dede00']
+
+    style = ['o','v','s','d','<']
+    m,M=0,0
+    pl.title(title)
+    for i in range(len(median)):
+        m=min(m,min(median[i]))
+        M=max(M,max(median[i]))
+        pl.plot(times, mean[i], style[i% len(style)], label=learnersName[i], color=colors[i % len(colors)], linewidth=2.0, linestyle='..', markevery=0.05)
+        pl.plot(times, median[i], style[i% len(style)], color=colors[i % len(colors)], linewidth=2.0, linestyle='--', markevery=0.05)
+        #pl.plot(times,median[i], color=colors[i % len(colors)],linestyle=':',linewidth=0.8)
+        pl.plot(times,quantile1[i], color=colors[i % len(colors)],linestyle=':',linewidth=0.6)
+        pl.plot(times,quantile2[i], color=colors[i % len(colors)],linestyle=':',linewidth=0.6)
+        textfile += learnersName[i] + "_"
+        logfile.write(learnersName[i] + ' has regret ' + str(median[i][-1]) + ' after ' + str(timeHorizon) + ' time steps with quantiles ' +
+              str(quantile1[i][-1]) +' and '+ str(quantile2[i][-1])+"\n")
+
+    textfile+="_"+str(timeHorizon)+"_"+envName+"_"+timestamp
+    pl.legend(loc=2)
+    pl.xlabel("Time steps", fontsize=13, fontname = "Arial")
+    pl.ylabel("Regret Tg*-sum_t r_t", fontsize=13, fontname = "Arial")
+    #pl.xticks(times)
+    pl.ticklabel_format(axis='both', useMathText = True, useOffset = True, style='sci', scilimits=(0, 0))
+    pl.ylim([m,M])
+    pl.savefig(textfile+'.png')
+    pl.savefig(textfile+ '.pdf')
+    # pl.xscale('log')
+    # pl.savefig(textfile + '_xlog.png')
+    # pl.savefig(textfile + '_xlog.pdf')
+    # pl.ylim(1)
+    if(timeHorizon>10):
+        pl.xlim(10,timeHorizon)
+    pl.xscale('linear')
+    pl.yscale('log')
+    pl.ylim([m,M])
+    pl.savefig(textfile + '_ylog.png')
+    pl.savefig(textfile + '_ylog.pdf')
+    # pl.xscale('log')
+    # pl.savefig(textfile + '_loglog.png')
+    # pl.savefig(textfile + '_loglog.pdf')
+    logfile.write("\nPlots are depicted in files "+textfile + ".pdf/png, etc.")
