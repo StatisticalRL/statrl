@@ -44,7 +44,7 @@ class StochasticBanditEnv(Env):
     def optimal_arm(self):
         return int(np.argmax(self.means))
 
-    def step(self, arm: int):
+    def step(self, arm: int)-> float:
         """
         Sample one reward from the specified arm.
         """

@@ -4,13 +4,14 @@ from gymnasium.utils import seeding
 
 class BanditAgent(ABC):
 
-    def __init__(self,name: str):
+    def __init__(self,name: str,seed=1):
         self.name = name
+        self.seed =seed
 
 
-    def reset(self,seed):
+    def reset(self):
         """Initialize a new independent run."""
-        self.np_random, self.seed = seeding.np_random(seed)
+        self.np_random, self.seed = seeding.np_random(self.seed)
 
     def play(self) -> int:
         """Return the arm to pull."""
