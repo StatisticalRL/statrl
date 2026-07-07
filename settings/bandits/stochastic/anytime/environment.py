@@ -5,7 +5,7 @@ import numpy as np
 from gymnasium import Env, spaces
 from gymnasium.utils import seeding
 
-class StochasticBanditEnv(ABC):
+class StochasticBanditEnv(Env, ABC):
     """
     Abstract stochastic multi-armed bandit environment.
 

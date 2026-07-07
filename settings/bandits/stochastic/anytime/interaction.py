@@ -17,7 +17,7 @@ def interact(env: StochasticBanditEnv,
     for t in range(horizon):
         arm = learner.select_arm()
 
-        reward = env.pull(arm)
+        _, reward, _, _, _ = env.pull(arm)
 
         learner.update(arm, reward)
 

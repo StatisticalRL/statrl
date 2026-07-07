@@ -20,7 +20,7 @@ def plotScoreDiffs(learnersName, envName, title, mean, median, quantile1, quanti
     for i in range(len(median)):
         m=min(m,min(median[i]))
         M=max(M,max(median[i]))
-        pl.plot(times, mean[i], style[i% len(style)], label=learnersName[i], color=colors[i % len(colors)], linewidth=2.0, linestyle='..', markevery=0.05)
+        pl.plot(times, mean[i], style[i% len(style)], label=learnersName[i], color=colors[i % len(colors)], linewidth=2.0, linestyle='-', markevery=0.05)
         pl.plot(times, median[i], style[i% len(style)], color=colors[i % len(colors)], linewidth=2.0, linestyle='--', markevery=0.05)
         #pl.plot(times,median[i], color=colors[i % len(colors)],linestyle=':',linewidth=0.8)
         pl.plot(times,quantile1[i], color=colors[i % len(colors)],linestyle=':',linewidth=0.6)

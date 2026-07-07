@@ -36,8 +36,8 @@ def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,
 
     for learner in learners:
         names.append(learner.name)
-        dump_scores, meanelapsedtime = pR.multicoreRuns(envFullName, learner, interact, nbReplicates, timeHorizon,oR.oneRunWithDump, root_folder=root_folder)
-        dump_scores.append(dump_scores)
+        learner_scores, meanelapsedtime = pR.multicoreRuns(envFullName, learner, interact, nbReplicates, timeHorizon,oR.oneRunWithDump, root_folder=root_folder)
+        dump_scores.append(learner_scores)
         meanelapsedtimes.append(meanelapsedtime)
 
     #dump_scoresopt = oR.oneRunWithDump(env, oracle, interact, timeHorizon, root_folder=root_folder)
@@ -53,7 +53,7 @@ def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,
     logfile = open(logfilename,'w')
     logfile.write("Environment "+env.name +"\n")
     logfile.write("Optimal policy is: " + str(oracle.policy)+"\n")
-    logfile.write("Learners "+str([learner.name() for learner in learners]) +"\n")
+    logfile.write("Learners "+str([learner.name for learner in learners]) +"\n")
     logfile.write("Time horizon is "+ str(timeHorizon) + ", nb of replicates is "+ str(nbReplicates) +"\n")
     [logfile.write(str(names[i])+ " average runtime is "+ str(meanelapsedtimes[i])  +"\n") for i in range(len(names))]
     mean,median, quantile1,quantile2,times = aR.computeScoreDiffs(names, dump_scores, timeHorizon, envFullName, root_folder=root_folder)
