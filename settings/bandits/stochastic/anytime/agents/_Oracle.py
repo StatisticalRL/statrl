@@ -11,8 +11,8 @@ class Oracle(BanditAgent):
     def reset(self):
         ()
 
-    def play(self):
-        return self.env.bestarm
+    def select_arm(self):
+        return self.env.optimal_arm
 
     def update(self, action, reward):
        ()

@@ -62,7 +62,7 @@ class IMED(BanditAgent):
         self.maxMeans = 0.0
         self.indexes = np.zeros(self.nA)
 
-    def play(self, state=0):
+    def select_arm(self, state=0):
         """
         Select the next arm to pull.
 
