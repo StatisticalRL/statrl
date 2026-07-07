@@ -12,6 +12,7 @@ def computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder):
     :param envName:
     :return: vectors median, quantile0.25, quantile0.75, timesteps, where median[i] is median of expreimnts at time timesteps[i]
     """
+
     median = []
     mean = []
     quantile1 = []
@@ -30,6 +31,7 @@ def computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder):
 
     data_o = []
     for i in range(len(dump_scores[-1])):
+        #print(f"O{dump_scores[-1][i]}")
         file = open(dump_scores[-1][i], 'rb')
         scores_oi = pickle.load(file)
         data_o.append([scores_oi[t] for t in range(0, timeHorizon, skip)])
@@ -39,12 +41,13 @@ def computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder):
     for j in range(nbAlgs):
         data_j = []
         for i in range(len(dump_scores[j])):
+            #print(f"{dump_scores[j][i]}")
             file = open(dump_scores[j][i], 'rb')
             scores_ij = pickle.load(file)
             data_j.append([scores_oracle[t] - scores_ij[t] for t in range(0,timeHorizon,skip)])
             file.close()
 
-        filename = root_folder+"scorediff_" + envName + "_" + names[j] + "_" + str(timeHorizon) + "_" + str(
+        filename = root_folder+"regret_" + envName + "_" + names[j] + "_" + str(timeHorizon) + "_" + str(
             j) + "_" + str(
             time.time())
         file = open(filename, 'wb')

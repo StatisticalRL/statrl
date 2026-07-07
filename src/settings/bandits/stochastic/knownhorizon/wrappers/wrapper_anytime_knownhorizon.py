@@ -16,15 +16,15 @@ class AnytimeToKnownHorizonEnvironmentWrapper(
         self.env = env
 
     @property
-    def n_arms(self):
-        return self.env.n_arms
+    def number_arms(self):
+        return self.env.number_arms
 
     @property
     def means(self):
         return self.env.means
 
-    def pull(self, arm):
-        return self.env.pull(arm)
+    def step(self, arm):
+        return self.env.step(arm)
 
     def reset(self, seed=None):
         return self.env.reset(seed)
@@ -42,14 +42,14 @@ class KnownHorizonToAnytimeEnvironmentWrapper(
 
     @property
     def n_arms(self):
-        return self.env.n_arms
+        return self.env.number_arms
 
     @property
     def means(self):
         return self.env.means
 
     def pull(self, arm):
-        return self.env.pull(arm)
+        return self.env.step(arm)
 
     def reset(self, seed=None):
         return self.env.reset(seed)

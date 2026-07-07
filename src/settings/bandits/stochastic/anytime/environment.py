@@ -5,7 +5,7 @@ import numpy as np
 from gymnasium import Env, spaces
 from gymnasium.utils import seeding
 
-class StochasticBanditEnv(ABC):
+class StochasticBanditEnv(Env):
     """
     Abstract stochastic multi-armed bandit environment.
 
@@ -17,18 +17,17 @@ class StochasticBanditEnv(ABC):
     the underlying distributions.
     """
 
-    def __init__(self,rewarddistributions):
+    def __init__(self,rewarddistributions,name):
         self.rewarddistributions = rewarddistributions
+        self.name = name
         self.renderers = []
 
     @property
-    @abstractmethod
-    def n_arms(self) -> int:
+    def number_arms(self) -> int:
         """Number of available arms."""
         return len(self.rewarddistributions)
 
     @property
-    @abstractmethod
     def means(self):
         """
         Mean reward of every arm.
@@ -45,8 +44,7 @@ class StochasticBanditEnv(ABC):
     def optimal_arm(self):
         return int(np.argmax(self.means))
 
-    @abstractmethod
-    def pull(self, arm: int):
+    def step(self, arm: int):
         """
         Sample one reward from the specified arm.
         """
@@ -58,7 +56,7 @@ class StochasticBanditEnv(ABC):
         """
         r = self.rewarddistributions[arm].sample()
         self.last=(arm,r)
-        return 0, r, False, False, {"mean": self.means[arm]}
+        return r
 
     def expected_reward(self, arm):
         return self.means[arm]
@@ -67,15 +65,10 @@ class StochasticBanditEnv(ABC):
         """
               Reset the random generator.
               """
-        super().reset(seed=seed, options=options)
-        self.seed(seed)
+        #super().reset(seed=seed, options=options)
+        self.np_random, self.seed = seeding.np_random(seed)
         self.last = (None,0)
-        return 0, {"mean": 0}
-
-
-    def seed(self, seed=None):
-        self.np_random, seed = seeding.np_random(seed)
-        return [seed]
+        return 0
 
     def render(self, mode='human'):
         for re in self.renderers:

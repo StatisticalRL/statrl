@@ -1,6 +1,6 @@
 import numpy as np
-from statrl.settings.bandits.stochastic.anytime.agent import BanditAgent
-from statrl.settings.utils import randmin, klGauss
+from src.settings.bandits.stochastic.anytime.agent import BanditAgent
+from src.settings.utils import randmin, klGauss
 from math import log
 
 

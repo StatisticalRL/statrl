@@ -18,13 +18,41 @@ def plotScoreDiffs(learnersName, envName, title, mean, median, quantile1, quanti
     m,M=0,0
     pl.title(title)
     for i in range(len(median)):
-        m=min(m,min(median[i]))
-        M=max(M,max(median[i]))
-        pl.plot(times, mean[i], style[i% len(style)], label=learnersName[i], color=colors[i % len(colors)], linewidth=2.0, linestyle='..', markevery=0.05)
-        pl.plot(times, median[i], style[i% len(style)], color=colors[i % len(colors)], linewidth=2.0, linestyle='--', markevery=0.05)
-        #pl.plot(times,median[i], color=colors[i % len(colors)],linestyle=':',linewidth=0.8)
-        pl.plot(times,quantile1[i], color=colors[i % len(colors)],linestyle=':',linewidth=0.6)
-        pl.plot(times,quantile2[i], color=colors[i % len(colors)],linestyle=':',linewidth=0.6)
+        m=min(m,min(median[i]),min(mean[i]))
+        M=1.1*max(M,max(median[i]),max(mean[i]))
+        pl.fill_between(
+            times,
+            quantile1[i],
+            quantile2[i],
+            color=colors[i% len(colors)],
+            alpha=0.18,
+            linewidth=0
+        )
+        pl.plot(
+            times,
+            median[i],
+            color=colors[i% len(colors)],
+            alpha=0.6,
+            linewidth=1.8,
+            linestyle='--'
+        )
+        pl.plot(
+            times,
+            mean[i],
+            style[i % len(style)],
+            markevery=0.15,
+            markersize=8,
+            color=colors[i% len(colors)],
+            linewidth=2.3,
+            linestyle='-',
+            label=learnersName[i]
+        )
+
+        #pl.plot(times, mean[i], style[i% len(style)], label=learnersName[i], color=colors[i % len(colors)], linewidth=2.0, linestyle='-.', markevery=0.05)
+        #pl.plot(times, median[i], style[i% len(style)], color=colors[i % len(colors)], linewidth=2.0, linestyle='--', markevery=0.05)
+        #pl.plot(times,quantile1[i], color=colors[i % len(colors)],linestyle=':',linewidth=0.6)
+        #pl.plot(times,quantile2[i], color=colors[i % len(colors)],linestyle=':',linewidth=0.6)
+
         textfile += learnersName[i] + "_"
         logfile.write(learnersName[i] + ' has regret ' + str(median[i][-1]) + ' after ' + str(timeHorizon) + ' time steps with quantiles ' +
               str(quantile1[i][-1]) +' and '+ str(quantile2[i][-1])+"\n")
@@ -32,7 +60,7 @@ def plotScoreDiffs(learnersName, envName, title, mean, median, quantile1, quanti
     textfile+="_"+str(timeHorizon)+"_"+envName+"_"+timestamp
     pl.legend(loc=2)
     pl.xlabel("Time steps", fontsize=13, fontname = "Arial")
-    pl.ylabel("Regret Tg*-sum_t r_t", fontsize=13, fontname = "Arial")
+    pl.ylabel("Regret", fontsize=13, fontname = "Arial")
     #pl.xticks(times)
     pl.ticklabel_format(axis='both', useMathText = True, useOffset = True, style='sci', scilimits=(0, 0))
     pl.ylim([m,M])

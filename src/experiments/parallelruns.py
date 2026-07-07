@@ -7,7 +7,7 @@ import multiprocessing
 
 
 ## Parallelization
-def multicoreRuns(envRegisterName, learner, interact, nbReplicates, timeHorizon, oneRunFunction, root_folder):
+def multicoreRuns(env, learner, interact, nbReplicates, timeHorizon, oneRunFunction, root_folder):
     num_cores = multiprocessing.cpu_count()
     envs = []
     learners = []
@@ -16,7 +16,9 @@ def multicoreRuns(envRegisterName, learner, interact, nbReplicates, timeHorizon,
     rootFolders= []
 
     for i in range(nbReplicates):
-        envs.append(gymnasium.make(envRegisterName).unwrapped)
+        # Should be made more general? indep of gymnasium?
+        #envs.append(gymnasium.make(envRegisterName).unwrapped)
+        envs.append(copy.deepcopy(env))
         learners.append(copy.deepcopy(learner))
         interacts.append(copy.deepcopy(interact))
         timeHorizons.append(copy.deepcopy(timeHorizon))

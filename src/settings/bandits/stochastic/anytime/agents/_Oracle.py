@@ -1,5 +1,5 @@
 
-from statrl.settings.bandits.stochastic.anytime.agent import BanditAgent
+from src.settings.bandits.stochastic.anytime.agent import BanditAgent
 
 
 class Oracle(BanditAgent):
@@ -8,11 +8,15 @@ class Oracle(BanditAgent):
         self.env=env
         BanditAgent.__init__(self, name="Oracle")
 
+    @property
+    def policy(self):
+        return [self.env.optimal_arm]
+
     def reset(self):
         ()
 
     def play(self):
-        return self.env.bestarm
+        return self.env.optimal_arm
 
     def update(self, action, reward):
        ()

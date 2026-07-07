@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+from gymnasium.utils import seeding
 
 class BanditAgent(ABC):
 
@@ -7,10 +8,11 @@ class BanditAgent(ABC):
         self.name = name
 
 
-    def reset(self):
+    def reset(self,seed):
         """Initialize a new independent run."""
+        self.np_random, self.seed = seeding.np_random(seed)
 
-    def select_arm(self) -> int:
+    def play(self) -> int:
         """Return the arm to pull."""
 
     def update(self, arm: int, reward: float):
