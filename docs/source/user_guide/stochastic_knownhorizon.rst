@@ -1,5 +1,5 @@
-Stochastic bandits — known horizon
-==================================
+Known horizon
+=============
 
 *Module:* ``statrl.settings.bandits.stochastic.knownhorizon``
 

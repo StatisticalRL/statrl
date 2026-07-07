@@ -16,13 +16,20 @@ release = "0.0.1"
 # -- General configuration ---------------------------------------------------
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",   # scikit-learn-style summary tables + per-object pages
     "sphinx.ext.napoleon",      # NumPy- and Google-style docstrings (no numpydoc dep)
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
     "sphinx.ext.mathjax",
-    "myst_parser",              # Markdown pages (reuses the hand-written IMED notes)
     "sphinx_design",            # grid cards on the landing page
 ]
+
+autosummary_generate = True
+templates_path = ["_templates"]
+
+# gymnasium isn't installed in the docs build; mock it so the environment/interaction
+# modules import and their docstrings render.
+autodoc_mock_imports = ["gymnasium"]
 
 # Napoleon handles the predominant NumPy style; a few docstrings use rst field lists,
 # which autodoc parses natively.
@@ -35,8 +42,6 @@ autodoc_default_options = {
     "show-inheritance": True,
 }
 autodoc_typehints = "description"
-
-myst_enable_extensions = ["dollarmath", "amsmath", "colon_fence", "deflist"]
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
@@ -53,7 +58,6 @@ html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 
 html_theme_options = {
-    "github_url": "https://github.com/StatisticalRL/statrl",
     "icon_links": [
         {
             "name": "GitHub",

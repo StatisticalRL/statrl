@@ -40,20 +40,7 @@ for running many replicates in parallel and plotting regret.
       :link: user_guide/experiments
       :link-type: doc
 
-      Run replicated benchmarks in parallel and plot regret against an oracle.
-
-.. note::
-
-   ``statrl`` is at an early stage. The bandit settings below are implemented, but the
-   ``envs/`` folders are scaffolding — **concrete environments and reward distributions
-   are supplied by you** (see the :doc:`quickstart`).
-
-.. toctree::
-   :hidden:
-   :caption: Getting started
-
-   install
-   quickstart
+      Run benchmarks in parallel.
 
 .. toctree::
    :hidden:

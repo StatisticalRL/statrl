@@ -1,5 +1,5 @@
-Stochastic bandits — anytime
-============================
+Anytime
+=======
 
 *Module:* ``statrl.settings.bandits.stochastic.anytime``
 
