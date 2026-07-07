@@ -1,0 +1,18 @@
+/* Minor branding on top of pydata-sphinx-theme (the scikit-learn base theme). */
+
+.bd-content h1 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+/* Lead paragraph on the landing page. */
+p.lead {
+    font-size: 1.15rem;
+    color: var(--pst-color-text-muted);
+    max-width: 44rem;
+}
+
+/* Slightly tighter API signatures. */
+dl.py dt {
+    scroll-margin-top: 4rem;
+}

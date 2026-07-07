@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "statrl"
+version = "0.0.1"
+description = "The Statistical Reinforcement Learning Toolkit Library"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "gymnasium",
+    "joblib",
+    "matplotlib",
+]
+
+[project.urls]
+Homepage = "https://github.com/StatisticalRL/statrl"
+Repository = "https://github.com/StatisticalRL/statrl"
+
+# The repository root directory *is* the `statrl` package (it holds __init__.py and the
+# code imports `statrl.settings...`), so we map the package to "." rather than restructuring.
+[tool.setuptools]
+package-dir = {"statrl" = "."}
+packages = [
+    "statrl",
+    "statrl.experiments",
+    "statrl.settings",
+    "statrl.settings.bandits",
+    "statrl.settings.bandits.stochastic",
+    "statrl.settings.bandits.stochastic.anytime",
+    "statrl.settings.bandits.stochastic.anytime.agents",
+    "statrl.settings.bandits.stochastic.knownhorizon",
+    "statrl.settings.bandits.stochastic.knownhorizon.wrappers",
+    "statrl.settings.bandits.adversarial",
+    "statrl.settings.bandits.adversarial.lipschitz",
+    "statrl.settings.bandits.adversarial.lipschitz.agents",
+]
