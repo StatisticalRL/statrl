@@ -41,7 +41,7 @@ def computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder):
         for i in range(len(dump_scores[j])):
             file = open(dump_scores[j][i], 'rb')
             scores_ij = pickle.load(file)
-            data_j.append([scores_oracle[t] - scores_ij[t] for t in range(0,timeHorizon,skip)])
+            data_j.append([scores_oracle[k] - scores_ij[t] for k, t in enumerate(range(0,timeHorizon,skip))])
             file.close()
 
         filename = root_folder+"scorediff_" + envName + "_" + names[j] + "_" + str(timeHorizon) + "_" + str(
