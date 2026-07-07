@@ -3,6 +3,10 @@ from abc import ABC, abstractmethod
 
 class BanditAgent(ABC):
 
+    def __init__(self,name: str):
+        self.name = name
+
+
     def reset(self):
         """Initialize a new independent run."""
 

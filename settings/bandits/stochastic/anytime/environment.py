@@ -2,6 +2,8 @@
 from abc import ABC, abstractmethod
 import numpy as np
 
+from gymnasium import Env, spaces
+from gymnasium.utils import seeding
 
 class StochasticBanditEnv(ABC):
     """
@@ -15,10 +17,15 @@ class StochasticBanditEnv(ABC):
     the underlying distributions.
     """
 
+    def __init__(self,rewarddistributions):
+        self.rewarddistributions = rewarddistributions
+        self.renderers = []
+
     @property
     @abstractmethod
     def n_arms(self) -> int:
         """Number of available arms."""
+        return len(self.rewarddistributions)
 
     @property
     @abstractmethod
@@ -28,6 +35,7 @@ class StochasticBanditEnv(ABC):
 
         Intended only for evaluation and oracle construction.
         """
+        return [arm.mean for arm in self.rewarddistributions]
 
     @property
     def optimal_mean(self):
@@ -43,10 +51,32 @@ class StochasticBanditEnv(ABC):
         Sample one reward from the specified arm.
         """
 
+        """
+        :param a: action
+        :return:  (state, reward, IsDone?, IsTruncated?, meanreward)
+        The meanreward is returned for information, it should not be given to the learner.
+        """
+        r = self.rewarddistributions[arm].sample()
+        self.last=(arm,r)
+        return 0, r, False, False, {"mean": self.means[arm]}
+
     def expected_reward(self, arm):
         return self.means[arm]
 
-    def reset(self, seed=None):
+    def reset(self, seed=None, options=None):
         """
-        Reset the random generator.
-        """
+              Reset the random generator.
+              """
+        super().reset(seed=seed, options=options)
+        self.seed(seed)
+        self.last = (None,0)
+        return 0, {"mean": 0}
+
+
+    def seed(self, seed=None):
+        self.np_random, seed = seeding.np_random(seed)
+        return [seed]
+
+    def render(self, mode='human'):
+        for re in self.renderers:
+            re.render(self.last)

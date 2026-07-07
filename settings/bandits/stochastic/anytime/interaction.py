@@ -6,15 +6,13 @@ from statrl.settings.bandits.stochastic.anytime.agent import BanditAgent
 
 def interact(env: StochasticBanditEnv,
     learner: BanditAgent,
-    horizon: int,
-    initialize_score=lambda x:0,
-    compute_score=lambda a,r:r
+    horizon: int
 ) -> np.ndarray:
     env.reset()
 
     learner.reset()
 
-    score = initialize_score(horizon)
+    score = []
 
     for t in range(horizon):
         arm = learner.select_arm()
@@ -23,6 +21,9 @@ def interact(env: StochasticBanditEnv,
 
         learner.update(arm, reward)
 
-        score[t] = compute_score(arm,reward)
+        if t>0:
+            score.append(reward+score[t-1])
+        else:
+            score.append(reward)
 
-    return score
+    return np.array(score)

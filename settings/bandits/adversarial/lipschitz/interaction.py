@@ -10,7 +10,7 @@ def run_lipschitz_online_learning(env, learner: Agent):
 
     Returns
     -------
-    trajectory : dict
+    rewards : nparray
         Contains actions, rewards, and optional observations.
     """
 
@@ -50,11 +50,16 @@ def run_lipschitz_online_learning(env, learner: Agent):
         actions.append(action)
         rewards.append(reward)
         observations.append(obs)
+        if len(rewards)>0:
+            rewards.append(reward+rewards[-1])
+        else:
+            rewards.append(reward)
 
         obs = obs_next
 
-    return {
-        "actions": np.array(actions),
-        "rewards": np.array(rewards),
-        "observations": observations,
-    }
+    return np.array(rewards)
+    #return {
+    #    "actions": np.array(actions),
+    #    "rewards": np.array(rewards),
+    #    "observations": observations,
+    #}

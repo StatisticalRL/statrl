@@ -35,7 +35,7 @@ def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,
     meanelapsedtimes = []
 
     for learner in learners:
-        names.append(learner.name())
+        names.append(learner.name)
         dump_scores, meanelapsedtime = pR.multicoreRuns(envFullName, learner, interact, nbReplicates, timeHorizon,oR.oneRunWithDump, root_folder=root_folder)
         dump_scores.append(dump_scores)
         meanelapsedtimes.append(meanelapsedtime)
