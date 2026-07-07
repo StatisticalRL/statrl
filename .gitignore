@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Docs build output
+docs/_build/
+docs/source/api/generated/
+
+# Experiment outputs
+results/
+
+# Environments
+.venv/
+venv/
