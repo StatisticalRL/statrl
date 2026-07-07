@@ -11,7 +11,7 @@ def interact(env: StochasticBanditEnv,
 ) -> np.ndarray:
     env.reset()
 
-    learner.reset()
+    learner.reset(horizon)
 
     score = []
 

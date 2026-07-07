@@ -22,7 +22,7 @@ def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,
     :param root_folder:
     :return:
     '''
-    os.mkdir(root_folder)
+    os.makedirs(root_folder, exist_ok=True)
 
     envFullName= env.name
 
@@ -52,7 +52,7 @@ def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,
     logfilename=root_folder+"logfile_"+env.name+"_"+timestamp+".txt"
     logfile = open(logfilename,'w')
     logfile.write("Environment "+env.name +"\n")
-    logfile.write("Optimal policy is: " + str(oracle.policy)+"\n")
+    logfile.write("Optimal policy is: " + str(oracle.select_arm())+"\n")
     logfile.write("Learners "+str([learner.name for learner in learners]) +"\n")
     logfile.write("Time horizon is "+ str(timeHorizon) + ", nb of replicates is "+ str(nbReplicates) +"\n")
     [logfile.write(str(names[i])+ " average runtime is "+ str(meanelapsedtimes[i])  +"\n") for i in range(len(names))]
