@@ -2,7 +2,8 @@
 
 import numpy as np
 from random import random
-from math import sqrt, log, exp,erf, pi
+from math import sqrt, log, exp
+from scipy.stats import truncnorm
 
 
 class Bernoulli:
@@ -70,7 +71,6 @@ class TruncatedExponential:
 
 
 
-from scipy.stats import truncnorm
 class TruncatedGaussian:
     """
     Gaussian distribution truncated to [low, high].

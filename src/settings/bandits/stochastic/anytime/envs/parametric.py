@@ -1,6 +1,7 @@
 
 
 
+import numpy as np
 from settings.bandits.stochastic.anytime.environment import StochasticBanditEnv
 import settings.bandits.stochastic.anytime.envs.distributions as distributions
 
@@ -29,8 +30,6 @@ def TruncatedGaussianBandit(means, sigma=0.5, low=-1.0, high=1.0, name="MAB-Trun
     name = f'{name}-sigma{sigma}-means-{s}'
     return StochasticBanditEnv([distributions.TruncatedGaussian(p, sigma=sigma, low=low, high=high) for p in means], name=name)
 
-
-import numpy as np
 
 def RandomBernoulliBandit(Delta, K, name="MAB-RandomBernoulli"):
     """generates a K-armed Bernoulli instance at random where Delta is the gap between the best and second best arm"""

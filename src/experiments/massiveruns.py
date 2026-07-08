@@ -26,7 +26,7 @@ def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,
     # So we try to make a new repo, but if it already exists, we simply do nothing.
     try:
         os.mkdir(root_folder)
-    except:
+    except FileExistsError:
         ()
 
     environment=env#env[0](**env[1])

@@ -1,8 +1,7 @@
 
-from abc import ABC
 import numpy as np
 
-from gymnasium import Env, spaces
+from gymnasium import Env
 from gymnasium.utils import seeding
 
 class StochasticBanditEnv(Env):
