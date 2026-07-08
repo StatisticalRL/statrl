@@ -32,7 +32,7 @@ class BanditInteraction(Interaction):
 
 
 if __name__ == "__main__":
-
+    # These are all ANYTIME environments and agents.
     from settings.bandits.stochastic.anytime.envs.parametric import  BernoulliBandit
     from settings.bandits.stochastic.anytime.agents.IMED import IMED
     from settings.bandits.stochastic.anytime.agents._Oracle import Oracle
@@ -40,12 +40,12 @@ if __name__ == "__main__":
     from settings.bandits.stochastic.knownhorizon.wrappers.wrapper_anytime_knownhorizon import AnytimeToKnownHorizonAgentWrapper
 
     means=[0.2,0.9,0.7,0.5]
-    env = BernoulliBandit(means)
+    env = BernoulliBandit(means) #Anytime environments are compatible with Knownhorizon environment, by knownhorizon.environment.
     agent1 = AnytimeToKnownHorizonAgentWrapper(IMED(len(means)))
     oracle = AnytimeToKnownHorizonAgentWrapper(Oracle(env))
-    interaction = BanditInteraction()
+    interaction = BanditInteraction() #Knownhorizon interaction
     scores1=interaction.run(env, agent1, horizon=10)
-    print(f"{env.name}:{agent1.name}:{scores1}")
+    print(f"{env.name}:{agent1.name}:{scores1}")#Notice the wrapper updated the name of the algorithm.
     scores0=interaction.run(env, oracle, horizon=10)
     print(f"{env.name}:{oracle.name}:{scores0}")
 

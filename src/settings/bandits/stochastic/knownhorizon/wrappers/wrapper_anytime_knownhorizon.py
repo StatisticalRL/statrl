@@ -1,6 +1,4 @@
 
-import settings.bandits.stochastic.anytime.environment as envA
-import settings.bandits.stochastic.knownhorizon.environment as envK
 #" Environment interface are the same, only agents interface are different"
 import settings.bandits.stochastic.anytime.agent as agentA
 import settings.bandits.stochastic.knownhorizon.agent as agentK
