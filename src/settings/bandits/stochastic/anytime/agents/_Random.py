@@ -1,6 +1,7 @@
 
 from src.settings.bandits.stochastic.anytime.agent import BanditAgent
 
+import numpy as np
 class Random(BanditAgent):
     """Uniform Exploration"""
 
@@ -13,7 +14,7 @@ class Random(BanditAgent):
 
     def select_arm(self) -> int:
         """Return the arm to pull."""
-        return self.env.action_space.sample()
+        return np.random.randint(self.env.number_arms)
 
     def update(self, arm: int, reward: float):
         """Update the learner after observing the reward."""
