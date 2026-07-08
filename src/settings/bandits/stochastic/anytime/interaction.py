@@ -5,7 +5,7 @@ from src.settings.bandits.stochastic.anytime.environment import StochasticBandit
 from src.settings.bandits.stochastic.anytime.agent import BanditAgent
 
 
-from src.settings.bandits.stochastic.anytime.renderers.textRenderer import textRenderer
+from src.settings.bandits.stochastic.anytime.renderers.textrenderer import Textrenderer
 from src.experiments.onerun import Interaction
 class BanditInteraction(Interaction):
 
@@ -31,11 +31,11 @@ class BanditInteraction(Interaction):
 
     def renderrun(self, env: StochasticBanditEnv, learner: BanditAgent, horizon):
 
-        env.renderers.append(textRenderer())
+        env.renderers.append(Textrenderer())
         env.reset()
         learner.reset()
-        env.render()
 
+        env.render()
         for t in range(horizon):
             arm = learner.select_arm()
 
@@ -44,6 +44,8 @@ class BanditInteraction(Interaction):
             learner.update(arm, reward)
 
             env.render()
+
+        env.close()
 
 
 
@@ -67,9 +69,9 @@ if __name__ == "__main__":
     interaction.renderrun(env, agent1, 10)
 
     scores1=interaction.run(env, agent1, horizon=10)
-    print(f"{env.name}:{agent1.name}:{scores1}")
+    print(f"{env.name}:{agent1.name}: \t{scores1}")
     scores0=interaction.run(env, oracle, horizon=10)
-    print(f"{env.name}:{oracle.name}:{scores0}")
+    print(f"{env.name}:{oracle.name}:\t{scores0}")
 
 
 
