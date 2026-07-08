@@ -6,13 +6,14 @@ build-backend = "setuptools.build_meta"
 name = "statrl"
 version = "0.0.1"
 description = "The Statistical Reinforcement Learning Toolkit Library"
+authors = [{ name = "Odalric-Ambym Maillard", email = "odalric.maillard@inria.fr" }]
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-    "numpy",
-    "gymnasium",
-    "joblib",
-    "matplotlib",
+    "gymnasium==1.3.0",
+    "numpy==2.5.0",
+    "joblib==1.5.3",
+   "matplotlib==3.11.0",
 ]
 
 [project.urls]
@@ -22,18 +23,21 @@ Repository = "https://github.com/StatisticalRL/statrl"
 # The repository root directory *is* the `statrl` package (it holds __init__.py and the
 # code imports `statrl.settings...`), so we map the package to "." rather than restructuring.
 [tool.setuptools]
-package-dir = {"statrl" = "."}
-packages = [
-    "statrl",
-    "statrl.experiments",
-    "statrl.settings",
-    "statrl.settings.bandits",
-    "statrl.settings.bandits.stochastic",
-    "statrl.settings.bandits.stochastic.anytime",
-    "statrl.settings.bandits.stochastic.anytime.agents",
-    "statrl.settings.bandits.stochastic.knownhorizon",
-    "statrl.settings.bandits.stochastic.knownhorizon.wrappers",
-    "statrl.settings.bandits.adversarial",
-    "statrl.settings.bandits.adversarial.lipschitz",
-    "statrl.settings.bandits.adversarial.lipschitz.agents",
-]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+#packages = [
+#    "statrl",
+#    "statrl.experiments",
+#    "statrl.settings",
+#    "statrl.settings.bandits",
+#    "statrl.settings.bandits.stochastic",
+#    "statrl.settings.bandits.stochastic.anytime",
+#    "statrl.settings.bandits.stochastic.anytime.agents",
+#    "statrl.settings.bandits.stochastic.knownhorizon",
+#    "statrl.settings.bandits.stochastic.knownhorizon.wrappers",
+#    "statrl.settings.bandits.adversarial",
+#    "statrl.settings.bandits.adversarial.lipschitz",
+#    "statrl.settings.bandits.adversarial.lipschitz.agents",
+#]
