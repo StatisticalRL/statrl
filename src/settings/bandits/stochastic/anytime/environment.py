@@ -72,4 +72,4 @@ class StochasticBanditEnv(Env):
 
     def render(self, mode='human'):
         for re in self.renderers:
-            re.render(self.last)
+            re.render(self,self.last)

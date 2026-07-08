@@ -13,6 +13,11 @@ class Interaction(ABC):
         return np.array([])
 
 
+    @abstractmethod
+    def renderrun(self, env, learner, horizon):
+        ()
+
+
 
 
 def oneRunWithDump(env,learner,interact, timeHorizon,root_folder):

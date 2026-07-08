@@ -4,6 +4,8 @@ import numpy as np
 from src.settings.bandits.stochastic.anytime.environment import StochasticBanditEnv
 from src.settings.bandits.stochastic.anytime.agent import BanditAgent
 
+
+from src.settings.bandits.stochastic.anytime.renderers.textRenderer import textRenderer
 from src.experiments.onerun import Interaction
 class BanditInteraction(Interaction):
 
@@ -27,6 +29,23 @@ class BanditInteraction(Interaction):
 
         return np.array(score)
 
+    def renderrun(self, env: StochasticBanditEnv, learner: BanditAgent, horizon):
+
+        env.renderers.append(textRenderer())
+        env.reset()
+        learner.reset()
+        env.render()
+
+        for t in range(horizon):
+            arm = learner.select_arm()
+
+            reward = env.step(arm)
+
+            learner.update(arm, reward)
+
+            env.render()
+
+
 
 
 
@@ -44,10 +63,14 @@ if __name__ == "__main__":
     agent1 = IMED(nA)
     oracle = Oracle(env)
     interaction = BanditInteraction()
+
+    interaction.renderrun(env, agent1, 10)
+
     scores1=interaction.run(env, agent1, horizon=10)
     print(f"{env.name}:{agent1.name}:{scores1}")
     scores0=interaction.run(env, oracle, horizon=10)
     print(f"{env.name}:{oracle.name}:{scores0}")
+
 
 
     from experiments.massiveruns import runLargeMulticoreExperiment
