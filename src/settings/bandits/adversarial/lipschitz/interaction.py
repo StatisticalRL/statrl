@@ -17,7 +17,7 @@ def run_lipschitz_online_learning(env, learner: Agent):
     obs, info = env.reset()
 
     actions = []
-    rewards = []
+    rewards: list[float] = []
     observations = []
 
     terminated = False
@@ -47,16 +47,13 @@ def run_lipschitz_online_learning(env, learner: Agent):
         # ------------------------------------------------------------
         # 4. Log trajectory
         # ------------------------------------------------------------
-        actions.append(action) 
+        actions.append(action)
         observations.append(obs)
-        if len(rewards)>0:
-            rewards.append(reward+rewards[-1])
-        else:
-            rewards.append(reward)
+        rewards.append(reward)
 
         obs = obs_next
 
-    return np.array(rewards)
+    return np.cumsum(rewards)
     #return {
     #    "actions": np.array(actions),
     #    "rewards": np.array(rewards),

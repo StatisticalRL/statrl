@@ -13,7 +13,7 @@ class BanditInteraction(Interaction):
         env.reset()
         learner.reset()
 
-        score = []
+        steps_scores = np.empty(horizon)
 
         for t in range(horizon):
             arm = learner.select_arm()
@@ -22,12 +22,9 @@ class BanditInteraction(Interaction):
 
             learner.update(arm, reward)
 
-            if t > 0:
-                score.append(env.expected_reward(arm) + score[t - 1])
-            else:
-                score.append(env.expected_reward(arm))
+            steps_scores[t] = env.expected_reward(arm)
 
-        return np.array(score)
+        return np.cumsum(steps_scores)
 
     def renderrun(self, env: StochasticBanditEnv, learner: BanditAgent, horizon):
 
