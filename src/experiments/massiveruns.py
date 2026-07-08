@@ -34,7 +34,10 @@ def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,
 
     learners = agents#[x[0](**x[1]) for x in agents]
 
-    print("*********************************************")
+    print("-"*30+"Massive Multicore Experiment"+"-"*30)
+    print(f'Environment: {envName}')
+    print(f'Learners: {[learner.name for learner in learners]}')
+    print(f'Run {nbReplicates} many interactions of length {timeHorizon} for each learner:')
     dump_scores = []
     names = []
     meanelapsedtimes = []
@@ -49,10 +52,7 @@ def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,
                                                     oR.oneRunWithDump, root_folder=root_folder)
     dump_scores.append(dump_scoresopt)
 
-    #sleep(5)
 
-    ## Report statistics and compute regret:
-    #print('************** ANALYSIS **************')
     timestamp = str(time.time())
     logfilename=root_folder+"logfile_"+environment.name+"_"+timestamp+".txt"
     logfile = open(logfilename,'w')
@@ -61,9 +61,12 @@ def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,
     logfile.write("Learners "+str([learner.name for learner in learners]) +"\n")
     logfile.write("Time horizon is "+ str(timeHorizon) + ", nb of replicates is "+ str(nbReplicates) +"\n")
     [logfile.write(str(names[i])+ " average runtime is "+ str(meanelapsedtimes[i])  +"\n") for i in range(len(names))]
+    print("[INFO] A log-file has been generated in ",logfilename)
+    print(f'[INFO] Computing statistics...')
     mean,median, quantile1,quantile2,times = aR.computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder=root_folder)
+
+    print(f'[INFO] Plotting figures and clean-up auxiliary files...')
     title = f"{envName}"
     plR.plotScoreDiffs(names, envName, title, mean, median, quantile1, quantile2, times, timeHorizon, logfile=logfile, timestamp=timestamp, root_folder=root_folder)
-    #print("*********************************************")
     clear_auxiliaryfiles(environment, root_folder)
-    print("\n[INFO] A log-file has been generated in ",logfilename)
+    print(f'[INFO] Massive multicore experiment successfully completed')

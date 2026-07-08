@@ -1,6 +1,7 @@
 
 import pylab as pl
 import sys
+from math import exp
 
 ROOT= "results/"
 def plotScoreDiffs(learnersName, envName, title, mean, median, quantile1, quantile2, times, timeHorizon, logfile='', timestamp=0,root_folder=ROOT):
@@ -74,7 +75,7 @@ def plotScoreDiffs(learnersName, envName, title, mean, median, quantile1, quanti
         pl.xlim(10,timeHorizon)
     pl.xscale('linear')
     pl.yscale('log')
-    pl.ylim([m,M])
+    pl.ylim([max(m,1e-0),max(M,2e-0)])
     pl.savefig(textfile + '_ylog.png')
     pl.savefig(textfile + '_ylog.pdf')
     # pl.xscale('log')

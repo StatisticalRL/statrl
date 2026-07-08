@@ -72,3 +72,7 @@ class StochasticBanditEnv(Env):
     def render(self, mode='human'):
         for re in self.renderers:
             re.render(self,self.last)
+
+    def close(self):
+        for re in self.renderers:
+            re.stop(self)

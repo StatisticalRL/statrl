@@ -1,0 +1,16 @@
+
+bernoulli_simple:
+  entrypoint: "parametric.BernoulliBandit"
+  kwargs:
+    means: [0.2, 0.8, 0.7, 0.5]
+
+bernoulli_hard:
+  entrypoint: "parametric.BernoulliBandit"
+  kwargs:
+    means: [ 0.7, 0.7, 0.701, 0.7 ]
+
+random:
+  entrypoint: "parametric.RandomBernoulliBandit"
+  kwargs:
+    Delta: 0.2
+    K: 5

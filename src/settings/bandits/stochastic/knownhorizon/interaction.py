@@ -5,6 +5,8 @@ from settings.bandits.stochastic.knownhorizon.environment import StochasticBandi
 from settings.bandits.stochastic.knownhorizon.agent import BanditAgent
 
 
+from settings.bandits.stochastic.anytime.renderers.textrenderer import Textrenderer
+
 from experiments.onerun import Interaction
 class BanditInteraction(Interaction):
 
@@ -29,6 +31,26 @@ class BanditInteraction(Interaction):
         return np.array(score)
 
 
+    def renderrun(self, env: StochasticBanditEnv, learner: BanditAgent, horizon):
+
+        env.renderers.append(Textrenderer())
+        env.reset()
+        learner.reset(horizon)
+
+        env.render()
+        for t in range(horizon):
+            arm = learner.select_arm()
+
+            reward = env.step(arm)
+
+            learner.update(arm, reward)
+
+            env.render()
+
+        env.close()
+
+
+
 
 
 if __name__ == "__main__":
@@ -46,10 +68,14 @@ if __name__ == "__main__":
     agent1 = AnytimeToKnownHorizonAgentWrapper(IMED(nA))
     oracle = AnytimeToKnownHorizonAgentWrapper(Oracle(env))
     interaction = BanditInteraction() #Knownhorizon interaction
+
+
+    interaction.renderrun(env, agent1, 10)
+
     scores1=interaction.run(env, agent1, horizon=10)
-    print(f"{env.name}:{agent1.name}:{scores1}")#Notice the wrapper updated the name of the algorithm.
+    print(f"{env.name}:{agent1.name}:\t{scores1}")#Notice the wrapper updated the name of the algorithm.
     scores0=interaction.run(env, oracle, horizon=10)
-    print(f"{env.name}:{oracle.name}:{scores0}")
+    print(f"{env.name}:{oracle.name}:\t{scores0}")
 
 
 

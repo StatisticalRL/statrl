@@ -15,3 +15,8 @@ results/
 # Environments
 .venv/
 venv/
+
+# Editor / test cache
+.vscode/
+.hypothesis/
+.coverage

@@ -27,7 +27,7 @@ def GaussianBandit(means, vars, name="MAB-Gaussian"):
 
 def TruncatedGaussianBandit(means, sigma=0.5, low=-1.0, high=1.0, name="MAB-TruncGaussian"):
     s = "-".join(str(m) for m in means)
-    name = f'{name}-sigma{sigma}-means-{s}'
+    name = f'{name}-means-{s}-sigma{sigma}'
     return StochasticBanditEnv([distributions.TruncatedGaussian(p, sigma=sigma, low=low, high=high) for p in means], name=name)
 
 
