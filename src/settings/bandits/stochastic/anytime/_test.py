@@ -17,6 +17,17 @@ def test_render():
     interaction.renderrun(env, oracle, 10)
     interaction.renderrun(env, random, 10)
 
+def test_load():
+
+    from experiments.utils import load, make
+    envs = load("envs/environments.yaml")
+    env = make(envs["bernoulli_hard"])
+
+    random = Random(env)
+    interaction = BanditInteraction()
+
+    interaction.renderrun(env, random, 10)
+
 def test_run():
 
     means=[0.2,0.9,0.7,0.5]
@@ -30,6 +41,7 @@ def test_run():
     print(f"{env.name}:{random.name}: \t{scores1}")
     scores0=interaction.run(env, oracle, horizon=10)
     print(f"{env.name}:{oracle.name}:\t{scores0}")
+
 
 def test_massive():
     from settings.bandits.stochastic.anytime.agents.IMED import IMED
@@ -49,4 +61,5 @@ def test_massive():
 if __name__ == "__main__":
     test_render()
     test_run()
+    test_load()
     test_massive()
