@@ -1,5 +1,5 @@
 
-from src.settings.bandits.stochastic.anytime.agent import BanditAgent
+from settings.bandits.stochastic.anytime.agent import BanditAgent
 
 class Random(BanditAgent):
     """Uniform Exploration"""

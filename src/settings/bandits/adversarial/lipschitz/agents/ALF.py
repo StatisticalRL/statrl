@@ -1,6 +1,6 @@
 import numpy as np
 
-from statrl.settings.bandits.adversarial.lipschitz.agent import Agent
+from settings.bandits.adversarial.lipschitz.agent import Agent
 
 class ALFLearner(Agent):
     """
