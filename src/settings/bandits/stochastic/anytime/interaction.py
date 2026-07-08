@@ -38,8 +38,10 @@ if __name__ == "__main__":
     from settings.bandits.stochastic.anytime.agents._Oracle import Oracle
 
     means=[0.2,0.9,0.7,0.5]
+    nA=len(means)
+
     env = BernoulliBandit(means)
-    agent1 = IMED(len(means))
+    agent1 = IMED(nA)
     oracle = Oracle(env)
     interaction = BanditInteraction()
     scores1=interaction.run(env, agent1, horizon=10)
@@ -51,8 +53,8 @@ if __name__ == "__main__":
     from experiments.massiveruns import runLargeMulticoreExperiment
     from src.settings.utils import klBern,klGauss
     env =BernoulliBandit(means)
-    agents = [IMED(len(means),klBern),
-              IMED(len(means),klGauss)]
+    agents = [IMED(nA,klBern),
+              IMED(nA,klGauss)]
     oracle = Oracle(env)
     runLargeMulticoreExperiment(env,agents,oracle, interaction,timeHorizon=1000,  nbReplicates=50)
 

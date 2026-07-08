@@ -40,8 +40,10 @@ if __name__ == "__main__":
     from settings.bandits.stochastic.knownhorizon.wrappers.wrapper_anytime_knownhorizon import AnytimeToKnownHorizonAgentWrapper
 
     means=[0.2,0.9,0.7,0.5]
+    nA=len(means)
+
     env = BernoulliBandit(means) #Anytime environments are compatible with Knownhorizon environment, by knownhorizon.environment.
-    agent1 = AnytimeToKnownHorizonAgentWrapper(IMED(len(means)))
+    agent1 = AnytimeToKnownHorizonAgentWrapper(IMED(nA))
     oracle = AnytimeToKnownHorizonAgentWrapper(Oracle(env))
     interaction = BanditInteraction() #Knownhorizon interaction
     scores1=interaction.run(env, agent1, horizon=10)
@@ -54,7 +56,7 @@ if __name__ == "__main__":
     from experiments.massiveruns import runLargeMulticoreExperiment
     from src.settings.utils import klBern,klGauss
     env = BernoulliBandit(means)
-    agents = [AnytimeToKnownHorizonAgentWrapper(IMED(len(means), klBern)),
-              AnytimeToKnownHorizonAgentWrapper(IMED(len(means), klGauss))]
+    agents = [AnytimeToKnownHorizonAgentWrapper(IMED(nA, klBern)),
+              AnytimeToKnownHorizonAgentWrapper(IMED(nA, klGauss))]
     oracle = AnytimeToKnownHorizonAgentWrapper(Oracle(env))
     runLargeMulticoreExperiment(env,agents,oracle, interaction,timeHorizon=1000,  nbReplicates=50)
