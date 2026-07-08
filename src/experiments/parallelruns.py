@@ -21,7 +21,7 @@ def multicoreRuns(env, learner, interact, nbReplicates, timeHorizon, oneRunFunct
         envs.append(copy.deepcopy(env))
         learners.append(copy.deepcopy(learner))
         interacts.append(copy.deepcopy(interact))
-        timeHorizons.append(copy.deepcopy(timeHorizon))
+        timeHorizons.append(timeHorizon)
         rootFolders.append(root_folder)
 
     t0 = time.time()

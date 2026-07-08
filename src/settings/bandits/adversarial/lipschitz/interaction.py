@@ -28,7 +28,7 @@ def run_lipschitz_online_learning(env, learner: Agent):
         # ------------------------------------------------------------
         # 1. Learner selects action
         # ------------------------------------------------------------
-        action = learner.play(obs)
+        action = learner.select_arm(obs)
 
         # (optional safety clip if using Gym Box space)
         if hasattr(env.action_space, "clip"):

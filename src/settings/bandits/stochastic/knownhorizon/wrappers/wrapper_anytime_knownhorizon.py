@@ -1,64 +1,16 @@
 
-import statrl.settings.bandits.stochastic.anytime.environment as envA
-import statrl.settings.bandits.stochastic.anytime.agent as agentA
-import statrl.settings.bandits.stochastic.knownhorizon.environment as envK
-import statrl.settings.bandits.stochastic.knownhorizon.agent as agentK
-
-
-class AnytimeToKnownHorizonEnvironmentWrapper(
-    envA.StochasticBanditEnv
-):
-    """
-    View a known-horizon environment as an anytime environment.
-    """
-
-    def __init__(self, env):
-        self.env = env
-
-    @property
-    def number_arms(self):
-        return self.env.number_arms
-
-    @property
-    def means(self):
-        return self.env.means
-
-    def step(self, arm):
-        return self.env.step(arm)
-
-    def reset(self, seed=None):
-        return self.env.reset(seed)
-
-
-class KnownHorizonToAnytimeEnvironmentWrapper(
-    envK.StochasticBanditEnv
-):
-    """
-    View an anytime  environment as a known-horizon  environment.
-    """
-
-    def __init__(self, env):
-        self.env = env
-
-    @property
-    def n_arms(self):
-        return self.env.number_arms
-
-    @property
-    def means(self):
-        return self.env.means
-
-    def pull(self, arm):
-        return self.env.step(arm)
-
-    def reset(self, seed=None):
-        return self.env.reset(seed)
+import settings.bandits.stochastic.anytime.environment as envA
+import settings.bandits.stochastic.knownhorizon.environment as envK
+#" Environment interface are the same, only agents interface are different"
+import settings.bandits.stochastic.anytime.agent as agentA
+import settings.bandits.stochastic.knownhorizon.agent as agentK
 
 class AnytimeToKnownHorizonAgentWrapper(
         agentK.BanditAgent):
 
     def __init__(self, learner):
         self.learner = learner
+        super().__init__(self.learner.name+"-anytime")
 
     def reset(self, horizon):
         self.learner.reset()
@@ -70,15 +22,21 @@ class AnytimeToKnownHorizonAgentWrapper(
         self.learner.update(arm, reward)
 
 
+    @property
+    def policy(self):
+        return self.learner.policy
+
+
 class KnownHorizonToAnytimeAgentWrapper(
         agentA.BanditAgent):
 
-    def __init__(self, learner,horizon):
+    def __init__(self, learner, horizon, name: str):
         """
         Fixes an internal horizon at initilization.
         """
         self.learner = learner
         self.horizon= horizon
+        super().__init__(name)
 
     def reset(self):
         self.learner.reset(self.horizon)
@@ -88,3 +46,9 @@ class KnownHorizonToAnytimeAgentWrapper(
 
     def update(self, arm, reward):
         self.learner.update(arm, reward)
+
+    @property
+    def policy(self):
+        return self.learner.policy
+
+

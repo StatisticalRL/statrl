@@ -3,7 +3,6 @@
 import numpy as np
 from src.settings.bandits.stochastic.anytime.environment import StochasticBanditEnv
 from src.settings.bandits.stochastic.anytime.agent import BanditAgent
-from src.settings.utils import klBern,klGauss
 
 from src.experiments.onerun import Interaction
 class BanditInteraction(Interaction):
@@ -15,7 +14,7 @@ class BanditInteraction(Interaction):
         score = []
 
         for t in range(horizon):
-            arm = learner.play()
+            arm = learner.select_arm()
 
             reward = env.step(arm)
 
@@ -50,8 +49,11 @@ if __name__ == "__main__":
 
 
     from experiments.massiveruns import runLargeMulticoreExperiment
-    env= [BernoulliBandit, {"means":means}]
-    agents=[[IMED, {"nbArms": len(means), "kullback": klBern}], [IMED, {"nbArms": len(means), "kullback": klGauss}]]
+    from src.settings.utils import klBern,klGauss
+    env =BernoulliBandit(means)
+    agents = [IMED(len(means),klBern),
+              IMED(len(means),klGauss)]
+    oracle = Oracle(env)
     runLargeMulticoreExperiment(env,agents,oracle, interaction,timeHorizon=1000,  nbReplicates=50)
 
 

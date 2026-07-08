@@ -9,7 +9,6 @@ from experiments.utils import clear_auxiliaryfiles
 import time
 import os
 ROOT="results/"
-from time import sleep
 
 
 def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,  nbReplicates=100, root_folder=ROOT):
@@ -30,11 +29,10 @@ def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,
     except:
         ()
 
-    environment=env[0](**env[1])
+    environment=env#env[0](**env[1])
     envName= environment.name
 
-    #opti_learner=opt.build_opti(envFullName, env.env, env.observation_space.n, env.action_space.n)
-    learners = [x[0](**x[1]) for x in agents]
+    learners = agents#[x[0](**x[1]) for x in agents]
 
     print("*********************************************")
     dump_scores = []
@@ -47,7 +45,6 @@ def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,
         dump_scores.append(dump_scores_learner)
         meanelapsedtimes.append(meanelapsedtime_learner)
 
-    #dump_scoresopt = oR.oneRunWithDump(env, oracle, interact, timeHorizon, root_folder=root_folder)
     dump_scoresopt, meanelapsedtime = pR.multicoreRuns(environment, oracle, interact, nbReplicates, timeHorizon,
                                                     oR.oneRunWithDump, root_folder=root_folder)
     dump_scores.append(dump_scoresopt)
