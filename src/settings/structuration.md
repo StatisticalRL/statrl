@@ -10,13 +10,25 @@ To define a setting, the structure of the folder must contain at least:
                   implementing methods .step, .reset, .render"
 - interaction.py: "Specifies the Interaction (see src.experiments.onerun.Interaction)
                   implementing methods  .run and .renderrun"
-- _test.py: "Specifies test functions test_render, test_run, test_massive ""
+- _test.py: "Specifies test functions test_render, test_run, test_load, test_massive ""
 
 #### agents: "Folder containing the agent class definitions"
 - _Oracle.py : "the Oracle agent which plays according to the optimal policy."
 - _Random.py : "the Random agent which plays according to the uniformly random policy."
 
 #### envs: "Folder containiing the environment class definitions"
+- environments.yaml:  "contains yaml instanciations of the environment, in format
+"""
+[name] 
+    entrypoint: "[path]"
+    kwargs:
+"""
+"""
+bernoulli_simple:
+  entrypoint: "parametric:BernoulliBandit"
+  kwargs:
+    means: [0.2, 0.8, 0.7, 0.5]
+"""
 
 #### renderers: "Folder containing the renderer class definitions"
 
