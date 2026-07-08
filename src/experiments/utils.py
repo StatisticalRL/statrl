@@ -5,11 +5,9 @@ from typing import Any
 
 
 def dump(values: Any, filename: str, tag: str, root_folder: str) -> str:
-    filenameM = root_folder + filename + "_" + tag
-    file = open(filenameM, 'wb')
-    file.truncate(0)
-    pickle.dump(values, file)
-    file.close()
+    filenameM = f"{root_folder}{filename}_{tag}"
+    with open(filenameM, 'wb') as file:
+        pickle.dump(values, file)
     return filenameM
 
 def clear_auxiliaryfiles(env: Any, root_folder: str) -> None:

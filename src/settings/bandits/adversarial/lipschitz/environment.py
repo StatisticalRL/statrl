@@ -10,7 +10,7 @@ class LipschitzAdversarialEnv:
     chosen by an adversary (or precomputed generator).
 
     Each step:
-        action = learner.play(observation)
+        action = learner.select_arm(observation)
         reward = f_t(action)
     """
 

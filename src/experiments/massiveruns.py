@@ -23,17 +23,10 @@ def runLargeMulticoreExperiment(env: Any, agents: list[Any], oracle: Any, intera
     :param root_folder:
     :return:
     '''
-    # The following harness is used so that in case the root_folder already exists, the os does not through an error.
-    # So we try to make a new repo, but if it already exists, we simply do nothing.
-    try:
-        os.mkdir(root_folder)
-    except FileExistsError:
-        ()
+    os.makedirs(root_folder, exist_ok=True)
 
-    environment=env#env[0](**env[1])
-    envName= environment.name
-
-    learners = agents#[x[0](**x[1]) for x in agents]
+    envName = env.name
+    learners = agents
 
     print("-"*30+"Massive Multicore Experiment"+"-"*30)
     print(f'Environment: {envName}')
@@ -45,29 +38,25 @@ def runLargeMulticoreExperiment(env: Any, agents: list[Any], oracle: Any, intera
 
     for learner in learners:
         names.append(learner.name)
-        dump_scores_learner, meanelapsedtime_learner = pR.multicoreRuns(environment, learner, interact, nbReplicates, timeHorizon,oR.oneRunWithDump, root_folder=root_folder)
+        dump_scores_learner, meanelapsedtime_learner = pR.multicoreRuns(env, learner, interact, nbReplicates, timeHorizon, oR.oneRunWithDump, root_folder=root_folder)
         dump_scores.append(dump_scores_learner)
         meanelapsedtimes.append(meanelapsedtime_learner)
 
-    dump_scoresopt, meanelapsedtime = pR.multicoreRuns(environment, oracle, interact, nbReplicates, timeHorizon,
+    dump_scoresopt, meanelapsedtime = pR.multicoreRuns(env, oracle, interact, nbReplicates, timeHorizon,
                                                     oR.oneRunWithDump, root_folder=root_folder)
     dump_scores.append(dump_scoresopt)
 
-
+    ## Report statistics and compute regret:
     timestamp = str(time.time())
-    logfilename=root_folder+"logfile_"+environment.name+"_"+timestamp+".txt"
-    logfile = open(logfilename,'w')
-    logfile.write("Environment "+environment.name +"\n")
-    logfile.write("Optimal policy is: " + str(oracle.policy)+"\n")
-    logfile.write("Learners "+str([learner.name for learner in learners]) +"\n")
-    logfile.write("Time horizon is "+ str(timeHorizon) + ", nb of replicates is "+ str(nbReplicates) +"\n")
-    [logfile.write(str(names[i])+ " average runtime is "+ str(meanelapsedtimes[i])  +"\n") for i in range(len(names))]
-    print("[INFO] A log-file has been generated in ",logfilename)
-    print(f'[INFO] Computing statistics...')
-    mean,median, quantile1,quantile2,times = aR.computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder=root_folder)
-
-    print(f'[INFO] Plotting figures and clean-up auxiliary files...')
-    title = f"{envName}"
-    plR.plotScoreDiffs(names, envName, title, mean, median, quantile1, quantile2, times, timeHorizon, logfile=logfile, timestamp=timestamp, root_folder=root_folder)
-    clear_auxiliaryfiles(environment, root_folder)
-    print(f'[INFO] Massive multicore experiment successfully completed')
+    logfilename = f"{root_folder}logfile_{envName}_{timestamp}.txt"
+    with open(logfilename, 'w') as logfile:
+        logfile.write("Environment " + envName + "\n")
+        logfile.write("Optimal policy is: " + str(oracle.policy) + "\n")
+        logfile.write("Learners " + str([learner.name for learner in learners]) + "\n")
+        logfile.write("Time horizon is " + str(timeHorizon) + ", nb of replicates is " + str(nbReplicates) + "\n")
+        for name, meanelapsedtime in zip(names, meanelapsedtimes):
+            logfile.write(f"{name} average runtime is {meanelapsedtime}\n")
+        mean, median, quantile1, quantile2, times = aR.computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder=root_folder)
+        plR.plotScoreDiffs(names, envName, envName, mean, median, quantile1, quantile2, times, timeHorizon, logfile=logfile, timestamp=timestamp, root_folder=root_folder)
+    clear_auxiliaryfiles(env, root_folder)
+    print("\n[INFO] A log-file has been generated in ", logfilename)

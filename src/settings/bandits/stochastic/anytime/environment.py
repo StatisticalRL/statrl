@@ -49,12 +49,9 @@ class StochasticBanditEnv(Env):
     def step(self, arm: int)-> float:
         """
         Sample one reward from the specified arm.
-        """
 
-        """
-        :param a: action
-        :return:  (state, reward, IsDone?, IsTruncated?, meanreward)
-        The meanreward is returned for information, it should not be given to the learner.
+        Returns the sampled reward. (The arm's mean is available via
+        `expected_reward`; it must not be given to the learner.)
         """
         r = self.rewarddistributions[arm].sample()
         self.last=(arm,r)

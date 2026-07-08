@@ -2,7 +2,7 @@ from typing import Any, Optional
 
 
 class Agent:
-    def play(self, observation: Any) -> Any:
+    def select_arm(self, observation: Any) -> Any:
         """
         Returns an action x_t in continuous action space.
         """

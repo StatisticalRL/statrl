@@ -12,7 +12,7 @@ def run_lipschitz_online_learning(env: LipschitzAdversarialEnv, learner: Agent) 
     Returns
     -------
     rewards : nparray
-        Contains actions, rewards, and optional observations.
+        Cumulative reward over the interaction.
     """
 
     obs, info = env.reset()
@@ -51,10 +51,10 @@ def run_lipschitz_online_learning(env: LipschitzAdversarialEnv, learner: Agent) 
         actions.append(action)
         observations.append(obs)
         rewards.append(reward)
-
         obs = obs_next
 
     return np.cumsum(rewards)
+# FIXME If we do not return actions and observations, then the function needs simplification
     #return {
     #    "actions": np.array(actions),
     #    "rewards": np.array(rewards),

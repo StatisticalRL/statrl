@@ -21,8 +21,8 @@ class Textrenderer():
     def stop(self, env: StochasticBanditEnv) -> None:
         self.outfile.write("-"*30+"\n")
 
-    def _nameActions(self, env: StochasticBanditEnv) -> list[str]:
-        return list(string.ascii_uppercase)[0:min(env.number_arms, 26)]
+    def _nameActions(self, env: StochasticBanditEnv) -> str:
+        return string.ascii_uppercase[:env.number_arms]
 
     def render(self, env: StochasticBanditEnv, last: tuple[Optional[int], float]) -> None:
         lastaction, lastreward = last
@@ -32,5 +32,5 @@ class Textrenderer():
             self.started = True
 
         actionNames = self._nameActions(env)
-        if lastaction:
-            self.outfile.write("({})\tr={}\n".format(actionNames[lastaction % 26],str("{:01.2f}".format(lastreward))))
+        if lastaction is not None:
+            self.outfile.write(f"({actionNames[lastaction % 26]})\tr={lastreward:0.2f}\n")

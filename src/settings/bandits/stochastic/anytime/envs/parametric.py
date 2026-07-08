@@ -14,7 +14,7 @@ def BernoulliBandit(means: np.ndarray, name: str = "MAB-Bernoulli") -> Stochasti
     return StochasticBanditEnv([distributions.Bernoulli(p) for p in means], name=name)
 
 def BinomialBandit(means: np.ndarray, repetitions: int = 200, name: str = "MAB-Binomial") -> StochasticBanditEnv:
-    """define a Bernoulli MAB from a vector of means"""
+    """define a Binomial MAB from a vector of means"""
     s="-".join(str(m) for m in means)
     name = f'{name}{repetitions}-means-{s}'
     return StochasticBanditEnv([distributions.Binomial(repetitions, p) for p in means], name=name)
@@ -36,10 +36,7 @@ def RandomBernoulliBandit(Delta: float, K: int, name: str = "MAB-RandomBernoulli
     maxMean = Delta + np.random.rand() * (1. - Delta)
     secondmaxMean = maxMean - Delta
     means = secondmaxMean * np.random.random(K)
-    bestarm = np.random.randint(0, K)
-    secondbestarm = np.random.randint(0, K)
-    while (secondbestarm == bestarm):
-        secondbestarm = np.random.randint(0, K)
+    bestarm, secondbestarm = np.random.choice(K, 2, replace=False)
     means[bestarm] = maxMean
     means[secondbestarm] = secondmaxMean
     return BernoulliBandit(means, name=name)

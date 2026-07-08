@@ -42,7 +42,6 @@ def computeScoreDiffs(names: list[str], dump_scores: list[list[str]], timeHorizo
             with open(alg_file, 'rb') as file:
                 scores_ij = pickle.load(file)
             data_j.append([scores_oracle[k] - scores_ij[t] for k, t in enumerate(times)])
-            file.close()
 
         filename = f"{root_folder}regret_{envName}_{names[j]}_{timeHorizon}_{j}_{time.time()}"
         with open(filename, 'wb') as out_file:

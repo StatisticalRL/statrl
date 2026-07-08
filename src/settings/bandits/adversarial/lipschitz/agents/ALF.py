@@ -67,7 +67,7 @@ class ALFLearner(Agent):
     # CORE INTERFACE
     # ================================================================
 
-    def play(self, observation: Optional[Any] = None) -> np.ndarray:
+    def select_arm(self, observation: Optional[Any] = None) -> np.ndarray:
         """
         Selects an action according to exponential weights.
         """
@@ -128,7 +128,7 @@ class ALFLearner(Agent):
             dims = len(low)
             steps = max(2, int(1.0 / epsilon))
 
-            grids = [np.linspace(low[d], high[d], steps) for d in range(dims)]
+            grids = [np.linspace(lo, hi, steps) for lo, hi in zip(low, high)]
 
             mesh = np.meshgrid(*grids)
             points = np.stack(mesh, axis=-1).reshape(-1, dims)

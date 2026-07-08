@@ -14,10 +14,10 @@ class Oracle(BanditAgent):
         return [self.env.optimal_arm]
 
     def reset(self) -> None:
-        ()
+        pass
 
     def select_arm(self) -> int:
         return self.env.optimal_arm
 
     def update(self, action: int, reward: float) -> None:
-       ()
+        pass
