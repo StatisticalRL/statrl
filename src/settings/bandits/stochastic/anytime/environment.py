@@ -1,4 +1,6 @@
 
+from typing import Optional
+
 import numpy as np
 
 from gymnasium import Env
@@ -16,10 +18,11 @@ class StochasticBanditEnv(Env):
     the underlying distributions.
     """
 
-    def __init__(self,rewarddistributions,name):
+    def __init__(self, rewarddistributions: list, name: str, last: tuple[Optional[int], float] = (None, 0.0)) -> None:
         self.rewarddistributions = rewarddistributions
         self.name = name
-        self.renderers = []
+        self.renderers: list = []
+        self.last = last
 
     @property
     def number_arms(self) -> int:
@@ -27,7 +30,7 @@ class StochasticBanditEnv(Env):
         return len(self.rewarddistributions)
 
     @property
-    def means(self):
+    def means(self) -> list[float]:
         """
         Mean reward of every arm.
 
@@ -36,11 +39,11 @@ class StochasticBanditEnv(Env):
         return [arm.mean for arm in self.rewarddistributions]
 
     @property
-    def optimal_mean(self):
+    def optimal_mean(self) -> float:
         return max(self.means)
 
     @property
-    def optimal_arm(self):
+    def optimal_arm(self) -> int:
         return int(np.argmax(self.means))
 
     def step(self, arm: int)-> float:
@@ -57,10 +60,10 @@ class StochasticBanditEnv(Env):
         self.last=(arm,r)
         return r
 
-    def expected_reward(self, arm):
+    def expected_reward(self, arm: int) -> float:
         return self.means[arm]
 
-    def reset(self, seed=None, options=None):
+    def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> int: 
         """
               Reset the random generator.
               """
@@ -69,7 +72,7 @@ class StochasticBanditEnv(Env):
         self.last = (None,0)
         return 0
 
-    def render(self, mode='human'):
+    def render(self, mode: str = 'human') -> None:
         for re in self.renderers:
             re.render(self,self.last)
 

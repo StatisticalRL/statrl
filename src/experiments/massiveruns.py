@@ -8,10 +8,11 @@ from experiments.utils import clear_auxiliaryfiles
 
 import time
 import os
+from typing import Any
 ROOT="results/"
 
 
-def runLargeMulticoreExperiment(env, agents, oracle, interact, timeHorizon=1000,  nbReplicates=100, root_folder=ROOT):
+def runLargeMulticoreExperiment(env: Any, agents: list[Any], oracle: Any, interact: Any, timeHorizon: int=1000, nbReplicates: int=100, root_folder: str=ROOT) -> None:
     '''  Note: Runs single interaction of oracle with envs to compute oracle score ref.
     :param env:
     :param agents:

@@ -1,9 +1,10 @@
 import os
 import pickle
 from importlib.metadata import entry_points
+from typing import Any
 
 
-def dump(values, filename, tag, root_folder):
+def dump(values: Any, filename: str, tag: str, root_folder: str) -> str:
     filenameM = root_folder + filename + "_" + tag
     file = open(filenameM, 'wb')
     file.truncate(0)
@@ -11,7 +12,7 @@ def dump(values, filename, tag, root_folder):
     file.close()
     return filenameM
 
-def clear_auxiliaryfiles(env, root_folder):
+def clear_auxiliaryfiles(env: Any, root_folder: str) -> None:
     for file in os.listdir(root_folder):
         if file.startswith("aux_" + env.name):
             os.remove(root_folder + file)

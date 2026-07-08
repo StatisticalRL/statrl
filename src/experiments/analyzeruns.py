@@ -3,7 +3,7 @@ import pickle
 import time
 import numpy as np
 
-def computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder):
+def computeScoreDiffs(names: list[str], dump_scores: list[list[str]], timeHorizon: int, envName: str, root_folder: str) -> tuple[list[np.ndarray], list[np.ndarray], list[np.ndarray], list[np.ndarray], list[int]]:
     """
 
     :param names: get list of algorithm names

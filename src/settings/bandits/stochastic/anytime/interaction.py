@@ -9,7 +9,7 @@ from settings.bandits.stochastic.anytime.renderers.textrenderer import Textrende
 from experiments.onerun import Interaction
 class BanditInteraction(Interaction):
 
-    def run(self, env:StochasticBanditEnv, learner:BanditAgent, horizon):
+    def run(self, env: StochasticBanditEnv, learner: BanditAgent, horizon: int) -> np.ndarray:
         env.reset()
         learner.reset()
 
@@ -26,7 +26,7 @@ class BanditInteraction(Interaction):
 
         return np.cumsum(steps_scores)
 
-    def renderrun(self, env: StochasticBanditEnv, learner: BanditAgent, horizon):
+    def renderrun(self, env: StochasticBanditEnv, learner: BanditAgent, horizon: int) -> None:
 
         env.renderers= [Textrenderer()]
         env.reset()

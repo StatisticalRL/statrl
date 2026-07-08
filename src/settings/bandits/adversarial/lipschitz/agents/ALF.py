@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Any, Optional
 
 from settings.bandits.adversarial.lipschitz.agent import Agent
 
@@ -12,13 +13,13 @@ class ALFLearner(Agent):
 
     def __init__(
         self,
-        action_space,
+        action_space: Any,
         epsilon: float,
         eta: float,
         horizon: int,
-        metric=None,
+        metric: Optional[Any] = None,
         sampling: str = "argmax",
-    ):
+    ) -> None:
         """
         Parameters
         ----------
@@ -66,7 +67,7 @@ class ALFLearner(Agent):
     # CORE INTERFACE
     # ================================================================
 
-    def play(self, observation=None):
+    def play(self, observation: Optional[Any] = None) -> np.ndarray:
         """
         Selects an action according to exponential weights.
         """
@@ -76,12 +77,12 @@ class ALFLearner(Agent):
         if self.sampling == "sample":
             idx = np.random.choice(self.n_actions, p=probs)
         else:
-            idx = np.argmax(probs)
+            idx = int(np.argmax(probs))
 
         self.last_idx = idx
         return self.actions[idx]
 
-    def update(self, action, reward, observation=None):
+    def update(self, action: np.ndarray, reward: float, observation: Optional[Any] = None) -> None:
         """
         Hedge update on discretized expert corresponding to chosen action.
         """
@@ -105,14 +106,14 @@ class ALFLearner(Agent):
     # INTERNALS
     # ================================================================
 
-    def _get_probabilities(self):
+    def _get_probabilities(self) -> np.ndarray:
         """
         Convert weights to probability distribution.
         """
         w = np.array(self.weights)
         return w / np.sum(w)
 
-    def _build_cover(self, action_space, epsilon):
+    def _build_cover(self, action_space: Any, epsilon: float) -> np.ndarray:
         """
         Constructs ε-discretization of the action space.
 

@@ -10,7 +10,7 @@ from settings.bandits.stochastic.anytime.renderers.textrenderer import Textrende
 from experiments.onerun import Interaction
 class BanditInteraction(Interaction):
 
-    def run(self, env:StochasticBanditEnv, learner:BanditAgent, horizon):
+    def run(self, env:StochasticBanditEnv, learner:BanditAgent, horizon: int) -> np.ndarray:
         env.reset()
         learner.reset(horizon)
 

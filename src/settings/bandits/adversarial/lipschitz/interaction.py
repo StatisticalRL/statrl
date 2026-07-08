@@ -1,7 +1,8 @@
 from settings.bandits.adversarial.lipschitz.agent import Agent
+from settings.bandits.adversarial.lipschitz.environment import LipschitzAdversarialEnv
 import numpy as np
 
-def run_lipschitz_online_learning(env, learner: Agent):
+def run_lipschitz_online_learning(env: LipschitzAdversarialEnv, learner: Agent) -> np.ndarray:
     """
     Executes the interaction loop between a learner and the
     adversarial Lipschitz environment.

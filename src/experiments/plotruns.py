@@ -2,9 +2,11 @@
 import pylab as pl
 import sys
 from math import exp
+from typing import Any
+import numpy as np
 
 ROOT= "results/"
-def plotScoreDiffs(learnersName, envName, title, mean, median, quantile1, quantile2, times, timeHorizon, logfile='', timestamp=0,root_folder=ROOT):
+def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list[np.ndarray], median: list[np.ndarray], quantile1: list[np.ndarray], quantile2: list[np.ndarray], times: list[int], timeHorizon: int, logfile: Any='', timestamp: Any=0, root_folder: str=ROOT) -> None:
     if (logfile==''):
         logfile=sys.stdout
     nbFigure = pl.gcf().number+1

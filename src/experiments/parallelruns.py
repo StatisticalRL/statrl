@@ -1,12 +1,13 @@
 import time
 import copy
 from joblib import Parallel, delayed
+from typing import Any, Callable
 
 import multiprocessing
 
 
 ## Parallelization
-def multicoreRuns(env, learner, interact, nbReplicates, timeHorizon, oneRunFunction, root_folder):
+def multicoreRuns(env: Any, learner: Any, interact: Any, nbReplicates: int, timeHorizon: int, oneRunFunction: Callable[..., Any], root_folder: str) -> tuple[Any, float]:
     num_cores = multiprocessing.cpu_count()
     envs = []
     learners = []

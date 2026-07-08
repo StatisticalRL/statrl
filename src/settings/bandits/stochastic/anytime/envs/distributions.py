@@ -3,13 +3,15 @@
 from math import sqrt, log, exp
 from random import random
 
+from typing import Any
+
 from scipy.stats import bernoulli, binom, norm, expon, truncnorm
 
 
 class Arm:
     """Adapter over a frozen scipy.stats distribution."""
 
-    def __init__(self, dist) -> None:
+    def __init__(self, dist: Any) -> None:
         self._dist = dist
         self.mean = dist.mean()
 
@@ -25,7 +27,7 @@ def Exponential(p: float) -> Arm:        return Arm(expon(scale=1 / p))
 
 def TruncatedGaussian(mean: float, sigma: float, low: float, high: float) -> Arm:
     """Gaussian truncated to [low, high]; .mean is the true truncated mean."""
-    a = (low - mean) / sigma,
+    a = (low - mean) / sigma
     b = (high - mean) / sigma
     return Arm(truncnorm(a, b, loc=mean, scale=sigma))
 
