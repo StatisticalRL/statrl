@@ -3,10 +3,10 @@ from typing import Optional
 
 import numpy as np
 
-from gymnasium import Env
+from gymnasium import Env as Environment
 from gymnasium.utils import seeding
 
-class StochasticBanditEnv(Env):
+class StochasticBanditEnv(Environment):
     """
     Abstract stochastic multi-armed bandit environment.
 
