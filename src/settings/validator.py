@@ -291,4 +291,4 @@ if __name__ == "__main__":
 
     #validate_setting(sys.argv[1])
 
-    validate_setting("bandits/stochastic/anytime")
+    validate_setting("bandits/stochastic/knownhorizon")
