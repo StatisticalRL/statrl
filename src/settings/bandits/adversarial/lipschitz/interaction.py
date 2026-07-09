@@ -1,4 +1,4 @@
-from statrl.settings.bandits.adversarial.lipschitz.agent import Agent
+from settings.bandits.adversarial.lipschitz.agent import Agent
 import numpy as np
 
 def run_lipschitz_online_learning(env, learner: Agent):
@@ -47,8 +47,7 @@ def run_lipschitz_online_learning(env, learner: Agent):
         # ------------------------------------------------------------
         # 4. Log trajectory
         # ------------------------------------------------------------
-        actions.append(action)
-        rewards.append(reward)
+        actions.append(action) 
         observations.append(obs)
         if len(rewards)>0:
             rewards.append(reward+rewards[-1])

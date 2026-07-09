@@ -45,7 +45,7 @@ def test_run():
 
 def test_massive():
     from settings.bandits.stochastic.anytime.agents.IMED import IMED
-    from src.settings.utils import klBern,klGauss
+    from settings.utils import klBern,klGauss
 
     means=[0.2,0.9,0.7,0.5]
     nA=len(means)

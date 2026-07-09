@@ -1,5 +1,5 @@
 
-from src.settings.bandits.stochastic.anytime.agent import BanditAgent
+from settings.bandits.stochastic.anytime.agent import BanditAgent
 
 import numpy as np
 class Random(BanditAgent):

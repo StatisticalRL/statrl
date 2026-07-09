@@ -1,4 +1,5 @@
 import numpy as np
+from math import log
 
 
 ## A function that returns an argmax at random in case of multiple maximizers
@@ -17,7 +18,6 @@ def randmin(A):
     return np.random.choice(index)
 
 
-from math import log
 ## Kullback-Leibler divergence in exponential families
 
 eps = 1e-15

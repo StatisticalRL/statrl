@@ -1,13 +1,13 @@
 
 import numpy as np
 
-from src.settings.bandits.stochastic.knownhorizon.environment import StochasticBanditEnv
-from src.settings.bandits.stochastic.knownhorizon.agent import BanditAgent
+from settings.bandits.stochastic.knownhorizon.environment import StochasticBanditEnv
+from settings.bandits.stochastic.knownhorizon.agent import BanditAgent
 
 
-from src.settings.bandits.stochastic.anytime.renderers.textrenderer import Textrenderer
+from settings.bandits.stochastic.anytime.renderers.textrenderer import Textrenderer
 
-from src.experiments.onerun import Interaction
+from experiments.onerun import Interaction
 class BanditInteraction(Interaction):
 
     def run(self, env:StochasticBanditEnv, learner:BanditAgent, horizon):
@@ -80,7 +80,7 @@ if __name__ == "__main__":
 
 
     from experiments.massiveruns import runLargeMulticoreExperiment
-    from src.settings.utils import klBern,klGauss
+    from settings.utils import klBern,klGauss
     env = BernoulliBandit(means)
     agents = [AnytimeToKnownHorizonAgentWrapper(IMED(nA, klBern)),
               AnytimeToKnownHorizonAgentWrapper(IMED(nA, klGauss))]
