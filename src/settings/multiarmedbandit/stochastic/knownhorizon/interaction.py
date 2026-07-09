@@ -1,11 +1,11 @@
 
 import numpy as np
 
-from src.settings.bandits.stochastic.knownhorizon.environment import StochasticBanditEnv
-from src.settings.bandits.stochastic.knownhorizon.agent import BanditAgent
+from src.settings.multiarmedbandit.stochastic.knownhorizon.environment import StochasticBanditEnv
+from src.settings.multiarmedbandit.stochastic.knownhorizon.agent import BanditAgent
 
 
-from src.settings.bandits.stochastic.anytime.renderers.textrenderer import Textrenderer
+from src.settings.multiarmedbandit.stochastic.anytime.renderers.textrenderer import Textrenderer
 
 from src.experiments.onerun import Interaction
 class BanditInteraction(Interaction):
@@ -55,11 +55,11 @@ class BanditInteraction(Interaction):
 
 if __name__ == "__main__":
     # These are all ANYTIME environments and agents.
-    from settings.bandits.stochastic.anytime.envs.parametric import  BernoulliBandit
-    from settings.bandits.stochastic.anytime.agents.IMED import IMED
-    from settings.bandits.stochastic.anytime.agents._Oracle import Oracle
+    from settings.multiarmedbandit.stochastic.anytime.envs.parametric import  BernoulliBandit
+    from settings.multiarmedbandit.stochastic.anytime.agents.IMED import IMED
+    from settings.multiarmedbandit.stochastic.anytime.agents._Oracle import Oracle
 
-    from settings.bandits.stochastic.knownhorizon.wrappers.wrapper_anytime_knownhorizon import AnytimeToKnownHorizonAgentWrapper
+    from settings.multiarmedbandit.stochastic.knownhorizon.wrappers.wrapper_anytime_knownhorizon import AnytimeToKnownHorizonAgentWrapper
 
     means=[0.2,0.9,0.7,0.5]
     nA=len(means)

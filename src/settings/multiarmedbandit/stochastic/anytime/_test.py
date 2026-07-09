@@ -1,7 +1,7 @@
-from settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
-from settings.bandits.stochastic.anytime.agents._Random import Random
-from settings.bandits.stochastic.anytime.agents._Oracle import Oracle
-from settings.bandits.stochastic.anytime.interaction import BanditInteraction
+from settings.multiarmedbandit.stochastic.anytime.envs.parametric import BernoulliBandit
+from settings.multiarmedbandit.stochastic.anytime.agents._Random import Random
+from settings.multiarmedbandit.stochastic.anytime.agents._Oracle import Oracle
+from settings.multiarmedbandit.stochastic.anytime.interaction import BanditInteraction
 from experiments.massiveruns import runLargeMulticoreExperiment
 
 
@@ -44,7 +44,7 @@ def test_run():
 
 
 def test_massive():
-    from settings.bandits.stochastic.anytime.agents.IMED import IMED
+    from settings.multiarmedbandit.stochastic.anytime.agents.IMED import IMED
     from src.settings.utils import klBern,klGauss
 
     means=[0.2,0.9,0.7,0.5]
