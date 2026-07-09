@@ -3,7 +3,7 @@ import pickle
 import time
 import numpy as np
 
-def computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder):
+def computeScoreDiffs(names: list[str], dump_scores: list[list[str]], timeHorizon: int, envName: str, root_folder: str) -> tuple[list[np.ndarray], list[np.ndarray], list[np.ndarray], list[np.ndarray], list[int]]:
     """
 
     :param names: get list of algorithm names
@@ -42,7 +42,6 @@ def computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder):
             with open(alg_file, 'rb') as file:
                 scores_ij = pickle.load(file)
             data_j.append([scores_oracle[k] - scores_ij[t] for k, t in enumerate(times)])
-            file.close()
 
         filename = f"{root_folder}regret_{envName}_{names[j]}_{timeHorizon}_{j}_{time.time()}"
         with open(filename, 'wb') as out_file:

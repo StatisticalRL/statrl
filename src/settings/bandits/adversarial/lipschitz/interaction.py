@@ -1,7 +1,8 @@
 from settings.bandits.adversarial.lipschitz.agent import Agent
+from settings.bandits.adversarial.lipschitz.environment import LipschitzAdversarialEnv
 import numpy as np
 
-def run_lipschitz_online_learning(env, learner: Agent):
+def run_lipschitz_online_learning(env: LipschitzAdversarialEnv, learner: Agent) -> np.ndarray:
     """
     Executes the interaction loop between a learner and the
     adversarial Lipschitz environment.
@@ -11,13 +12,13 @@ def run_lipschitz_online_learning(env, learner: Agent):
     Returns
     -------
     rewards : nparray
-        Contains actions, rewards, and optional observations.
+        Cumulative reward over the interaction.
     """
 
     obs, info = env.reset()
 
     actions = []
-    rewards = []
+    rewards: list[float] = []
     observations = []
 
     terminated = False
@@ -47,16 +48,13 @@ def run_lipschitz_online_learning(env, learner: Agent):
         # ------------------------------------------------------------
         # 4. Log trajectory
         # ------------------------------------------------------------
-        actions.append(action) 
+        actions.append(action)
         observations.append(obs)
-        if len(rewards)>0:
-            rewards.append(reward+rewards[-1])
-        else:
-            rewards.append(reward)
-
+        rewards.append(reward)
         obs = obs_next
 
-    return np.array(rewards)
+    return np.cumsum(rewards)
+# FIXME If we do not return actions and observations, then the function needs simplification
     #return {
     #    "actions": np.array(actions),
     #    "rewards": np.array(rewards),

@@ -5,7 +5,7 @@ from settings.bandits.stochastic.anytime.interaction import BanditInteraction
 from experiments.massiveruns import runLargeMulticoreExperiment
 
 
-def test_render():
+def test_render() -> None:
 
     means=[0.2,0.9,0.7,0.5]
 
@@ -17,7 +17,7 @@ def test_render():
     interaction.renderrun(env, oracle, 10)
     interaction.renderrun(env, random, 10)
 
-def test_load():
+def test_load() -> None:
 
     from experiments.utils import load, make
     envs = load("envs/environments.yaml")
@@ -28,7 +28,7 @@ def test_load():
 
     interaction.renderrun(env, random, 10)
 
-def test_run():
+def test_run() -> None:
 
     means=[0.2,0.9,0.7,0.5]
 
@@ -43,7 +43,7 @@ def test_run():
     print(f"{env.name}:{oracle.name}:\t{scores0}")
 
 
-def test_massive():
+def test_massive() -> None:
     from settings.bandits.stochastic.anytime.agents.IMED import IMED
     from settings.utils import klBern,klGauss
 

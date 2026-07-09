@@ -1,3 +1,5 @@
+from typing import Callable
+
 import numpy as np
 from settings.bandits.stochastic.anytime.agent import BanditAgent
 from settings.utils import randmin, klGauss
@@ -39,7 +41,7 @@ class IMED(BanditAgent):
         IMED index value per arm.
     """
 
-    def __init__(self, nbArms, kullback=klGauss):
+    def __init__(self, nbArms: int, kullback: Callable[[float, float], float] = klGauss) -> None:
         """
         Parameters
         ----------
@@ -52,7 +54,7 @@ class IMED(BanditAgent):
         self.nA = nbArms
         BanditAgent.__init__(self, name="IMED")
 
-    def reset(self):
+    def reset(self) -> None:
         """
         Reset internal statistics before a new run.
         """
@@ -62,7 +64,7 @@ class IMED(BanditAgent):
         self.maxMeans = 0.0
         self.indexes = np.zeros(self.nA)
 
-    def select_arm(self, state=0):
+    def select_arm(self, state: int = 0) -> int:
         """
         Select the next arm to pull.
 
@@ -78,7 +80,7 @@ class IMED(BanditAgent):
         """
         return randmin(self.indexes)
 
-    def update(self, arm, reward):
+    def update(self, arm: int, reward: float) -> None:
         """
         Update internal statistics after observing a reward.
 

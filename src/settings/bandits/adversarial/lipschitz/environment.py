@@ -10,17 +10,17 @@ class LipschitzAdversarialEnv:
     chosen by an adversary (or precomputed generator).
 
     Each step:
-        action = learner.play(observation)
+        action = learner.select_arm(observation)
         reward = f_t(action)
     """
 
     def __init__(
         self,
-        action_space,
+        action_space: Any,
         reward_function_sequence: Callable[[int], Callable[[np.ndarray], float]],
         horizon: int,
         observation_fn: Optional[Callable[[int], Any]] = None,
-    ):
+    ) -> None:
         """
         Parameters
         ----------
@@ -43,9 +43,9 @@ class LipschitzAdversarialEnv:
         self.observation_fn = observation_fn
 
         self.t = 0
-        self.current_f = None
+        self.current_f: Optional[Callable[[np.ndarray], float]] = None
 
-    def reset(self, seed: Optional[int] = None):
+    def reset(self, seed: Optional[int] = None) -> tuple[Any, dict[str, Any]]:
         if seed is not None:
             np.random.seed(seed)
 
@@ -53,11 +53,11 @@ class LipschitzAdversarialEnv:
         self.current_f = self.reward_function_sequence(self.t)
 
         obs = self._get_observation()
-        info = {}
+        info: dict = {}
 
         return obs, info
 
-    def step(self, action):
+    def step(self, action: np.ndarray) -> tuple[Any, float, bool, bool, dict[str, Any]]:
         """
         Executes one round of interaction.
 
@@ -76,6 +76,7 @@ class LipschitzAdversarialEnv:
         """
 
         # Evaluate adversarial reward function at chosen action
+        assert self.current_f is not None, "step() called before reset()"
         reward = float(self.current_f(action))
 
         # Advance time
@@ -94,7 +95,7 @@ class LipschitzAdversarialEnv:
 
         return obs, reward, terminated, truncated, info
 
-    def _get_observation(self):
+    def _get_observation(self) -> Any:
         if self.observation_fn is None:
             return None
         return self.observation_fn(self.t)
