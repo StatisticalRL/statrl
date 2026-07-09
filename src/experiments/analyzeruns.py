@@ -30,29 +30,23 @@ def computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder):
     #file_oracle.close()
 
     data_o = []
-    for i in range(len(dump_scores[-1])):
-        #print(f"O{dump_scores[-1][i]}")
-        file = open(dump_scores[-1][i], 'rb')
-        scores_oi = pickle.load(file)
-        data_o.append([scores_oi[t] for t in range(0, timeHorizon, skip)])
-        file.close()
+    for oracle_file in dump_scores[-1]:
+        with open(oracle_file, 'rb') as file:
+            scores_oi = pickle.load(file)
+        data_o.append([scores_oi[t] for t in times])
     scores_oracle = np.mean(data_o, axis=0)
 
     for j in range(nbAlgs):
         data_j = []
-        for i in range(len(dump_scores[j])):
-            #print(f"{dump_scores[j][i]}")
-            file = open(dump_scores[j][i], 'rb')
-            scores_ij = pickle.load(file)
-            data_j.append([scores_oracle[k] - scores_ij[t] for k, t in enumerate(range(0, timeHorizon, skip))])
+        for alg_file in dump_scores[j]:
+            with open(alg_file, 'rb') as file:
+                scores_ij = pickle.load(file)
+            data_j.append([scores_oracle[k] - scores_ij[t] for k, t in enumerate(times)])
             file.close()
 
-        filename = root_folder+"regret_" + envName + "_" + names[j] + "_" + str(timeHorizon) + "_" + str(
-            j) + "_" + str(
-            time.time())
-        file = open(filename, 'wb')
-        pickle.dump(data_j, file)
-        file.close()
+        filename = f"{root_folder}regret_{envName}_{names[j]}_{timeHorizon}_{j}_{time.time()}"
+        with open(filename, 'wb') as out_file:
+            pickle.dump(data_j, out_file)
 
         mean.append(np.mean(data_j, axis=0))
         median.append(np.quantile(data_j, 0.5, axis=0))
