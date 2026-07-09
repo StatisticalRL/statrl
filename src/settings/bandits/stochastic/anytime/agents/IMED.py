@@ -1,5 +1,5 @@
 import numpy as np
-from src.settings.multiarmedbandit.stochastic.anytime.agent import BanditAgent
+from src.settings.bandits.stochastic.anytime.agent import BanditAgent
 from src.settings.utils import randmin, klGauss
 from math import log
 
@@ -8,7 +8,7 @@ class IMED(BanditAgent):
     """
     Indexed Minimum Empirical Divergence (IMED)
 
-    IMED is an index-based algorithm for stochastic multi-armed multiarmedbandit,
+    IMED is an index-based algorithm for stochastic multi-armed bandits,
     designed to balance exploration and exploitation using a divergence-based index.
 
     The key idea is to assign to each arm an index of the form:

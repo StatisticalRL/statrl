@@ -1,8 +1,8 @@
 
 
 
-from src.settings.multiarmedbandit.stochastic.anytime.environment import StochasticBanditEnv
-import src.settings.multiarmedbandit.stochastic.anytime.envs.distributions as distributions
+from src.settings.bandits.stochastic.anytime.environment import StochasticBanditEnv
+import src.settings.bandits.stochastic.anytime.envs.distributions as distributions
 
 ## some functions that create specific MABs
 

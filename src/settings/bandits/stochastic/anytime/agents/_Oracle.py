@@ -1,5 +1,5 @@
 
-from src.settings.multiarmedbandit.stochastic.anytime.agent import BanditAgent
+from src.settings.bandits.stochastic.anytime.agent import BanditAgent
 
 
 class Oracle(BanditAgent):

@@ -1,11 +1,11 @@
 
 
 import numpy as np
-from src.settings.multiarmedbandit.stochastic.anytime.environment import StochasticBanditEnv
-from src.settings.multiarmedbandit.stochastic.anytime.agent import BanditAgent
+from src.settings.bandits.stochastic.anytime.environment import StochasticBanditEnv
+from src.settings.bandits.stochastic.anytime.agent import BanditAgent
 
 
-from src.settings.multiarmedbandit.stochastic.anytime.renderers.textrenderer import Textrenderer
+from src.settings.bandits.stochastic.anytime.renderers.textrenderer import Textrenderer
 from src.experiments.onerun import Interaction
 class BanditInteraction(Interaction):
 

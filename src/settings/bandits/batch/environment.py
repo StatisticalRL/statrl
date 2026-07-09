@@ -1,5 +1,5 @@
 
-from settings.multiarmedbandit.stochastic.anytime.environment import StochasticBanditEnv as MAB
+from settings.bandits.stochastic.anytime.environment import StochasticBanditEnv as MAB
 
 class BatchMAB(MAB):
     def __init__(self,mab,batchsize):
