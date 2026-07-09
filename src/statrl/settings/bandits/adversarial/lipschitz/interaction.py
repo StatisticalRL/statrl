@@ -1,5 +1,5 @@
-from settings.bandits.adversarial.lipschitz.agent import Agent
-from settings.bandits.adversarial.lipschitz.environment import LipschitzAdversarialEnv
+from statrl.settings.bandits.adversarial.lipschitz.agent import Agent
+from statrl.settings.bandits.adversarial.lipschitz.environment import LipschitzAdversarialEnv
 import numpy as np
 
 def run_lipschitz_online_learning(env: LipschitzAdversarialEnv, learner: Agent) -> np.ndarray:

@@ -1,10 +1,10 @@
 
 
-import experiments.onerun as oR
-import experiments.parallelruns as pR
-import experiments.analyzeruns as aR
-import experiments.plotruns as plR
-from experiments.utils import clear_auxiliaryfiles
+import statrl.experiments.onerun as oR
+import statrl.experiments.parallelruns as pR
+import statrl.experiments.analyzeruns as aR
+import statrl.experiments.plotruns as plR
+from statrl.experiments.utils import clear_auxiliaryfiles
 
 import time
 import os

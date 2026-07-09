@@ -1,12 +1,12 @@
 
 
 import numpy as np
-from settings.bandits.stochastic.anytime.environment import StochasticBanditEnv
-from settings.bandits.stochastic.anytime.agent import BanditAgent
+from statrl.settings.bandits.stochastic.anytime.environment import StochasticBanditEnv
+from statrl.settings.bandits.stochastic.anytime.agent import BanditAgent
 
 
-from settings.bandits.stochastic.anytime.renderers.textrenderer import Textrenderer
-from experiments.onerun import Interaction
+from statrl.settings.bandits.stochastic.anytime.renderers.textrenderer import Textrenderer
+from statrl.experiments.onerun import Interaction
 class BanditInteraction(Interaction):
 
     def run(self, env: StochasticBanditEnv, learner: BanditAgent, horizon: int) -> np.ndarray:
