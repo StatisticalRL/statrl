@@ -1,7 +1,7 @@
 
 from typing import Any, Optional
 
-from settings.bandits.stochastic.anytime.environment import StochasticBanditEnv as MAB
+from statrl.settings.bandits.stochastic.anytime.environment import StochasticBanditEnv as MAB
 
 class BatchMAB(MAB):
     def __init__(self, mab: MAB, batchsize: Any) -> None:
