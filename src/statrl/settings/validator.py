@@ -10,7 +10,7 @@ import importlib
 import yaml
 import importlib.util
 
-from experiments.utils import load
+from statrl.experiments.utils import load
 
 
 # ----------------------------------------------------------------------

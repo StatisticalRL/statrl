@@ -1,5 +1,5 @@
-from settings.bandits.batch.environment import BatchMAB
-from settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
+from statrl.settings.bandits.batch.environment import BatchMAB
+from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
 
 
 def test_batchmab_reset_and_step() -> None:

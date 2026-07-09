@@ -1,6 +1,6 @@
 import math
 
-from settings.utils import klBern, klGauss, klPoisson, klExp
+from statrl.settings.utils import klBern, klGauss, klPoisson, klExp
 
 
 def test_klBern_zero_and_clipping():

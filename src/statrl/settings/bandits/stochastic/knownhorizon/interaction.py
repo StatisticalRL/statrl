@@ -1,13 +1,13 @@
 
 import numpy as np
 
-from settings.bandits.stochastic.knownhorizon.environment import StochasticBanditEnv
-from settings.bandits.stochastic.knownhorizon.agent import BanditAgent
+from statrl.settings.bandits.stochastic.knownhorizon.environment import StochasticBanditEnv
+from statrl.settings.bandits.stochastic.knownhorizon.agent import BanditAgent
 
 
-from settings.bandits.stochastic.anytime.renderers.textrenderer import Textrenderer
+from statrl.settings.bandits.stochastic.anytime.renderers.textrenderer import Textrenderer
 
-from experiments.onerun import Interaction
+from statrl.experiments.onerun import Interaction
 class BanditInteraction(Interaction):
 
     def run(self, env:StochasticBanditEnv, learner:BanditAgent, horizon: int) -> np.ndarray:
@@ -51,11 +51,11 @@ class BanditInteraction(Interaction):
 
 if __name__ == "__main__":
     # These are all ANYTIME environments and agents.
-    from settings.bandits.stochastic.anytime.envs.parametric import  BernoulliBandit
-    from settings.bandits.stochastic.anytime.agents.IMED import IMED
-    from settings.bandits.stochastic.anytime.agents._Oracle import Oracle
+    from statrl.settings.bandits.stochastic.anytime.envs.parametric import  BernoulliBandit
+    from statrl.settings.bandits.stochastic.anytime.agents.IMED import IMED
+    from statrl.settings.bandits.stochastic.anytime.agents._Oracle import Oracle
 
-    from settings.bandits.stochastic.knownhorizon.wrappers.wrapper_anytime_knownhorizon import AnytimeToKnownHorizonAgentWrapper
+    from statrl.settings.bandits.stochastic.knownhorizon.wrappers.wrapper_anytime_knownhorizon import AnytimeToKnownHorizonAgentWrapper
 
     means=[0.2,0.9,0.7,0.5]
     nA=len(means)
@@ -75,8 +75,8 @@ if __name__ == "__main__":
 
 
 
-    from experiments.massiveruns import runLargeMulticoreExperiment
-    from settings.utils import klBern,klGauss
+    from statrl.experiments.massiveruns import runLargeMulticoreExperiment
+    from statrl.settings.utils import klBern,klGauss
     env = BernoulliBandit(means)
     agents = [AnytimeToKnownHorizonAgentWrapper(IMED(nA, klBern)),
               AnytimeToKnownHorizonAgentWrapper(IMED(nA, klGauss))]

@@ -1,8 +1,8 @@
-from settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
-from settings.bandits.stochastic.anytime.agents._Random import Random
-from settings.bandits.stochastic.anytime.agents._Oracle import Oracle
-from settings.bandits.stochastic.anytime.interaction import BanditInteraction
-from experiments.massiveruns import runLargeMulticoreExperiment
+from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
+from statrl.settings.bandits.stochastic.anytime.agents._Random import Random
+from statrl.settings.bandits.stochastic.anytime.agents._Oracle import Oracle
+from statrl.settings.bandits.stochastic.anytime.interaction import BanditInteraction
+from statrl.experiments.massiveruns import runLargeMulticoreExperiment
 
 
 def test_render() -> None:
@@ -19,7 +19,7 @@ def test_render() -> None:
 
 def test_load() -> None:
 
-    from experiments.utils import load, make
+    from statrl.experiments.utils import load, make
     envs = load("envs/environments.yaml")
     env = make(envs["bernoulli_hard"])
 
@@ -44,8 +44,8 @@ def test_run() -> None:
 
 
 def test_massive() -> None:
-    from settings.bandits.stochastic.anytime.agents.IMED import IMED
-    from settings.utils import klBern,klGauss
+    from statrl.settings.bandits.stochastic.anytime.agents.IMED import IMED
+    from statrl.settings.utils import klBern,klGauss
 
     means=[0.2,0.9,0.7,0.5]
     nA=len(means)

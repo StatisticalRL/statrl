@@ -1,8 +1,8 @@
 from typing import Callable
 
 import numpy as np
-from settings.bandits.stochastic.anytime.agent import BanditAgent
-from settings.utils import randmin, klGauss
+from statrl.settings.bandits.stochastic.anytime.agent import BanditAgent
+from statrl.settings.utils import randmin, klGauss
 from math import log
 
 

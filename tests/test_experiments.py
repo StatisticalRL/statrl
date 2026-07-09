@@ -8,15 +8,15 @@ matplotlib.use("Agg")  # headless; must precede any pylab import (plotruns/massi
 import numpy as np
 from joblib import parallel_backend
 
-from experiments.onerun import oneRunWithDump
-from experiments.parallelruns import multicoreRuns
-from experiments.analyzeruns import computeScoreDiffs
-from experiments.plotruns import plotScoreDiffs
-from experiments.massiveruns import runLargeMulticoreExperiment
-from settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
-from settings.bandits.stochastic.anytime.agents.IMED import IMED
-from settings.bandits.stochastic.anytime.agents._Oracle import Oracle
-from settings.bandits.stochastic.anytime.interaction import BanditInteraction
+from statrl.experiments.onerun import oneRunWithDump
+from statrl.experiments.parallelruns import multicoreRuns
+from statrl.experiments.analyzeruns import computeScoreDiffs
+from statrl.experiments.plotruns import plotScoreDiffs
+from statrl.experiments.massiveruns import runLargeMulticoreExperiment
+from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
+from statrl.settings.bandits.stochastic.anytime.agents.IMED import IMED
+from statrl.settings.bandits.stochastic.anytime.agents._Oracle import Oracle
+from statrl.settings.bandits.stochastic.anytime.interaction import BanditInteraction
 
 MEANS = [0.2, 0.9, 0.5]
 H = 20  # tiny horizon keeps runs fast
