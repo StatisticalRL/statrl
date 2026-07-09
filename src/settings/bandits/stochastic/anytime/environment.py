@@ -46,7 +46,7 @@ class StochasticBanditEnv(Env):
     def optimal_arm(self) -> int:
         return int(np.argmax(self.means))
 
-    def step(self, arm: int)-> float:
+    def step(self, arm: int) -> float:  # type: ignore[override]  # bandit API: reward only, not gym's 5-tuple
         """
         Sample one reward from the specified arm.
 
@@ -60,7 +60,7 @@ class StochasticBanditEnv(Env):
     def expected_reward(self, arm: int) -> float:
         return self.means[arm]
 
-    def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> int: 
+    def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> int:  # type: ignore[override]  # bandit API: no observation tuple
         """
               Reset the random generator.
               """
@@ -73,6 +73,6 @@ class StochasticBanditEnv(Env):
         for re in self.renderers:
             re.render(self,self.last)
 
-    def close(self):
+    def close(self) -> None:
         for re in self.renderers:
             re.stop(self)

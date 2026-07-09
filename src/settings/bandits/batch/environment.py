@@ -1,8 +1,10 @@
 
+from typing import Any, Optional
+
 from settings.bandits.stochastic.anytime.environment import StochasticBanditEnv as MAB
 
 class BatchMAB(MAB):
-    def __init__(self,mab,batchsize):
+    def __init__(self, mab: MAB, batchsize: Any) -> None:
         self.mab = mab
         # Accept a plain list (picklable for multiprocessing) or a callable.
         if callable(batchsize):
@@ -14,13 +16,13 @@ class BatchMAB(MAB):
         self.round = 0
         super(BatchMAB, self).__init__(self.mab.rewarddistributions, name=self.name)
 
-    def reset(self, seed=None, options=None):
+    def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> tuple:  # type: ignore[override]
         observation, info = super().reset(seed=seed, options=options)
         self.round = 0
         info["nextbatchsize"]=self.batchsize(self.round)
         return observation, info
 
-    def step(self, action):
+    def step(self, action: list) -> tuple:  # type: ignore[override]
         """action = [4,3,2]"""
         B= self.batchsize(self.round)
         assert len(action)==B

@@ -27,7 +27,7 @@ class BanditInteraction(Interaction):
 
         return np.cumsum(steps_scores)
 
-    def renderrun(self, env: StochasticBanditEnv, learner: BanditAgent, horizon):
+    def renderrun(self, env: StochasticBanditEnv, learner: BanditAgent, horizon: int) -> None:
 
         env.renderers.append(Textrenderer())
         env.reset()

@@ -21,24 +21,26 @@ def clear_auxiliaryfiles(env: Any, root_folder: str) -> None:
 #def load(filename):
 #    with open(filename, 'r') as file:
 #        return yaml.safe_load(file)
-def load(filename):
-    filename = Path(filename)
+def load(filename: str) -> dict:
+    path = Path(filename)
 
-    with filename.open("r") as f:
+    with path.open("r") as f:
         envs = yaml.safe_load(f)
 
     for spec in envs.values():
-        spec["_base_dir"] = filename.parent
+        spec["_base_dir"] = path.parent
 
     return envs
 
-def make(spec):
+def make(spec: dict) -> Any:
     module_name, class_name = spec["entrypoint"].split(":")
     kwargs = spec.get("kwargs", {})
 
     module_path = Path(spec["_base_dir"]) / f"{module_name}.py"
 
     spec_module = importlib.util.spec_from_file_location(module_name, module_path)
+    if spec_module is None or spec_module.loader is None:
+        raise ImportError(f"cannot load module {module_name} from {module_path}")
     module = importlib.util.module_from_spec(spec_module)
     spec_module.loader.exec_module(module)
 
