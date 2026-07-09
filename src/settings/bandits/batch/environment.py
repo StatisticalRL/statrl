@@ -17,9 +17,9 @@ class BatchMAB(MAB):
         super(BatchMAB, self).__init__(self.mab.rewarddistributions, name=self.name)
 
     def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> tuple:  # type: ignore[override]
-        observation, info = super().reset(seed=seed, options=options)
+        observation = super().reset(seed=seed, options=options)  # MAB.reset returns the dummy observation
         self.round = 0
-        info["nextbatchsize"]=self.batchsize(self.round)
+        info = {"nextbatchsize": self.batchsize(self.round)}
         return observation, info
 
     def step(self, action: list) -> tuple:  # type: ignore[override]
@@ -29,13 +29,11 @@ class BatchMAB(MAB):
         batchreward = []
         batchobservation=[]
         batchmean=[]
-        info={}
         for aa in action:
-            observation, reward, done, truncated, info = self.mab.step(aa)
-            batchobservation.append(observation)
+            reward = self.mab.step(aa)                       # MAB.step returns the reward only
+            batchobservation.append(0)                       # bandit is stateless: constant dummy observation
             batchreward.append(reward)
-            batchmean.append(info["mean"])
+            batchmean.append(self.mab.expected_reward(aa))   # arm mean, for regret accounting
         self.round=self.round+1
-        info["nextbatchsize"]=self.batchsize(self.round)
-        info["mean"]=sum(batchmean)
+        info = {"nextbatchsize": self.batchsize(self.round), "mean": sum(batchmean)}
         return (batchobservation,batchreward,info)
