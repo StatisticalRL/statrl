@@ -9,7 +9,7 @@ Anytime
 
    agent.BanditAgent
    environment.StochasticBanditEnv
-   interaction.interact
+   interaction.BanditInteraction
    agents.IMED.IMED
    agents._Oracle.Oracle
    agents._Random.Random
