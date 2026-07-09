@@ -1,0 +1,14 @@
+imed:
+  entrypoint: "statrl.settings.bandits.stochastic.anytime.agents.IMED.IMED"
+  label: "IMED"
+  kwargs: {}  # IMED takes no required kwargs here; nbArms is supplied by the caller at run time
+
+oracle:
+  entrypoint: "statrl.settings.bandits.stochastic.anytime.agents._Oracle.Oracle"
+  label: "Oracle"
+  kwargs: {}
+
+random_uniform:
+  entrypoint: "statrl.settings.bandits.stochastic.anytime.agents._Random.Random"
+  label: "Random"
+  kwargs: {}
