@@ -1,7 +1,10 @@
+import importlib.util
 import os
 import pickle
-from importlib.metadata import entry_points
+from pathlib import Path
 from typing import Any
+
+import yaml
 
 
 def dump(values: Any, filename: str, tag: str, root_folder: str) -> str:
@@ -14,9 +17,6 @@ def clear_auxiliaryfiles(env: Any, root_folder: str) -> None:
     for file in os.listdir(root_folder):
         if file.startswith("aux_" + env.name):
             os.remove(root_folder + file)
-
-import yaml
-from pathlib import Path
 
 #def load(filename):
 #    with open(filename, 'r') as file:
@@ -32,7 +32,6 @@ def load(filename):
 
     return envs
 
-import importlib.util
 def make(spec):
     module_name, class_name = spec["entrypoint"].split(":")
     kwargs = spec.get("kwargs", {})

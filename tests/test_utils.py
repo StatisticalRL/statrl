@@ -1,7 +1,6 @@
 import math
-import numpy as np
 
-from settings.utils import randmax, randmin, klBern, klGauss, klPoisson, klExp
+from settings.utils import klBern, klGauss, klPoisson, klExp
 
 
 def test_klBern_zero_and_clipping():

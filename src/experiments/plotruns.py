@@ -1,7 +1,6 @@
 
 import pylab as pl
 import sys
-from math import exp
 from typing import Any
 import numpy as np
 
