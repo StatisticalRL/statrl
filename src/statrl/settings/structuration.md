@@ -1,35 +1,59 @@
-# Structuration Guidelines for the Settings
+# Settings Repository Guidelines
 
-Each setting folder should either contain sub-settings folder or define a setting.
-To define a setting, the structure of the folder must contain at least:
+Each setting is represented by a folder.
 
-[Name of the setting]
+A setting folder either
 
-- agent.py:  "Specifies the class Agent"
-- environment.py: "Specifies the class Environment
-                  implementing methods .step, .reset, .render"
-- interaction.py: "Specifies the Interaction (see src.experiments.onerun.Interaction)
-                  implementing methods  .run and .renderrun"
-- _test.py: "Specifies test functions test_render, test_run, test_load, test_massive ""
+- contains sub-settings, or
+- defines a complete setting.
 
-#### agents: "Folder containing the agent class definitions"
-- _Oracle.py : "the Oracle agent which plays according to the optimal policy."
-- _Random.py : "the Random agent which plays according to the uniformly random policy."
+A complete setting must have the following structure:
 
-#### envs: "Folder containiing the environment class definitions"
-- environments.yaml:  "contains yaml instanciations of the environment, in format
-"""
-[name] 
-    entrypoint: "[path]"
-    kwargs:
-"""
-"""
+```
+setting_name/
+├── agent.py          # Defines the Agent class.
+├── environment.py    # Defines the Environment class.
+│                     # Must implement: step(), reset(), render().
+├── interaction.py    # Defines the interaction protocol.
+│                     # Must implement: run(), renderrun().
+├── _test.py          # Contains test_render(), test_run(),
+│                     # test_load(), test_massive().
+├── agents/
+│   ├── _Oracle.py    # Oracle agent following the optimal policy.
+│   └── _Random.py    # Uniform random policy.
+├── envs/
+│   └── environments.yaml
+├── renderers/
+└── wrappers/
+```
+
+The `envs/environments.yaml` file defines registered environments.
+
+Example:
+
+```yaml
 bernoulli_simple:
   entrypoint: "parametric:BernoulliBandit"
   kwargs:
     means: [0.2, 0.8, 0.7, 0.5]
-"""
 
-#### renderers: "Folder containing the renderer class definitions"
+random:
+  entrypoint: "parametric:RandomBernoulliBandit"
+  kwargs:
+    Delta: 0.2
+    K: 5
+```
 
-#### wrappers: "Folder containing the wrappers from and to other settings (both from env and agent)"
+Each environment specification must have the form
+
+```yaml
+environment_name:
+  entrypoint: "<module>:<Class>"
+  kwargs:
+    ...
+```
+
+where
+
+- `entrypoint` specifies the Python class to instantiate,
+- `kwargs` contains the keyword arguments passed to the constructor.

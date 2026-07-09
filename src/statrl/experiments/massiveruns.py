@@ -31,7 +31,7 @@ def runLargeMulticoreExperiment(env: Any, agents: list[Any], oracle: Any, intera
     print("-"*30+"Massive Multicore Experiment"+"-"*30)
     print(f'Environment: {envName}')
     print(f'Learners: {[learner.name for learner in learners]}')
-    print(f'Run {nbReplicates} many interactions of length {timeHorizon} for each learner:')
+    print(f'[INFO] Run {nbReplicates} many interactions of length {timeHorizon} for each learner:')
     dump_scores = []
     names = []
     meanelapsedtimes = []
@@ -56,7 +56,11 @@ def runLargeMulticoreExperiment(env: Any, agents: list[Any], oracle: Any, intera
         logfile.write("Time horizon is " + str(timeHorizon) + ", nb of replicates is " + str(nbReplicates) + "\n")
         for name, meanelapsedtime in zip(names, meanelapsedtimes):
             logfile.write(f"{name} average runtime is {meanelapsedtime}\n")
+        print("[INFO] A log-file has been generated in ", logfilename)
+        print("[INFO]  Compute Statistics...")
         mean, median, quantile1, quantile2, times = aR.computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder=root_folder)
+        print("[INFO]  Plot results...")
         plR.plotScoreDiffs(names, envName, envName, mean, median, quantile1, quantile2, times, timeHorizon, logfile=logfile, timestamp=timestamp, root_folder=root_folder)
+        print("[INFO]  Clean Auxiliary files...")
     clear_auxiliaryfiles(env, root_folder)
-    print("\n[INFO] A log-file has been generated in ", logfilename)
+    print("[INFO]  Massive multicore experiment successfully completed.")
