@@ -13,7 +13,7 @@ def _style_axes(ax: Any) -> None:
     ax.tick_params(labelsize=11)
 
 
-def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list[np.ndarray], quantile1: list[np.ndarray], quantile2: list[np.ndarray], times: list[int], timeHorizon: int, logfile: Any='', timestamp: Any=0, root_folder: str=ROOT) -> None:
+def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list[np.ndarray], median: list[np.ndarray], quantile1: list[np.ndarray], quantile2: list[np.ndarray], times: list[int], timeHorizon: int, logfile: Any='', timestamp: Any=0, root_folder: str=ROOT) -> None:
     if (logfile==''):
         logfile=sys.stdout
     nbFigure = pl.gcf().number+1
@@ -29,15 +29,19 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list
     pl.title(title, fontsize=15, fontweight='bold')
     _style_axes(pl.gca())
     for i in range(len(mean)):
-        m=min(m,min(mean[i]))
-        M=1.1*max(M,max(mean[i]))
+        m=min(m,min(median[i]),min(mean[i]))
+        M=1.1*max(M,max(median[i]),max(mean[i]))
+        pl.plot(
+            times, median[i], color=colors[i % len(colors)],
+            alpha=0.6, linewidth=1.8, linestyle='--',
+        )
         draw_regret_curve(
             pl.gca(), learnersName[i], colors[i % len(colors)], style[i % len(style)],
             times, mean[i], quantile1[i], quantile2[i],
         )
 
         textfile += learnersName[i] + "_"
-        logfile.write(learnersName[i] + ' has regret ' + str(mean[i][-1]) + ' after ' + str(timeHorizon) + ' time steps with quantiles ' +
+        logfile.write(learnersName[i] + ' has regret ' + str(median[i][-1]) + ' after ' + str(timeHorizon) + ' time steps with quantiles ' +
               str(quantile1[i][-1]) +' and '+ str(quantile2[i][-1])+"\n")
 
     textfile+="_"+str(timeHorizon)+"_"+envName+"_"+timestamp
