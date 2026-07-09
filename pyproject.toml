@@ -8,6 +8,8 @@ version = "0.0.1"
 description = "The Statistical Reinforcement Learning Toolkit Library"
 authors = [{ name = "Odalric-Ambym Maillard", email = "odalric.maillard@inria.fr" }]
 readme = "README.md"
+license = { text = "MIT" }
+classifiers = ["License :: OSI Approved :: MIT License"]
 requires-python = ">=3.9"
 dependencies = [
     "gymnasium>=1.0",
@@ -15,6 +17,7 @@ dependencies = [
     "joblib>=1.4",
     "matplotlib>=3.9",
     "scipy>=1.11",
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
