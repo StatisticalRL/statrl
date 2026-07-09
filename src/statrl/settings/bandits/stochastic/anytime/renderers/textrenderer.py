@@ -3,7 +3,7 @@ import string
 
 from typing import Optional
 
-from settings.bandits.stochastic.anytime.environment import StochasticBanditEnv
+from statrl.settings.bandits.stochastic.anytime.environment import StochasticBanditEnv
 
 
 class Textrenderer():

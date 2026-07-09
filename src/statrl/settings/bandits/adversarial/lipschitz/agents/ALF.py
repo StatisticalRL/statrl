@@ -1,7 +1,7 @@
 import numpy as np
 from typing import Any, Optional
 
-from settings.bandits.adversarial.lipschitz.agent import Agent
+from statrl.settings.bandits.adversarial.lipschitz.agent import Agent
 
 class ALFLearner(Agent):
     """

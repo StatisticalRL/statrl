@@ -1,4 +1,4 @@
-from settings.bandits.stochastic.anytime.envs.parametric import (
+from statrl.settings.bandits.stochastic.anytime.envs.parametric import (
     BernoulliBandit, GaussianBandit,
 )
 

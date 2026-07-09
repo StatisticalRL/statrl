@@ -1,6 +1,6 @@
 
-from settings.bandits.stochastic.anytime.agent import BanditAgent
-from settings.bandits.stochastic.anytime.environment import StochasticBanditEnv
+from statrl.settings.bandits.stochastic.anytime.agent import BanditAgent
+from statrl.settings.bandits.stochastic.anytime.environment import StochasticBanditEnv
 
 import numpy as np
 class Random(BanditAgent):
