@@ -1,31 +1,188 @@
+"""
+Posterior Sampling Reinforcement Learning (PSRL).
+
+This module implements Posterior Sampling Reinforcement Learning (PSRL),
+also known as Thompson Sampling for reinforcement learning, for finite
+Markov Decision Processes with Bernoulli rewards.
+
+The algorithm maintains Bayesian posterior distributions over both the
+reward function and the transition kernel of the unknown MDP. At the
+beginning of every episode, a complete MDP model is sampled from the
+posterior. The optimal policy of this sampled model is then computed
+using Value Iteration and executed until an episode stopping criterion
+is met.
+
+The implementation follows the episodic version introduced in
+
+    Osband, Russo and Van Roy,
+    "(More) Efficient Reinforcement Learning via Posterior Sampling",
+    NeurIPS 2013.
+
+Reward distributions are modeled by Beta posteriors, while transition
+probabilities are modeled by Dirichlet posteriors.
+"""
+
+
 import scipy.stats as stat
 from statrl.settings.markovdecisionprocess.agent import MDPAgent
 from statrl.settings.utils import *
 
 
 class PSRL(MDPAgent):
+    """
+    Posterior Sampling Reinforcement Learning.
+
+    PSRL is a Bayesian model-based reinforcement learning algorithm for
+    finite Markov Decision Processes.
+
+    Rather than constructing optimistic confidence sets, PSRL maintains
+    posterior distributions over the unknown reward function and
+    transition probabilities.
+
+    At the beginning of each episode, a complete MDP is sampled from the
+    posterior. The optimal policy of this sampled MDP is computed and
+    executed until a stopping criterion triggers the beginning of a new
+    episode.
+
+    This implementation assumes
+
+    * finite state and action spaces;
+    * Bernoulli rewards;
+    * Beta priors over rewards;
+    * Dirichlet priors over transitions.
+
+    Parameters
+    ----------
+    nS : int
+        Number of states.
+
+    nA : int
+        Number of actions.
+
+    delta : float, optional
+        Confidence parameter. Present for compatibility with the common
+        learner interface but not explicitly used by the PSRL algorithm.
+
+    Attributes
+    ----------
+    t : int
+        Global interaction time.
+
+    policy : ndarray of shape (nS, nA)
+        Current stochastic policy computed on the sampled MDP.
+
+    u : ndarray of shape (nS,)
+        Bias (relative value) function obtained by Value Iteration.
+
+    Nk : ndarray of shape (nS, nA)
+        Cumulative number of visits to every state-action pair over all
+        completed episodes.
+
+    vk : ndarray of shape (nS, nA)
+        State-action visit counts during the current episode.
+
+    r_successCounts :
+        Beta posterior α parameters.
+
+    r_failureCounts :
+        Beta posterior β parameters.
+
+    p_pseudoCounts :
+        Dirichlet pseudo-counts defining the posterior transition model.
+
+    r_sampled :
+        Reward function sampled from the posterior.
+
+    p_sampled :
+        Transition kernel sampled from the posterior.
+    """
+
     def __init__(self, nS, nA, delta=0.05):
+        """
+        Construct a Posterior Sampling Reinforcement Learning learner.
+
+        The learner starts with independent conjugate priors for every
+        state-action pair.
+
+        Rewards are modeled using Beta distributions
+
+            Beta(1,1),
+
+        corresponding to a uniform prior over Bernoulli means.
+
+        Transition probabilities are modeled using symmetric Dirichlet
+        priors
+
+            Dirichlet(1,...,1),
+
+        corresponding to a uniform prior over successor states.
+        """
         MDPAgent.__init__(self, nS, nA, name="PSRL")
+        # ---------------------------------------------------------
+        # Problem dimensions
+        # ---------------------------------------------------------
+
         self.nS = nS
         self.nA = nA
+
+        # ---------------------------------------------------------
+        # Global interaction statistics
+        # ---------------------------------------------------------
+
         self.t = 1
         self.delta = delta
+
+        # Complete interaction history
         self.observations = [[], [], []]
+
+        # ---------------------------------------------------------
+        # Episode statistics
+        # ---------------------------------------------------------
+
+        # Number of visits during the current episode.
         self.vk = np.zeros((self.nS, self.nA))
+
+        # Cumulative visits over previous episodes.
         self.Nk = np.zeros((self.nS, self.nA))
+
         self.Nkmax = 0
+
+        # ---------------------------------------------------------
+        # Planning variables
+        # ---------------------------------------------------------
+
+        # Current policy computed on the sampled MDP.
         self.policy = np.zeros((self.nS, self.nA))
+
+        # Relative value (bias) function.
         self.u = np.zeros(self.nS)
 
+        # ---------------------------------------------------------
+        # Bayesian posterior over rewards
+        # ---------------------------------------------------------
+
+        # Alpha parameters of Beta posteriors.
         self.r_successCounts = np.ones((self.nS, self.nA))
+
+        # Beta parameters of Beta posteriors.
         self.r_failureCounts = np.ones((self.nS, self.nA))
+
+        # ---------------------------------------------------------
+        # Bayesian posterior over transitions
+        # ---------------------------------------------------------
+
         self.p_pseudoCounts = np.ones((self.nS, self.nA, self.nS))
 
+        # ---------------------------------------------------------
+        # Sampled MDP
+        # ---------------------------------------------------------
+
+        # Reward function sampled from the posterior.
         self.r_sampled = np.zeros((self.nS, self.nA))
+
+        # Transition kernel sampled from the posterior.
         self.p_sampled = np.zeros((self.nS, self.nA, self.nS))
 
-    #def name(self):
-    #    return "PSRL-AvR"
 
     # To reinitialize the learner with a given initial state inistate.
     def reset(self, inistate):
@@ -133,42 +290,5 @@ class PSRL(MDPAgent):
 
         self.t += 1
 
-
-
-
-def test():
-    nS = 5
-    nA = 2
-    r_successCounts = np.ones((nS, nA))
-    r_failureCounts = np.ones((nS, nA))
-    p_pseudoCounts = np.ones((nS, nA, nS))
-
-    r_sampled = np.zeros((nS, nA))
-    p_sampled = np.zeros((nS, nA, nS))
-
-
-    for i in range(1000):
-        state = np.random.randint(nS)
-        action = np.random.randint(nA)
-        nstate = np.random.randint(nS)
-        reward = np.random.rand()
-        r_successCounts[state, action] += reward
-        r_failureCounts[state, action] += 1. - reward
-        p_pseudoCounts[state,action,nstate] +=1
-
-    print("Counts:")
-    for s in range(nS):
-        for a in range(nA):
-            print(r_successCounts[s,a], r_failureCounts[s,a], p_pseudoCounts[s,a])
-
-    for i in range(2):
-        print("Samples:")
-        for s in range(nS):
-            for a in range(nA):
-                r_sampled[s, a] = stat.beta.rvs(r_successCounts[s, a], r_failureCounts[s, a])
-                p = stat.dirichlet.rvs(alpha=p_pseudoCounts[s, a])
-                p = p[0]
-                p_sampled[s, a] = [p[ns] for ns in range(nS)]
-                print(r_sampled[s, a], p_sampled[s, a])
 
 
