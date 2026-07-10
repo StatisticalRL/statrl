@@ -3,7 +3,6 @@ from statrl.settings.markovdecisionprocess.agents._Random import Random
 from statrl.settings.markovdecisionprocess.agents._Oracle import Opti_swimmer as Oracle
 from statrl.settings.markovdecisionprocess.interaction import MDPInteraction
 from statrl.experiments.massiveruns import runLargeMulticoreExperiment
-from statrl.settings.markovdecisionprocess.agents.IMED_RL import IMEDRL
 
 
 def test_render() -> None:
@@ -34,10 +33,10 @@ def test_run() -> None:
     env = RiverSwim(nS)
     interaction = MDPInteraction()
     random = Random(env)
-    agent= IMEDRL(env.nS, env.nA)
+    #agent= IMEDRL(env.nS, env.nA)
     oracle = Oracle(env)
 
-    scores1=interaction.run(env, agent, horizon=10)
+    scores1=interaction.run(env, random, horizon=10)
     print(f"{env.name}:{random.name}: \t{scores1}")
     scores0=interaction.run(env, oracle, horizon=10)
     print(f"{env.name}:{oracle.name}:\t{scores0}")
@@ -45,13 +44,14 @@ def test_run() -> None:
 
 def test_massive() -> None:
     from statrl.settings.markovdecisionprocess.agents.IMED_RL import IMEDRL
+    from statrl.settings.markovdecisionprocess.agents.PSRL import PSRL
 
     nS=6
     env =RiverSwim(nS)
     nA=env.nA
 
     interaction = MDPInteraction()
-    agents = [IMEDRL(nS, nA)]
+    agents = [IMEDRL(nS, nA),PSRL(nS, nA)]
     oracle = Oracle(env)
     runLargeMulticoreExperiment(env,agents,oracle, interaction,timeHorizon=1000,  nbReplicates=50)
 

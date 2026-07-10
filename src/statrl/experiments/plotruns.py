@@ -20,8 +20,8 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list
     m,M=0,0
     pl.title(title)
     for i in range(len(median)):
-        m=min(m,min(median[i]),min(mean[i]))
-        M=1.1*max(M,max(median[i]),max(mean[i]))
+        m=min(m,min(quantile1[i]),min(mean[i]))
+        M=1.1*max(M,max(quantile2[i]),max(mean[i]))
         pl.fill_between(
             times,
             quantile1[i],
