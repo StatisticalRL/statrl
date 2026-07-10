@@ -14,6 +14,20 @@ def randmin(A: np.ndarray) -> int:
     return int(np.random.choice(np.flatnonzero(A == A.min())))
 
 
+def allmax(a):
+    if len(a) == 0:
+        return []
+    all_ = [0]
+    max_ = a[0]
+    for i in range(1, len(a)):
+        if a[i] > max_:
+            all_ = [i]
+            max_ = a[i]
+        elif a[i] == max_:
+            all_.append(i)
+    return (max_, all_)
+
+
 ## Kullback-Leibler divergence in exponential families
 
 eps = 1e-15
@@ -42,3 +56,26 @@ def klExp(x: float, y: float) -> float:
     x = max(x, eps)
     y = max(y, eps)
     return (x / y - 1 - log(x / y))
+
+
+def categorical_sample(prob_n, np_random):
+    """
+    Sample from categorical distribution
+    Each row specifies class probabilities
+    """
+    prob_n = np.asarray(prob_n)
+    csprob_n = np.cumsum(prob_n)
+    return (csprob_n > np_random.random()).argmax()
+
+
+
+
+class Dirac:
+    def __init__(self, value):
+        self.v = value
+
+    def rvs(self):
+        return self.v
+
+    def mean(self):
+        return self.v

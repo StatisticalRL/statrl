@@ -183,7 +183,7 @@ def validate_interaction(setting_dir):
 
 def validate_environment_yaml(setting_dir):
     """
-    Validate envs/environment.yaml files.
+    Validate envs/environments.yaml files.
     """
 
     path = Path(setting_dir) / "envs" / "environments.yaml"
