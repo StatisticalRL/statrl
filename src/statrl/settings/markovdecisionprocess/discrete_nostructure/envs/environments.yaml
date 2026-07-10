@@ -1,5 +1,5 @@
 
 riverswim_6:
-  entrypoint: "Riverswim:RiverSwim"
+  entrypoint: "riverswim:RiverSwim"
   kwargs:
     nbStates: 6

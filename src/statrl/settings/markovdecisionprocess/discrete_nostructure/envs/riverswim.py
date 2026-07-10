@@ -1,5 +1,5 @@
 
-from statrl.settings.markovdecisionprocess.environment import DiscreteMDP
+from statrl.settings.markovdecisionprocess.discrete_nostructure.environment import DiscreteMDP
 from statrl.settings.utils import Dirac
 import numpy as np
 

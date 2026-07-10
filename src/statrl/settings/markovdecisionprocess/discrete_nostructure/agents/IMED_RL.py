@@ -34,9 +34,8 @@ NeurIPS 2022.
 import numpy as np
 from scipy.optimize import minimize_scalar
 
-from statrl.settings.markovdecisionprocess.environment import DiscreteMDP
-from statrl.settings.markovdecisionprocess.agent import MDPAgent
-from statrl.settings.utils import randmax,randmin
+from statrl.settings.markovdecisionprocess.discrete_nostructure.agent import MDPAgent
+from statrl.settings.utils import randmin
 
 
 class IMEDRL(MDPAgent):

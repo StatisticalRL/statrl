@@ -3,11 +3,11 @@
 
 
 import numpy as np
-from statrl.settings.markovdecisionprocess.environment import DiscreteMDP
-from statrl.settings.markovdecisionprocess.agent import  MDPAgent
+from statrl.settings.markovdecisionprocess.gridworld.environment import DiscreteMDP
+from statrl.settings.markovdecisionprocess.gridworld.agent import  MDPAgent
 
 
-from statrl.settings.markovdecisionprocess.renderers.textRenderer import TextRenderer
+from statrl.settings.markovdecisionprocess.gridworld.renderers.textRenderer import GridworldRenderer,GridworldWithWallRenderer
 
 from statrl.experiments.onerun import Interaction
 
@@ -34,7 +34,7 @@ class MDPInteraction(Interaction):
         return np.cumsum(steps_scores)
 
     def renderrun(self, env: DiscreteMDP, learner: MDPAgent, horizon: int) -> None:
-        env.renderers= [TextRenderer()]
+        env.renderers= [GridworldRenderer()]
         observation, info = env.reset()
         learner.reset(observation)
 

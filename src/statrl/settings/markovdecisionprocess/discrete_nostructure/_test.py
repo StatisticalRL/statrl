@@ -1,7 +1,7 @@
-from statrl.settings.markovdecisionprocess.envs.Riverswim import RiverSwim
-from statrl.settings.markovdecisionprocess.agents._Random import Random
-from statrl.settings.markovdecisionprocess.agents._Oracle import Opti_swimmer as Oracle
-from statrl.settings.markovdecisionprocess.interaction import MDPInteraction
+from statrl.settings.markovdecisionprocess.discrete_nostructure.envs.riverswim import RiverSwim
+from statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Random import Random
+from statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Oracle import Opti_swimmer as Oracle
+from statrl.settings.markovdecisionprocess.discrete_nostructure.interaction import MDPInteraction
 from statrl.experiments.massiveruns import runLargeMulticoreExperiment
 
 
@@ -43,8 +43,8 @@ def test_run() -> None:
 
 
 def test_massive() -> None:
-    from statrl.settings.markovdecisionprocess.agents.IMED_RL import IMEDRL
-    from statrl.settings.markovdecisionprocess.agents.PSRL import PSRL
+    from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.IMED_RL import IMEDRL
+    from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.PSRL import PSRL
 
     nS=6
     env =RiverSwim(nS)

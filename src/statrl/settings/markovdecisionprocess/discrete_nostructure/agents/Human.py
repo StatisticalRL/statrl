@@ -5,7 +5,7 @@ def keyboard_waitfor(list):
             i = list.index(x)
             return x,i
 
-from statrl.settings.markovdecisionprocess.agent import MDPAgent
+from statrl.settings.markovdecisionprocess.discrete_nostructure.agent import MDPAgent
 class Human(MDPAgent):
     def __init__(self,env):
         self.env=env.env

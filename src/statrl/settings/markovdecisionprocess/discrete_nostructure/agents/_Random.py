@@ -1,5 +1,5 @@
 
-from statrl.settings.markovdecisionprocess.agent import MDPAgent
+from statrl.settings.markovdecisionprocess.discrete_nostructure.agent import MDPAgent
 class Random(MDPAgent):
     def __init__(self,env):
         self.env=env

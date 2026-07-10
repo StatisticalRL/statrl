@@ -1,7 +1,7 @@
 import numpy as np
 from statrl.settings.utils import   categorical_sample, allmax
 
-from statrl.settings.markovdecisionprocess.agent import MDPAgent
+from statrl.settings.markovdecisionprocess.discrete_nostructure.agent import MDPAgent
 def build_opti(name, env, nS, nA):
     #if ("2-room" in name):
     #    return  Opti_911_2room(env)
