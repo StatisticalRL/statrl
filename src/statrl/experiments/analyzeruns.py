@@ -3,7 +3,7 @@ import pickle
 import time
 import numpy as np
 
-def computeScoreDiffs(names: list[str], dump_scores: list[list[str]], timeHorizon: int, envName: str, root_folder: str) -> tuple[list[np.ndarray], list[np.ndarray], list[np.ndarray], list[np.ndarray], list[int]]:
+def computeScoreDiffs(names: list[str], dump_scores: list[list[str]], timeHorizon: int, envName: str, root_folder: str) -> tuple[list[np.ndarray], list[np.ndarray], list[np.ndarray],list[np.ndarray],list[np.ndarray], list[np.ndarray], list[int]]:
     """
 
     :param names: get list of algorithm names
@@ -17,6 +17,8 @@ def computeScoreDiffs(names: list[str], dump_scores: list[list[str]], timeHorizo
     mean = []
     quantile1 = []
     quantile2 = []
+    quantile3 = []
+    quantile4 = []
     nbAlgs = len(dump_scores) - 1
 
     #Downsample the times, especially in case timeHorizon is huge.
@@ -49,8 +51,10 @@ def computeScoreDiffs(names: list[str], dump_scores: list[list[str]], timeHorizo
 
         mean.append(np.mean(data_j, axis=0))
         median.append(np.quantile(data_j, 0.5, axis=0))
-        quantile1.append(np.quantile(data_j, 0.25, axis=0))
-        quantile2.append(np.quantile(data_j, 0.75, axis=0))
+        quantile1.append(np.quantile(data_j, 0.1, axis=0))
+        quantile2.append(np.quantile(data_j, 0.25, axis=0))
+        quantile3.append(np.quantile(data_j, 0.75, axis=0))
+        quantile4.append(np.quantile(data_j, 0.9, axis=0))
 
-    return mean,median,quantile1,quantile2,times
+    return mean,median,quantile1,quantile2, quantile3, quantile4,times
 

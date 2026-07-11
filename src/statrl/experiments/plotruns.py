@@ -5,7 +5,7 @@ from typing import Any
 import numpy as np
 
 ROOT= "results/"
-def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list[np.ndarray], median: list[np.ndarray], quantile1: list[np.ndarray], quantile2: list[np.ndarray], times: list[int], timeHorizon: int, logfile: Any='', timestamp: Any=0, root_folder: str=ROOT) -> None:
+def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list[np.ndarray], median: list[np.ndarray], quantile1: list[np.ndarray], quantile2: list[np.ndarray],quantile3: list[np.ndarray],quantile4: list[np.ndarray], times: list[int], timeHorizon: int, logfile: Any='', timestamp: Any=0, root_folder: str=ROOT) -> None:
     if (logfile==''):
         logfile=sys.stdout
     nbFigure = pl.gcf().number+1
@@ -21,12 +21,20 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list
     pl.title(title)
     for i in range(len(median)):
         m=min(m,min(quantile1[i]),min(mean[i]))
-        M=1.1*max(M,max(quantile2[i]),max(mean[i]))
+        M=1.1*max(M,max(quantile4[i]),max(mean[i]))
         pl.fill_between(
             times,
             quantile1[i],
-            quantile2[i],
+            quantile4[i],
             color=colors[i% len(colors)],
+            alpha=0.18,
+            linewidth=0
+        )
+        pl.fill_between(
+            times,
+            quantile2[i],
+            quantile3[i],
+            color=colors[i % len(colors)],
             alpha=0.18,
             linewidth=0
         )
