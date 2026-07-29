@@ -54,3 +54,8 @@ class MDPInteraction(Interaction):
         env.close()
 
 
+    @property
+    def plotlabels(self):
+        return ("Time step", "Regret")
+
+

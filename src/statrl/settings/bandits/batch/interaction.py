@@ -44,3 +44,8 @@ class BatchBanditInteraction(Interaction):
             env.render()
 
         env.close()
+
+
+    @property
+    def plotlabels(self):
+        return ("Episode $\ell$", "Regret")

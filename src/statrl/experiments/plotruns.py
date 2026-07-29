@@ -5,8 +5,7 @@ from typing import Any
 import numpy as np
 
 ROOT= "results/"
-#TODO: The name of the labels should be setting-dependent [Add corresponding specification].
-def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list[np.ndarray], median: list[np.ndarray], quantile1: list[np.ndarray], quantile2: list[np.ndarray],quantile3: list[np.ndarray],quantile4: list[np.ndarray], times: list[int], timeHorizon: int, logfile: Any='', timestamp: Any=0, root_folder: str=ROOT) -> None:
+def plotScoreDiffs(learnersName: list[str], envName: str, title, mean: list[np.ndarray], median: list[np.ndarray], quantile1: list[np.ndarray], quantile2: list[np.ndarray],quantile3: list[np.ndarray],quantile4: list[np.ndarray], times: list[int], timeHorizon: int, logfile: Any='', timestamp: Any=0, root_folder: str=ROOT) -> None:
     if (logfile==''):
         logfile=sys.stdout
     nbFigure = pl.gcf().number+1
@@ -21,7 +20,11 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list
     style = ['o','v','s','d','<']
     m,M=0,0
 
-    ax.set_title(title)
+    fig_title,fig_xlabel,fig_ylabel=title
+
+    ax.set_title(fig_title)
+
+
     for i in range(len(median)):
         m=min(m,min(quantile1[i]),min(mean[i]))
         M=1.1*max(M,max(quantile4[i]),max(mean[i]))
@@ -73,8 +76,10 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list
     textfile+="_"+str(timeHorizon)+"_"+envName+"_"+timestamp
     #fig.tight_layout()
     ax.legend(loc=2)
-    ax.set_xlabel("Time steps", fontsize=13, fontname = "Arial")
-    ax.set_ylabel("Regret", fontsize=13, fontname = "Arial")
+
+    ax.set_xlabel(fig_xlabel, fontsize=13, fontname = "Arial")
+    ax.set_ylabel(fig_ylabel, fontsize=13, fontname = "Arial")
+
     ax.set_xlim(0,min(timeHorizon,len(mean[0]))-1)
     #pl.xticks(times)
     ax.ticklabel_format(axis='both', useMathText = True, useOffset = True, style='sci', scilimits=(0, 0))

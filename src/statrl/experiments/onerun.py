@@ -3,7 +3,7 @@ from statrl.experiments.utils import dump
 
 import time
 
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, abstractproperty
 from typing import Any
 import numpy as np
 
@@ -17,6 +17,11 @@ class Interaction(ABC):
     @abstractmethod
     def renderrun(self, env: Any, learner: Any, horizon: int) -> None:
         ...
+
+    @property
+    @abstractmethod
+    def plotlabels(self) -> str:
+        pass
 
 
 
