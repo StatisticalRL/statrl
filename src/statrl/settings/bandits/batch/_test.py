@@ -30,12 +30,15 @@ def test_run() -> None:
 def test_massive() -> None:
 
     from statrl.settings.bandits.batch.agents.BIMED import BIMED
+    from statrl.settings.bandits.batch.agents.BatchIMED import BatchIMED
     means=[0.2,0.9,0.7,0.5]
 
     env = BatchBernoulliBandit(means,batchschedule="constant")
     interaction = BatchBanditInteraction()
     oracle = Oracle(env)
-    agents = [Random(env), BIMED(env.number_arms)]
+    agents = [BIMED(env.number_arms),
+              BatchIMED(env.number_arms,bound=1,batchagnostic=True),
+              BatchIMED(env.number_arms,bound=1,batchagnostic=False)]
     runLargeMulticoreExperiment(env,agents,oracle, interaction,timeHorizon=50,  nbReplicates=30)
 
 
