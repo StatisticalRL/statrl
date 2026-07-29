@@ -1,0 +1,96 @@
+
+bern-constant:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  kwargs:
+    means: simple6
+    batchschedule: constant
+
+bern-linear:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  kwargs:
+    means: simple6
+    batchschedule: linear
+
+bern-quadratic:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  kwargs:
+    means: simple6
+    batchschedule: quadratic
+
+bern-cubic:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  kwargs:
+    means: simple6
+    batchschedule: cubic
+
+bern-exp:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  kwargs:
+    means: simple6
+    batchschedule: exp
+
+bern-doubleexp:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  kwargs:
+    means: simple6
+    batchschedule: doubleexp
+
+bern-abrupt:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  kwargs:
+    means: simple6
+    batchschedule: abrupt
+
+
+bern-exotic:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  kwargs:
+    means: simple6
+    batchschedule: exotic1
+
+trunc-constant:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  kwargs:
+    means: simple6
+    batchschedule: constant
+
+trunc-linear:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  kwargs:
+    means: simple6
+    batchschedule: linear
+
+trunc-quadratic:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  kwargs:
+    means: simple6
+    batchschedule: quadratic
+
+trunc-cubic:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  kwargs:
+    means: simple6
+    batchschedule: cubic
+trunc-exp:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  kwargs:
+    means: simple6
+    batchschedule: exp
+
+trunc-doubleexp:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  kwargs:
+    means: simple6
+    batchschedule: doubleexp
+
+trunc-abrupt:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  kwargs:
+    means: simple6
+    batchschedule: abrupt
+
+trunc-exotic:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  kwargs:
+    means: simple6
+    batchschedule: exotic1

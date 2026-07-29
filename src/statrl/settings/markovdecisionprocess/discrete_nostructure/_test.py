@@ -33,7 +33,7 @@ def test_run() -> None:
     env = RiverSwim(nS)
     interaction = MDPInteraction()
     random = Random(env)
-    #agent= IMEDRL(env.nS, env.nA)
+    #agent.py= IMEDRL(env.nS, env.nA)
     oracle = Oracle(env)
 
     scores1=interaction.run(env, random, horizon=10)

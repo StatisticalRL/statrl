@@ -1,0 +1,64 @@
+import numpy as np
+
+from statrl.settings.bandits.batch.environment import BatchMAB
+
+from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit, BinomialBandit, GaussianBandit, TruncatedGaussianBandit
+
+
+import math
+
+# Batch-size schedules — ell is the round index (0-based)
+_B_CONST     = lambda ell: 10
+_B_LINEAR    = lambda ell: int(ell + 1)
+_B_QUADRATIC = lambda ell: int((ell + 1) ** 2)
+_B_CUBIC     = lambda ell: int((ell + 1) ** 3)
+_B_EXP       = lambda ell: int(2 ** ell)
+_B_DOUBLE_EXP = lambda ell: int(math.exp(2 ** ell))
+_B_ABRUPT = lambda ell: 100 if ell<2 else int((ell+1)**3)
+
+def exotic_schedule1(t):
+    schedule= {0:_B_CONST, 1: _B_LINEAR, 2: _B_CUBIC, 3: _B_EXP}
+    return schedule[(t % 4)](t)
+def exotic_schedule2(t):
+    schedule= {0:_B_CONST, 1: _B_EXP, 2:_B_LINEAR, 3:_B_CUBIC}
+    return schedule[(t % 4)](t)
+
+_B_EXOTIC1 = exotic_schedule1
+_B_EXOTIC2 = exotic_schedule2
+
+schedule_catalogue= {"constant": _B_CONST, "linear": _B_LINEAR, "quadratic": _B_QUADRATIC, "cubic":_B_CUBIC,
+            "exp": _B_EXP, "doubleexp":_B_DOUBLE_EXP, "abrupt":_B_ABRUPT, "exotic1":_B_EXOTIC1, "exotic2":_B_EXOTIC2}
+
+
+mean_catalogue = {"simple4": [0.1, 0.4, 0.7, 0.9],
+                  "simple6": [0.2, 0.6, 0.8, 0.8, 0.95, 0.9]
+                  }
+
+class BatchGaussianBandit(BatchMAB):
+    def __init__(self, means, vars, batchschedule="constant", name="BMAB-Gaussian"):
+        if (type(means) is str):
+            super(self, self).__init__(
+                GaussianBandit(means= mean_catalogue[means], vars=vars), schedule_catalogue[batchschedule])
+        else:
+            super(self, self).__init__(
+            GaussianBandit(means=means, vars=vars),schedule_catalogue[batchschedule])
+
+
+class BatchBernoulliBandit(BatchMAB):
+    def __init__(self, means, batchschedule="constant", name="BMAB-Bernoulli"):
+        if (type(means) is str):
+            super(self, self).__init__(
+                BernoulliBandit(means=mean_catalogue[means]), schedule_catalogue[batchschedule])
+        else:
+            super(self, self).__init__(
+            BernoulliBandit(means=means),schedule_catalogue[batchschedule])
+
+
+class BatchTruncatedGaussianBandit(BatchMAB):
+    def __init__(self, means, sigma: float = 0.5, low: float = -1.0, high: float = 1.0, batchschedule="constant", name="BMAB-TGaussian"):
+        if (type(means) is str):
+            super(self, self).__init__(
+                TruncatedGaussianBandit(means=mean_catalogue[means],sigma= sigma, low=low, high=high), schedule_catalogue[batchschedule])
+        else:
+            super(self, self).__init__(
+            TruncatedGaussianBandit(means=means, sigma= sigma, low=low, high=high),schedule_catalogue[batchschedule])

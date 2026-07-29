@@ -23,7 +23,7 @@ class AnytimeToKnownHorizonAgentWrapper(
 
     @property
     def policy(self) -> Any:
-        return self.learner.policy  # type: ignore[attr-defined]  # policy is oracle-specific, not on the base agent interface
+        return self.learner.policy  # type: ignore[attr-defined]  # policy is oracle-specific, not on the base agent.py interface
 
 
 class KnownHorizonToAnytimeAgentWrapper(

@@ -135,7 +135,7 @@ def validate_agent(setting_dir):
     path = Path(setting_dir) / "agent.py"
 
     try:
-        module = load_module(path, "agent")
+        module = load_module(path, "agent.py")
     except Exception as e:
         return report(False, f"cannot import agent.py ({e})")
 

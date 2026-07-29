@@ -18,5 +18,6 @@ class BanditAgent(ABC):
         """Return the arm to pull."""
         ...
 
+    @abstractmethod
     def update(self, arm: int, reward: float) -> None:
         """Update the learner after observing the reward."""
