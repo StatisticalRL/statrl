@@ -24,4 +24,11 @@ class Random(BatchBanditAgent):
         """Update"""
         pass
 
+    def batchplay(self,batchsize):
+        return [self.play() for b in range(batchsize)]
+
+    def batchupdate(self, batcharm, batchreward):
+        for arm, reward in zip(batcharm, batchreward):
+            self.update(arm, reward)
+
 

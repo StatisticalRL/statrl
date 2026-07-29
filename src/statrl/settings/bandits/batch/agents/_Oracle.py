@@ -30,8 +30,9 @@ class Oracle(BatchBanditAgent):
     # def update(self, action, reward):
     #    ()
     #
-    # def batchplay(self,batchsize):
-    #     return [self.play() for b in range(batchsize)]
-    #
-    # def batchupdate(self,batcharm,batchreward):
-    #     ()
+    def batchplay(self,batchsize):
+        return [self.play() for b in range(batchsize)]
+
+    def batchupdate(self, batcharm, batchreward):
+        for arm, reward in zip(batcharm, batchreward):
+            self.update(arm, reward)
