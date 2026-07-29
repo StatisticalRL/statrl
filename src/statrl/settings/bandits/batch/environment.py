@@ -12,7 +12,7 @@ class BatchMAB(MAB):
         else:
             _sizes = list(batchsize)
             self.batchsize = lambda ell: _sizes[ell] if ell < len(_sizes) else 1
-        self.name = "B"+self.mab.name+"-"+str(self.batchsize(0))
+        self.name = "B"+self.mab.name+"-batch-"+str(self.batchsize(0))+"-"+str(self.batchsize(1))+"-"+str(self.batchsize(2))
         self.round = 0
         super(BatchMAB, self).__init__(self.mab.rewarddistributions, name=self.name)
 

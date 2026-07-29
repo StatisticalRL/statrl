@@ -37,28 +37,28 @@ mean_catalogue = {"simple4": [0.1, 0.4, 0.7, 0.9],
 class BatchGaussianBandit(BatchMAB):
     def __init__(self, means, vars, batchschedule="constant", name="BMAB-Gaussian"):
         if (type(means) is str):
-            super(self, self).__init__(
+            super(BatchGaussianBandit, self).__init__(
                 GaussianBandit(means= mean_catalogue[means], vars=vars), schedule_catalogue[batchschedule])
         else:
-            super(self, self).__init__(
+            super(BatchGaussianBandit, self).__init__(
             GaussianBandit(means=means, vars=vars),schedule_catalogue[batchschedule])
 
 
 class BatchBernoulliBandit(BatchMAB):
     def __init__(self, means, batchschedule="constant", name="BMAB-Bernoulli"):
         if (type(means) is str):
-            super(self, self).__init__(
+            super(BatchBernoulliBandit, self).__init__(
                 BernoulliBandit(means=mean_catalogue[means]), schedule_catalogue[batchschedule])
         else:
-            super(self, self).__init__(
+            super(BatchBernoulliBandit, self).__init__(
             BernoulliBandit(means=means),schedule_catalogue[batchschedule])
 
 
 class BatchTruncatedGaussianBandit(BatchMAB):
     def __init__(self, means, sigma: float = 0.5, low: float = -1.0, high: float = 1.0, batchschedule="constant", name="BMAB-TGaussian"):
         if (type(means) is str):
-            super(self, self).__init__(
+            super(BatchTruncatedGaussianBandit, self).__init__(
                 TruncatedGaussianBandit(means=mean_catalogue[means],sigma= sigma, low=low, high=high), schedule_catalogue[batchschedule])
         else:
-            super(self, self).__init__(
+            super(BatchTruncatedGaussianBandit, self).__init__(
             TruncatedGaussianBandit(means=means, sigma= sigma, low=low, high=high),schedule_catalogue[batchschedule])

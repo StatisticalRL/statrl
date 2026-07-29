@@ -9,7 +9,7 @@ from statrl.experiments.onerun import Interaction
 class BatchBanditInteraction(Interaction):
 
     def run(self, env: BatchMAB, learner: BatchBanditAgent, horizon: int) -> np.ndarray:
-        observation, info = env.reset()
+        info = env.reset()
         learner.reset()
         B = info["nextbatchsize"]
 
@@ -29,7 +29,7 @@ class BatchBanditInteraction(Interaction):
     def renderrun(self, env: BatchMAB, learner: BatchBanditAgent, horizon: int) -> None:
 
         env.renderers= []
-        observation, info = env.reset()
+        info = env.reset()
         learner.reset()
         B = info["nextbatchsize"]
 
