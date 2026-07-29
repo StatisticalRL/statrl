@@ -3,6 +3,7 @@ from statrl.settings.bandits.batch.agents._Oracle import Oracle
 from statrl.settings.bandits.batch.agents._Random import Random
 from statrl.settings.bandits.batch.interaction import BatchBanditInteraction
 
+from statrl.experiments.massiveruns import runLargeMulticoreExperiment
 
 
 
@@ -11,7 +12,7 @@ def test_run() -> None:
 
     means=[0.2,0.9,0.7,0.5]
 
-    env = BatchBernoulliBandit(means,batchschedule="constant")
+    env = BatchBernoulliBandit(means,batchschedule="quadratic")
     interaction = BatchBanditInteraction()
     oracle = Oracle(env)
 
@@ -25,8 +26,22 @@ def test_run() -> None:
 
 
 
+
+def test_massive() -> None:
+
+    from statrl.settings.bandits.batch.agents.BIMED import BIMED
+    means=[0.2,0.9,0.7,0.5]
+
+    env = BatchBernoulliBandit(means,batchschedule="constant")
+    interaction = BatchBanditInteraction()
+    oracle = Oracle(env)
+    agents = [Random(env), BIMED(env.number_arms)]
+    runLargeMulticoreExperiment(env,agents,oracle, interaction,timeHorizon=50,  nbReplicates=30)
+
+
+
 if __name__ == "__main__":
     #test_render()
     test_run()
     #test_load()
-    #test_massive()
+    test_massive()
