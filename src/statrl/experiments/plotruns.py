@@ -5,6 +5,7 @@ from typing import Any
 import numpy as np
 
 ROOT= "results/"
+#TODO: The name of the labels should be setting-dependent [Add corresponding specification].
 def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list[np.ndarray], median: list[np.ndarray], quantile1: list[np.ndarray], quantile2: list[np.ndarray],quantile3: list[np.ndarray],quantile4: list[np.ndarray], times: list[int], timeHorizon: int, logfile: Any='', timestamp: Any=0, root_folder: str=ROOT) -> None:
     if (logfile==''):
         logfile=sys.stdout
