@@ -60,7 +60,8 @@ def runLargeMulticoreExperiment(env: Any, agents: list[Any], oracle: Any, intera
         print("[INFO]  Compute Statistics...")
         mean, median, quantile1, quantile2,quantile3,quantile4, times = aR.computeScoreDiffs(names, dump_scores, timeHorizon, envName, root_folder=root_folder)
         print("[INFO]  Plot results...")
-        plR.plotScoreDiffs(names, envName, envName, mean, median, quantile1, quantile2,quantile3,quantile4, times, timeHorizon, logfile=logfile, timestamp=timestamp, root_folder=root_folder)
+        title = env.displayname if hasattr(env, "displayname") else envName
+        plR.plotScoreDiffs(names, envName, title, mean, median, quantile1, quantile2,quantile3,quantile4, times, timeHorizon, logfile=logfile, timestamp=timestamp, root_folder=root_folder)
         print("[INFO]  Clean Auxiliary files...")
     clear_auxiliaryfiles(env, root_folder)
     print("[INFO]  Massive multicore experiment successfully completed.")

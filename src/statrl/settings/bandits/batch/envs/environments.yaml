@@ -1,42 +1,49 @@
 
 bern-constant:
   entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Constant batch ($B_\\ell=10$)"
   kwargs:
     means: simple6
     batchschedule: constant
 
 bern-linear:
   entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Linear batch ($B_\\ell=\\ell$)"
   kwargs:
     means: simple6
     batchschedule: linear
 
 bern-quadratic:
   entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Quadratic batch ($B_\\ell=\\ell^2$)"
   kwargs:
     means: simple6
     batchschedule: quadratic
 
 bern-cubic:
   entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Cubic batch ($B_\\ell=\\ell^3$)"
   kwargs:
     means: simple6
     batchschedule: cubic
 
 bern-exp:
   entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Exponential batch ($B_\\ell=2^\\ell$)"
   kwargs:
     means: simple6
     batchschedule: exp
 
 bern-doubleexp:
   entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Double-exponential batch ($B_\\ell=e^{2^\\ell}$)"
   kwargs:
     means: simple6
     batchschedule: doubleexp
 
 bern-abrupt:
   entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Abrupt batch schedule"
   kwargs:
     means: simple6
     batchschedule: abrupt
@@ -44,6 +51,7 @@ bern-abrupt:
 
 bern-exotic:
   entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Exotic batch schedule"
   kwargs:
     means: simple6
     batchschedule: exotic1

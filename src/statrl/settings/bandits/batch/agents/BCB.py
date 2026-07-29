@@ -129,7 +129,7 @@ class BCBnaif(BatchBanditAgent):
     def batchplay(self, batchsize):
         scores = [self._dirichletmean(self.rewardHistory[a])
                   for a in range(self.nbArms)]
-        a = randmax(scores)
+        a = randmax(np.array(scores))
         return [a] * batchsize
 
     def batchupdate(self, batcharm, batchreward):

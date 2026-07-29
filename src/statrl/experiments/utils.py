@@ -45,4 +45,6 @@ def make(spec: dict) -> Any:
     spec_module.loader.exec_module(module)
 
     cls = getattr(module, class_name)
-    return cls(**kwargs)
+    env = cls(**kwargs)
+    env.displayname = spec["displayname"] if "displayname" in spec else env.name
+    return env

@@ -41,7 +41,7 @@ class IMED(BanditAgent):
         IMED index value per arm.
     """
 
-    def __init__(self, nbArms: int, kullback: Callable[[float, float], float] = klGauss) -> None:
+    def __init__(self, nbArms: int, kullback: Callable[[float, float], float] = klGauss, name="IMED") -> None:
         """
         Parameters
         ----------
@@ -52,7 +52,7 @@ class IMED(BanditAgent):
         """
         self.kl = kullback
         self.nA = nbArms
-        BanditAgent.__init__(self, name="IMED")
+        BanditAgent.__init__(self, name=name)
 
     def reset(self) -> None:
         """

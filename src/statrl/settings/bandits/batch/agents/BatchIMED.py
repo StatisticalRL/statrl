@@ -145,8 +145,8 @@ class BatchIMED2(BatchBanditAgent):
         self.nbArms = nbArms
         self.bound = bound
         self.batchagnostic = batchagnostic
-        name= "B-IMED (2)" if self.batchagnostic else "B-IMED (1)"
-        BatchBanditAgent.__init__(self, self.nbArms, name=name)
+        name= "B-IMED (doubly)" if self.batchagnostic else "B-IMED"
+        BatchBanditAgent.__init__(self, name=name)
 
     def reset(self):
         self.nbDraws = np.zeros(self.nbArms) # total number of draws of each arm
@@ -177,7 +177,7 @@ class BatchIMED2(BatchBanditAgent):
        # Alternative version:
        a1 = randmax(self.meanRewards)
 
-       a0 = randmin([self.nbDraws[a] for a in range(self.nbArms) if self.indexes[a]<=self.indexes[a1]])
+       a0 = randmin(np.array([self.nbDraws[a] for a in range(self.nbArms) if self.indexes[a]<=self.indexes[a1]]))
        if (self.nbDraws[a0] * self.kinfs[a0] <= self.x_threshold * self.nbDraws_start[a0] * self.kinfs[a0]):
            return a0
        return a1

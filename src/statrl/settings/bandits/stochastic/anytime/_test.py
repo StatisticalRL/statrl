@@ -47,13 +47,15 @@ def test_massive() -> None:
     from statrl.settings.bandits.stochastic.anytime.agents.IMED import IMED
     from statrl.settings.utils import klBern,klGauss
 
-    means=[0.2,0.9,0.7,0.5]
-    nA=len(means)
 
-    env =BernoulliBandit(means)
+
+    from statrl.experiments.utils import load, make
+    envs = load("envs/environments.yaml")
+    env = make(envs["bernoulli_simple"])
+
     interaction = BanditInteraction()
-    agents = [IMED(nA,klBern),
-              IMED(nA,klGauss)]
+    agents = [IMED(env.number_arms,klBern, name="IMED-Bern"),
+              IMED(env.number_arms,klGauss,name="IMED-Gauss")]
     oracle = Oracle(env)
     runLargeMulticoreExperiment(env,agents,oracle, interaction,timeHorizon=1000,  nbReplicates=50)
 

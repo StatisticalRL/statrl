@@ -104,6 +104,7 @@ def KLinf_threshold(reward_history, mean_threshold,upper_bound=1.0, custom_optim
         def jac(l):
             return -np.mean((X - mean_threshold) / (1 - (X - mean_threshold) * l))
 
+        #Pb when X>= upper_bound
         l_plus = 1e12 if mean_threshold == upper_bound else 1 / (upper_bound - mean_threshold)
 
         if jac(0) * jac(l_plus) >= 0:

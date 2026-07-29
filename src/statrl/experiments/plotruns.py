@@ -10,6 +10,7 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list
         logfile=sys.stdout
     nbFigure = pl.gcf().number+1
     pl.figure(nbFigure)
+    fig, ax = pl.subplots(layout="constrained")
     textfile = root_folder+"Regrets_"
     #colors= ['black', 'blue','gray', 'green', 'red']#['black', 'purple', 'blue','cyan','yellow', 'orange', 'red', 'chocolate']
     colors = ['#377eb8', '#ff7f00', '#4daf4a',
@@ -18,11 +19,12 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list
 
     style = ['o','v','s','d','<']
     m,M=0,0
-    pl.title(title)
+
+    ax.set_title(title)
     for i in range(len(median)):
         m=min(m,min(quantile1[i]),min(mean[i]))
         M=1.1*max(M,max(quantile4[i]),max(mean[i]))
-        pl.fill_between(
+        ax.fill_between(
             times,
             quantile1[i],
             quantile4[i],
@@ -30,7 +32,7 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list
             alpha=0.18,
             linewidth=0
         )
-        pl.fill_between(
+        ax.fill_between(
             times,
             quantile2[i],
             quantile3[i],
@@ -38,7 +40,7 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list
             alpha=0.18,
             linewidth=0
         )
-        pl.plot(
+        ax.plot(
             times,
             median[i],
             color=colors[i% len(colors)],
@@ -46,7 +48,7 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list
             linewidth=1.8,
             linestyle='--'
         )
-        pl.plot(
+        ax.plot(
             times,
             mean[i],
             style[i % len(style)],
@@ -68,25 +70,26 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title: str, mean: list
               str(quantile1[i][-1]) +' and '+ str(quantile2[i][-1])+"\n")
 
     textfile+="_"+str(timeHorizon)+"_"+envName+"_"+timestamp
-    pl.legend(loc=2)
-    pl.xlabel("Time steps", fontsize=13, fontname = "Arial")
-    pl.ylabel("Regret", fontsize=13, fontname = "Arial")
+    #fig.tight_layout()
+    ax.legend(loc=2)
+    ax.set_xlabel("Time steps", fontsize=13, fontname = "Arial")
+    ax.set_ylabel("Regret", fontsize=13, fontname = "Arial")
+    ax.set_xlim(0,min(timeHorizon,len(mean[0]))-1)
     #pl.xticks(times)
-    pl.ticklabel_format(axis='both', useMathText = True, useOffset = True, style='sci', scilimits=(0, 0))
-    pl.ylim([m,M])
-    pl.savefig(textfile+'.png')
-    pl.savefig(textfile+ '.pdf')
+    ax.ticklabel_format(axis='both', useMathText = True, useOffset = True, style='sci', scilimits=(0, 0))
+    ax.set_ylim([m,M])
+    fig.savefig(textfile+'.png')
+    fig.savefig(textfile+ '.pdf')
     # pl.xscale('log')
     # pl.savefig(textfile + '_xlog.png')
     # pl.savefig(textfile + '_xlog.pdf')
     # pl.ylim(1)
-    if(timeHorizon>10):
-        pl.xlim(10,timeHorizon)
-    pl.xscale('linear')
-    pl.yscale('log')
-    pl.ylim([max(m,1e-0),max(M,2e-0)])
-    pl.savefig(textfile + '_ylog.png')
-    pl.savefig(textfile + '_ylog.pdf')
+    #if(timeHorizon>10):
+    ax.set_xscale('linear')
+    ax.set_yscale('log')
+    ax.set_ylim([max(m,1e-0),max(M,2e-0)])
+    fig.savefig(textfile + '_ylog.png')
+    fig.savefig(textfile + '_ylog.pdf')
     # pl.xscale('log')
     # pl.savefig(textfile + '_loglog.png')
     # pl.savefig(textfile + '_loglog.pdf')
