@@ -67,7 +67,7 @@ class BABA(BatchBanditAgent):
     variance     : float  — reward variance V (Gaussian KL only, default 0.25)
     """
 
-    def __init__(self, nbArms, bound=1.0,
+    def __init__(self, nbArms, horizon=100_000, bound=1.0,
                  phase_labels=None, epoch_ids=None, epoch_I=None,
                  kl_type='bernoulli', variance=0.25, **kwargs):
         self.nbArms       = nbArms
@@ -76,10 +76,11 @@ class BABA(BatchBanditAgent):
         self._epoch_ids   = epoch_ids      # list[int], indexed by round
         self._epoch_I     = epoch_I        # dict {epoch_id: Ir}
         self._variance    = variance
+        self.T_target = horizon
 
         if (self._phases == None):
             _,  self._phases, self._epoch_ids, self._epoch_I = compute_baba_grid(
-                100_000,  self.nbArms, I1=2000, alpha=3)
+                self.T_target,  self.nbArms, None, alpha=3)
 
         if kl_type == 'bernoulli':
             self._kl = _kl_bernoulli

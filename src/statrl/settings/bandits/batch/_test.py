@@ -39,7 +39,7 @@ def test_massive() -> None:
     interaction = BatchBanditInteraction()
     oracle = Oracle(env)
     agents = [BCB(env.number_arms),
-              BABA(env.number_arms),
+              BABA(env.number_arms, horizon=50),
               BatchIMED(env.number_arms,bound=1,batchagnostic=True),
               BatchIMED(env.number_arms,bound=1,batchagnostic=False)]
     runLargeMulticoreExperiment(env,agents,oracle, interaction,timeHorizon=50,  nbReplicates=30)

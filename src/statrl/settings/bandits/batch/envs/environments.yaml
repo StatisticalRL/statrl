@@ -56,11 +56,29 @@ bern-exotic:
     means: simple6
     batchschedule: exotic1
 
+
+
+bern-baba:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Exotic batch schedule"
+  kwargs:
+    means: simple6
+    batchschedule: baba, 10000
+
 trunc-constant:
   entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Constant batch"
   kwargs:
     means: simple6
     batchschedule: constant
+
+trunc-baba:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - BABA $1e4$ schedule"
+  kwargs:
+    means: simple6
+    batchschedule: baba, 10000
+
 
 trunc-linear:
   entrypoint: "parametric:BatchTruncatedGaussianBandit"

@@ -156,90 +156,91 @@ def compute_baba_grid(T_max, K, I1=None, alpha=3):
 #   env, n_rounds, I1 = bW.make_baba_env('trunc', _MEANS, target_num_steps=1e5)
 #   env, n_rounds, I1 = bW.make_baba_env('bern',  _MEANS, target_num_steps=1e5)
 # ---------------------------------------------------------------------------
-
-from gymnasium.envs.registration import register
-import gymnasium, sys
-
-INFINITY = sys.maxsize
-
-#TODO: To be adjusted to current architecture
-def make_baba_env(dist_type, means=None, target_num_steps=100_000, alpha=3,
-                  I1=None, sigma=0.5, low=-1.0, high=1.0):
-    """
-    Build a BatchMAB environment whose batch sizes follow the BABA time grid.
-
-    The same schedule is used by all agents, so every baseline experiences
-    exactly the same batch-size sequence as the BABA learner.
-
-    Parameters
-    ----------
-    dist_type        : str   — 'trunc' (TruncatedGaussian) or 'bern' (Bernoulli)
-    means            : list  — arm means; defaults to _MEANS = [0.1,0.4,0.7,0.9]
-    target_num_steps : int   — approximate total arm-pull budget; the schedule
-                               is computed so that it covers at least this many
-                               pulls (epoch boundaries can slightly overshoot)
-    alpha            : int   — ilogα depth for the BABA epoch growth (default 3)
-    sigma            : float — std-dev for TruncatedGaussian arms (default 0.5)
-    low, high        : float — support bounds for TruncatedGaussian (default −1,1)
-
-    Returns
-    -------
-    env      : BatchMAB environment driven by the BABA schedule
-    n_rounds : int  — number of rounds (batches) = timeHorizon for the runner
-    I1       : int  — initial epoch boundary (pass to BABA agent for alignment)
-    """
-    K  = len(means)
-    if I1 is None:
-        I1 = find_I1(K, alpha)
-    batch_sizes, phase_labels, epoch_ids, epoch_I = compute_baba_grid(
-        int(target_num_steps), K, I1, alpha)
-    n_rounds = len(batch_sizes)
-
-    action_names = ["a" + str(i) for i in range(K)]
-    s            = "-".join(str(m) for m in means)
-
-    # batch_sizes is a plain list — picklable by multiprocessing workers.
-    # We register with gymnasium so that workers can call
-    # gymnasium.make(gym_name) without hitting NameNotFound.
-    if dist_type == 'trunc':
-        gym_name = f'BatchTruncGBandit-BABA-means-{s}-v0'
-        env_name = f'BatchTruncGBandit-BABA-means-{s}'
-        title    = (f"TruncGaussian — BABA schedule")
-        try:
-            register(
-                id=gym_name,
-                entry_point='environment.banditji:BatchTruncGBandit',
-                max_episode_steps=INFINITY,
-                reward_threshold=1.,
-                kwargs={'action_names': action_names, 'probabilities': means,
-                        'batchsize': batch_sizes,
-                        'sigma': sigma, 'low': low, 'high': high,
-                        'name': env_name},
-            )
-        except Exception:
-            pass  # already registered (e.g. second call in same process)
-
-    elif dist_type == 'bern':
-        gym_name = f'BatchBernBandit-BABA-means-{s}-v0'
-        env_name = f'BatchBernBandit-BABA-means-{s}'
-        title    = (f"Bernoulli — BABA schedule "
-                    f"(T≈{int(target_num_steps):.2e}, {n_rounds} rounds)")
-        try:
-            register(
-                id=gym_name,
-                entry_point='environment.banditji:BatchBernBandit',
-                max_episode_steps=INFINITY,
-                reward_threshold=1.,
-                kwargs={'action_names': action_names, 'probabilities': means,
-                        'batchsize': batch_sizes,
-                        'name': env_name},
-            )
-        except Exception:
-            pass  # already registered
-
-    else:
-        raise ValueError(f"dist_type must be 'trunc' or 'bern', got {dist_type!r}.")
-
-    env       = gymnasium.make(gym_name).unwrapped
-    env.displayname = title
-    return env, n_rounds, I1, phase_labels, epoch_ids, epoch_I
+#
+# from gymnasium.envs.registration import register
+# import gymnasium, sys
+#
+# INFINITY = sys.maxsize
+#
+# #TODO: To be adjusted to current architecture
+# def make_baba_env(dist_type, means=None, target_num_steps=100_000, alpha=3,
+#                   I1=None, sigma=0.5, low=-1.0, high=1.0):
+#     """
+#     Build a BatchMAB environment whose batch sizes follow the BABA time grid.
+#
+#     The same schedule is used by all agents, so every baseline experiences
+#     exactly the same batch-size sequence as the BABA learner.
+#
+#     Parameters
+#     ----------
+#     dist_type        : str   — 'trunc' (TruncatedGaussian) or 'bern' (Bernoulli)
+#     means            : list  — arm means; defaults to _MEANS = [0.1,0.4,0.7,0.9]
+#     target_num_steps : int   — approximate total arm-pull budget; the schedule
+#                                is computed so that it covers at least this many
+#                                pulls (epoch boundaries can slightly overshoot)
+#     alpha            : int   — ilogα depth for the BABA epoch growth (default 3)
+#     sigma            : float — std-dev for TruncatedGaussian arms (default 0.5)
+#     low, high        : float — support bounds for TruncatedGaussian (default −1,1)
+#
+#     Returns
+#     -------
+#     env      : BatchMAB environment driven by the BABA schedule
+#     n_rounds : int  — number of rounds (batches) = timeHorizon for the runner
+#     I1       : int  — initial epoch boundary (pass to BABA agent for alignment)
+#     """
+#     K  = len(means)
+#     if I1 is None:
+#         I1 = find_I1(K, alpha)
+#     batch_sizes, phase_labels, epoch_ids, epoch_I = compute_baba_grid(
+#         int(target_num_steps), K, I1, alpha)
+#     n_rounds = len(batch_sizes)
+#
+#     action_names = ["a" + str(i) for i in range(K)]
+#     s            = "-".join(str(m) for m in means)
+#
+#     # batch_sizes is a plain list — picklable by multiprocessing workers.
+#     # We register with gymnasium so that workers can call
+#     # gymnasium.make(gym_name) without hitting NameNotFound.
+#     if dist_type == 'trunc':
+#         gym_name = f'BatchTruncGBandit-BABA-means-{s}-v0'
+#         env_name = f'BatchTruncGBandit-BABA-means-{s}'
+#         title    = (f"TruncGaussian — BABA schedule")
+#         try:
+#             register(
+#                 id=gym_name,
+#                 entry_point='environment.banditji:BatchTruncGBandit',
+#                 max_episode_steps=INFINITY,
+#                 reward_threshold=1.,
+#                 kwargs={'action_names': action_names, 'probabilities': means,
+#                         'batchsize': batch_sizes,
+#                         'sigma': sigma, 'low': low, 'high': high,
+#                         'name': env_name},
+#             )
+#
+#         except Exception:
+#             pass  # already registered (e.g. second call in same process)
+#
+#     elif dist_type == 'bern':
+#         gym_name = f'BatchBernBandit-BABA-means-{s}-v0'
+#         env_name = f'BatchBernBandit-BABA-means-{s}'
+#         title    = (f"Bernoulli — BABA schedule "
+#                     f"(T≈{int(target_num_steps):.2e}, {n_rounds} rounds)")
+#         try:
+#             register(
+#                 id=gym_name,
+#                 entry_point='environment.banditji:BatchBernBandit',
+#                 max_episode_steps=INFINITY,
+#                 reward_threshold=1.,
+#                 kwargs={'action_names': action_names, 'probabilities': means,
+#                         'batchsize': batch_sizes,
+#                         'name': env_name},
+#             )
+#         except Exception:
+#             pass  # already registered
+#
+#     else:
+#         raise ValueError(f"dist_type must be 'trunc' or 'bern', got {dist_type!r}.")
+#
+#     env       = gymnasium.make(gym_name).unwrapped
+#     env.displayname = title
+#     return env, n_rounds, I1, phase_labels, epoch_ids, epoch_I

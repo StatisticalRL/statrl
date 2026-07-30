@@ -14,7 +14,7 @@ _B_QUADRATIC = lambda ell: int((ell + 1) ** 2)
 _B_CUBIC     = lambda ell: int((ell + 1) ** 3)
 _B_EXP       = lambda ell: int(2 ** ell)
 _B_DOUBLE_EXP = lambda ell: int(math.exp(2 ** ell))
-_B_ABRUPT = lambda ell: 100 if ell<2 else int((ell+1)**3)
+_B_ABRUPT = lambda ell: 100 if ell<3 else int((ell+1)**3)
 
 def exotic_schedule1(t):
     schedule= {0:_B_CONST, 1: _B_LINEAR, 2: _B_CUBIC, 3: _B_EXP}
@@ -26,8 +26,15 @@ def exotic_schedule2(t):
 _B_EXOTIC1 = exotic_schedule1
 _B_EXOTIC2 = exotic_schedule2
 
+from statrl.settings.bandits.batch.agents.baba_schedule import compute_baba_grid
+def baba_schedule(horizon, nbArms):
+    batch_sizes, _, _, _ = compute_baba_grid(horizon, nbArms, None, alpha=3)
+    return batch_sizes
+
+
 schedule_catalogue= {"constant": _B_CONST, "linear": _B_LINEAR, "quadratic": _B_QUADRATIC, "cubic":_B_CUBIC,
-            "exp": _B_EXP, "doubleexp":_B_DOUBLE_EXP, "abrupt":_B_ABRUPT, "exotic1":_B_EXOTIC1, "exotic2":_B_EXOTIC2}
+            "exp": _B_EXP, "doubleexp":_B_DOUBLE_EXP, "abrupt":_B_ABRUPT, "exotic1":_B_EXOTIC1, "exotic2":_B_EXOTIC2,
+                     }
 
 
 mean_catalogue = {"simple4": [0.1, 0.4, 0.7, 0.9],
@@ -36,29 +43,51 @@ mean_catalogue = {"simple4": [0.1, 0.4, 0.7, 0.9],
 
 class BatchGaussianBandit(BatchMAB):
     def __init__(self, means, vars, batchschedule="constant", name="BMAB-Gaussian"):
+        if (type(batchschedule) is str):
+            if ("," in batchschedule):
+                fct, horiz = batchschedule.split(",")
+                horizon = int(horiz)
+                schedule = baba_schedule(horizon, len(means))
+            else:
+                schedule = schedule_catalogue[batchschedule]
         if (type(means) is str):
             super(BatchGaussianBandit, self).__init__(
-                GaussianBandit(means= mean_catalogue[means], vars=vars), schedule_catalogue[batchschedule])
+                GaussianBandit(means= mean_catalogue[means], vars=vars), schedule)
         else:
             super(BatchGaussianBandit, self).__init__(
-            GaussianBandit(means=means, vars=vars),schedule_catalogue[batchschedule])
+            GaussianBandit(means=means, vars=vars),schedule)
 
 
 class BatchBernoulliBandit(BatchMAB):
     def __init__(self, means, batchschedule="constant", name="BMAB-Bernoulli"):
+        if (type(batchschedule) is str):
+            if ("," in batchschedule):
+                fct, horiz = batchschedule.split(",")
+                horizon = int(horiz)
+                schedule = baba_schedule(horizon, len(means))
+            else:
+                schedule = schedule_catalogue[batchschedule]
         if (type(means) is str):
             super(BatchBernoulliBandit, self).__init__(
-                BernoulliBandit(means=mean_catalogue[means]), schedule_catalogue[batchschedule])
+                BernoulliBandit(means=mean_catalogue[means]), schedule)
         else:
             super(BatchBernoulliBandit, self).__init__(
-            BernoulliBandit(means=means),schedule_catalogue[batchschedule])
+            BernoulliBandit(means=means),schedule)
 
 
 class BatchTruncatedGaussianBandit(BatchMAB):
     def __init__(self, means, sigma: float = 0.5, low: float = -1.0, high: float = 1.0, batchschedule="constant", name="BMAB-TGaussian"):
+
+        if (type(batchschedule) is str):
+            if ("," in batchschedule):
+                fct, horiz = batchschedule.split(",")
+                horizon = int(horiz)
+                schedule = baba_schedule(horizon, len(means))
+            else:
+                schedule = schedule_catalogue[batchschedule]
         if (type(means) is str):
             super(BatchTruncatedGaussianBandit, self).__init__(
-                TruncatedGaussianBandit(means=mean_catalogue[means],sigma= sigma, low=low, high=high), schedule_catalogue[batchschedule])
+                TruncatedGaussianBandit(means=mean_catalogue[means],sigma= sigma, low=low, high=high), schedule)
         else:
             super(BatchTruncatedGaussianBandit, self).__init__(
-            TruncatedGaussianBandit(means=means, sigma= sigma, low=low, high=high),schedule_catalogue[batchschedule])
+            TruncatedGaussianBandit(means=means, sigma= sigma, low=low, high=high),schedule)
