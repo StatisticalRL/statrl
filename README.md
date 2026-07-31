@@ -69,4 +69,5 @@ Full docs (quickstart, user guide, API reference) live under `docs/`:
 ```bash
 pip install -r docs/requirements.txt
 sphinx-build -b html docs/source docs/_build/html
+xdg-open docs/_build/html/index.html
 ```
