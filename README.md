@@ -9,6 +9,8 @@
 The Statistical Reinforcement Learning Toolkit is a research library organised as a taxonomy of *settings*, each with a matching
 environment, agent, and interaction loop.
 
+📖 **[Documentation](https://statisticalrl.github.io/statrl/)**
+
 ## Install
 
 Requires Python 3.9+. Not yet on PyPI (install from source):
