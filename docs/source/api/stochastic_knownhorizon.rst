@@ -9,8 +9,6 @@ Known horizon
 
    agent.BanditAgent
    environment.StochasticBanditEnv
-   interaction.interact
-   wrappers.wrapper_anytime_knownhorizon.AnytimeToKnownHorizonEnvironmentWrapper
-   wrappers.wrapper_anytime_knownhorizon.KnownHorizonToAnytimeEnvironmentWrapper
+   interaction.BanditInteraction
    wrappers.wrapper_anytime_knownhorizon.AnytimeToKnownHorizonAgentWrapper
    wrappers.wrapper_anytime_knownhorizon.KnownHorizonToAnytimeAgentWrapper
