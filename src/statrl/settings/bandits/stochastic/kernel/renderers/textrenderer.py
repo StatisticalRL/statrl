@@ -48,7 +48,7 @@ class Textrenderer():
         letters = string.ascii_uppercase
 
         return "".join(
-            letters[i%26]+("'"*int(i/26))
+            letters[i%26]+(str(int(i/26)) if i>25 else "")
             for i in coordinates
         )
 

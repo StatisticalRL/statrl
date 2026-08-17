@@ -10,8 +10,8 @@ def test_load() -> None:
 
     from statrl.experiments.utils import load, make
     envs = load("envs/environments.yaml")
-    env = make(envs["rbf_1d_100"])
-    #env = make(envs["rbf_2d_20"])
+    #env = make(envs["rbf_1d_100"])
+    env = make(envs["rbf_2d_20"])
 
     random = Random(env)
     oracle = Oracle(env)
