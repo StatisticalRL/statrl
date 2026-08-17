@@ -20,8 +20,8 @@ Usage
 
 import math
 import numpy as np
-from statrl.settings.bandits.batch.agent import BatchBanditAgent
-from statrl.settings.bandits.batch.agents.baba_schedule import g_baba
+from statrl.settings.bandits.stochastic.batch.agent import BatchBanditAgent
+from statrl.settings.bandits.stochastic.batch.agents.baba_schedule import g_baba
 
 
 # ---------------------------------------------------------------------------
@@ -52,7 +52,7 @@ def _kl_plus(mu: float, mu_star: float, kl_fn) -> float:
 # Main class
 # ---------------------------------------------------------------------------
 
-from statrl.settings.bandits.batch.agents.baba_schedule import compute_baba_grid
+from statrl.settings.bandits.stochastic.batch.agents.baba_schedule import compute_baba_grid
 class BABA(BatchBanditAgent):
     """
     Parameters

@@ -1,8 +1,6 @@
-import numpy as np
+from statrl.settings.bandits.stochastic.batch.environment import BatchMAB
 
-from statrl.settings.bandits.batch.environment import BatchMAB
-
-from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit, BinomialBandit, GaussianBandit, TruncatedGaussianBandit
+from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit, GaussianBandit, TruncatedGaussianBandit
 
 
 import math
@@ -24,7 +22,7 @@ def exotic_schedule(t):
 _B_EXOTIC = exotic_schedule
 #_B_EXOTIC2 = exotic_schedule2
 
-from statrl.settings.bandits.batch.agents.baba_schedule import compute_baba_grid
+from statrl.settings.bandits.stochastic.batch.agents.baba_schedule import compute_baba_grid
 def baba_schedule(horizon, nbArms):
     batch_sizes, _, _, _ = compute_baba_grid(horizon, nbArms, None, alpha=3)
     return batch_sizes

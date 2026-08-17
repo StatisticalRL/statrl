@@ -1,0 +1,66 @@
+rbf_1d_100:
+  entrypoint: "kernels:KernelBandit"
+  displayname: "RBF Kernel Bandit ($K=100$)"
+  kwargs:
+    nb_arms: 100
+    kernel: "RBFKernel"
+    lengthscale: 0.2
+    variance: 1.0
+    noise_std: 0.1
+    function_seed: 42
+
+rbf_1d_100_smooth:
+  entrypoint: "kernels:KernelBandit"
+  displayname: "RBF Kernel Bandit ($K=100$, $\ell=0.5$)"
+  kwargs:
+    nb_arms: 100
+    kernel: "RBFKernel"
+    lengthscale: 0.5
+    variance: 1.0
+    noise_std: 0.1
+    function_seed: 42
+
+rbf_2d_20:
+  entrypoint: "kernels:KernelBandit"
+  displayname: "RBF Kernel Bandit ($20\\times20$)"
+  kwargs:
+    nb_arms: [20, 20]
+    kernel: "RBFKernel"
+    lengthscale: 0.2
+    variance: 1.0
+    noise_std: 0.1
+    function_seed: 42
+
+rbf_3d_10:
+  entrypoint: "kernels:KernelBandit"
+  displayname: "RBF Kernel Bandit ($10\\times10\\times10$)"
+  kwargs:
+    nb_arms: [10, 10, 10]
+    kernel: "RBFKernel"
+    lengthscale: 0.2
+    variance: 1.0
+    noise_std: 0.1
+    function_seed: 42
+
+matern32_simple:
+  entrypoint: "kernels:KernelBandit"
+  displayname: "Matérn 3/2 Kernel Bandit"
+  kwargs:
+    nb_arms: 100
+    kernel: "Matern32Kernel"
+    lengthscale: 0.2
+    variance: 1.0
+    noise_std: 0.1
+    function_seed: 42
+
+
+matern52_simple:
+  entrypoint: "kernels:KernelBandit"
+  displayname: "Matérn 5/2 Kernel Bandit"
+  kwargs:
+    nb_arms: 100
+    kernel: "Matern52Kernel"
+    lengthscale: 0.2
+    variance: 1.0
+    noise_std: 0.1
+    function_seed: 42

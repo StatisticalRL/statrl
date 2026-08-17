@@ -1,7 +1,7 @@
-from statrl.settings.bandits.batch.envs.parametric import BatchBernoulliBandit
-from statrl.settings.bandits.batch.agents._Oracle import Oracle
-from statrl.settings.bandits.batch.agents._Random import Random
-from statrl.settings.bandits.batch.interaction import BatchBanditInteraction
+from statrl.settings.bandits.stochastic.batch.envs.parametric import BatchBernoulliBandit
+from statrl.settings.bandits.stochastic.batch.agents._Oracle import Oracle
+from statrl.settings.bandits.stochastic.batch.agents._Random import Random
+from statrl.settings.bandits.stochastic.batch.interaction import BatchBanditInteraction
 
 from statrl.experiments.massiveruns import runLargeMulticoreExperiment
 
@@ -30,8 +30,8 @@ def test_run() -> None:
 def test_massive() -> None:
 
     #from statrl.settings.bandits.batch.agents.BatchIMED import BatchIMED
-    from statrl.settings.bandits.batch.agents.BCB import BCB
-    from statrl.settings.bandits.batch.agents.BABA import BABA
+    from statrl.settings.bandits.stochastic.batch.agents.BCB import BCB
+    from statrl.settings.bandits.stochastic.batch.agents.BABA import BABA
     means=[0.2,0.9,0.7,0.5]
 
     env = BatchBernoulliBandit(means,batchschedule="linear")

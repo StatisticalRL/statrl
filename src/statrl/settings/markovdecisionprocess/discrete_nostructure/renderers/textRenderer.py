@@ -11,7 +11,7 @@ class TextRenderer:
 
     def start(self, env) -> None:
         self.outfile = sys.stdout
-        self.outfile.write("Environment: " + str(env.name) + "\n")
+        self.outfile.write("Environment: " + str(env.displayname) + "\n")
         self.outfile.write("Actions: "+ str(self._nameActions(env)) + "\n")
         self.outfile.write("Legend: Red=current state, Blue=possible next states\n")
         self.outfile.write("-"*30+"\n")

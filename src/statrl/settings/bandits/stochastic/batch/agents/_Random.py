@@ -3,7 +3,7 @@
 
 
 
-from statrl.settings.bandits.batch.agent import BatchBanditAgent
+from statrl.settings.bandits.stochastic.batch.agent import BatchBanditAgent
 import numpy as np
 class Random(BatchBanditAgent):
     """Uniform Exploration"""

@@ -14,7 +14,7 @@ class Textrenderer():
 
     def start(self, env: StochasticBanditEnv) -> None:
         self.outfile = sys.stdout
-        self.outfile.write("Environment: " + str(env.name) + "\n")
+        self.outfile.write("Environment: " + str(env.displayname) + "\n")
         self.outfile.write("Actions: "+ str(self._nameActions(env)) + "\n")
         self.outfile.write("-"*30+"\n")
 
@@ -33,4 +33,4 @@ class Textrenderer():
 
         actionNames = self._nameActions(env)
         if lastaction is not None:
-            self.outfile.write(f"({actionNames[lastaction % 26]})\tr={lastreward:0.2f}\n")
+            self.outfile.write(f"({actionNames[lastaction % 26] + ("'" * int(lastaction % 26))})\tr={lastreward:0.2f}\n")

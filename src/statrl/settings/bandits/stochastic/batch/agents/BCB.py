@@ -1,4 +1,4 @@
-from statrl.settings.bandits.batch.agent import BatchBanditAgent
+from statrl.settings.bandits.stochastic.batch.agent import BatchBanditAgent
 from statrl.settings.utils import randmax
 
 import numpy as np

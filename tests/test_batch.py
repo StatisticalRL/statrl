@@ -1,4 +1,4 @@
-from statrl.settings.bandits.batch.environment import BatchMAB
+from statrl.settings.bandits.stochastic.batch.environment import BatchMAB
 from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
 
 

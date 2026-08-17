@@ -1,8 +1,8 @@
 
 
 import numpy as np
-from statrl.settings.bandits.batch.environment import BatchMAB
-from statrl.settings.bandits.batch.agent import BatchBanditAgent
+from statrl.settings.bandits.stochastic.batch.environment import BatchMAB
+from statrl.settings.bandits.stochastic.batch.agent import BatchBanditAgent
 
 from statrl.experiments.onerun import Interaction
 
