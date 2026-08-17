@@ -3,3 +3,10 @@ riverswim_6:
   entrypoint: "riverswim:RiverSwim"
   kwargs:
     nbStates: 6
+
+
+ergoriverwsim_6:
+  entrypoint: "riverswim:ErgodicRiverSwim"
+  kwargs:
+    nbStates: 6
+    ergodic: 0.001

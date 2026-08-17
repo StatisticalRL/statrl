@@ -1,47 +1,57 @@
+# Bernoulli 6 arms:
 
-bern-constant:
+bern-constant6:
   entrypoint: "parametric:BatchBernoulliBandit"
   displayname: "Bernoulli - Constant batch ($B_\\ell=10$)"
   kwargs:
     means: simple6
     batchschedule: constant
 
-bern-linear:
+bern-linear6:
   entrypoint: "parametric:BatchBernoulliBandit"
   displayname: "Bernoulli - Linear batch ($B_\\ell=\\ell$)"
   kwargs:
     means: simple6
     batchschedule: linear
 
-bern-quadratic:
+bern-quadratic6:
   entrypoint: "parametric:BatchBernoulliBandit"
   displayname: "Bernoulli - Quadratic batch ($B_\\ell=\\ell^2$)"
   kwargs:
     means: simple6
     batchschedule: quadratic
 
-bern-cubic:
+bern-cubic6:
   entrypoint: "parametric:BatchBernoulliBandit"
   displayname: "Bernoulli - Cubic batch ($B_\\ell=\\ell^3$)"
   kwargs:
     means: simple6
     batchschedule: cubic
 
-bern-exp:
+bern-exp6:
   entrypoint: "parametric:BatchBernoulliBandit"
   displayname: "Bernoulli - Exponential batch ($B_\\ell=2^\\ell$)"
   kwargs:
     means: simple6
     batchschedule: exp
 
-bern-doubleexp:
+
+bern-sexp6:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Surexponential batch ($B_\\ell=e^{\\ell^{1.5}}$)"
+  kwargs:
+    means: simple6
+    batchschedule: surexp
+
+
+bern-doubleexp6:
   entrypoint: "parametric:BatchBernoulliBandit"
   displayname: "Bernoulli - Double-exponential batch ($B_\\ell=e^{2^\\ell}$)"
   kwargs:
     means: simple6
     batchschedule: doubleexp
 
-bern-abrupt:
+bern-abrupt6:
   entrypoint: "parametric:BatchBernoulliBandit"
   displayname: "Bernoulli - Abrupt batch schedule"
   kwargs:
@@ -49,74 +59,245 @@ bern-abrupt:
     batchschedule: abrupt
 
 
-bern-exotic:
+bern-exotic6:
   entrypoint: "parametric:BatchBernoulliBandit"
   displayname: "Bernoulli - Exotic batch schedule"
   kwargs:
     means: simple6
-    batchschedule: exotic1
+    batchschedule: exotic
 
-
-
-bern-baba:
+bern-baba6:
   entrypoint: "parametric:BatchBernoulliBandit"
-  displayname: "Bernoulli - Exotic batch schedule"
+  displayname: "Bernoulli - BABA ($10^4$) batch schedule"
   kwargs:
     means: simple6
     batchschedule: baba, 10000
 
-trunc-constant:
+
+# Bernoulli 4 arms:
+
+
+bern-constant4:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Constant batch ($B_\\ell=10$)"
+  kwargs:
+    means: simple4
+    batchschedule: constant
+
+bern-linear4:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Linear batch ($B_\\ell=\\ell$)"
+  kwargs:
+    means: simple4
+    batchschedule: linear
+
+bern-quadratic4:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Quadratic batch ($B_\\ell=\\ell^2$)"
+  kwargs:
+    means: simple4
+    batchschedule: quadratic
+
+bern-cubic4:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Cubic batch ($B_\\ell=\\ell^3$)"
+  kwargs:
+    means: simple4
+    batchschedule: cubic
+
+bern-exp4:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Exponential batch ($B_\\ell=2^\\ell$)"
+  kwargs:
+    means: simple4
+    batchschedule: exp
+
+
+bern-sexp4:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Surexponential batch ($B_\\ell=e^{\\ell^{1.5}}$)"
+  kwargs:
+    means: simple4
+    batchschedule: surexp
+
+
+bern-doubleexp4:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Double-exponential batch ($B_\\ell=e^{2^\\ell}$)"
+  kwargs:
+    means: simple4
+    batchschedule: doubleexp
+
+bern-abrupt4:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Abrupt batch schedule"
+  kwargs:
+    means: simple4
+    batchschedule: abrupt
+
+
+bern-exotic4:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - Exotic batch schedule"
+  kwargs:
+    means: simple4
+    batchschedule: exotic
+
+bern-baba4:
+  entrypoint: "parametric:BatchBernoulliBandit"
+  displayname: "Bernoulli - BABA ($10^4$) batch schedule"
+  kwargs:
+    means: simple4
+    batchschedule: baba, 10000
+
+
+#Truncated Gaussian 6 arms
+
+trunc-constant6:
   entrypoint: "parametric:BatchTruncatedGaussianBandit"
-  displayname: "Truncated Gaussian - Constant batch"
+  displayname: "Truncated Gaussian - Constant batch ($B_\\ell=10$)"
   kwargs:
     means: simple6
     batchschedule: constant
 
-trunc-baba:
+trunc-baba6:
   entrypoint: "parametric:BatchTruncatedGaussianBandit"
-  displayname: "Truncated Gaussian - BABA $1e4$ schedule"
+  displayname: "Truncated Gaussian - BABA ($10^4$) schedule"
   kwargs:
     means: simple6
     batchschedule: baba, 10000
 
 
-trunc-linear:
+trunc-linear6:
   entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Linear batch ($B_\\ell=\\ell$)"
   kwargs:
     means: simple6
     batchschedule: linear
 
-trunc-quadratic:
+trunc-quadratic6:
   entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Quadratic batch ($B_\\ell=\\ell^2$)"
   kwargs:
     means: simple6
     batchschedule: quadratic
 
-trunc-cubic:
+trunc-cubic6:
   entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Cubic batch ($B_\\ell=\\ell^3$)"
   kwargs:
     means: simple6
     batchschedule: cubic
-trunc-exp:
+trunc-exp6:
   entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Exponential batch ($B_\\ell=2^\\ell$)"
   kwargs:
     means: simple6
     batchschedule: exp
 
-trunc-doubleexp:
+
+trunc-sexp6:
   entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Surexponential batch ($B_\\ell=e^{\\ell^{1.5}}$)"
+  kwargs:
+    means: simple6
+    batchschedule: surexp
+
+
+trunc-doubleexp6:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Double-exponential batch ($B_\\ell=e^{2^\\ell}$)"
   kwargs:
     means: simple6
     batchschedule: doubleexp
 
-trunc-abrupt:
+trunc-abrupt6:
   entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Abrupt batch schedule"
   kwargs:
     means: simple6
     batchschedule: abrupt
 
-trunc-exotic:
+trunc-exotic6:
   entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Exotic batch schedule"
   kwargs:
     means: simple6
-    batchschedule: exotic1
+    batchschedule: exotic
+
+
+
+
+#Truncated Gaussian 4 arms
+
+trunc-constant4:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Constant batch ($B_\\ell=10$)"
+  kwargs:
+    means: simple4
+    batchschedule: constant
+
+trunc-baba4:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - BABA ($10^4$) schedule"
+  kwargs:
+    means: simple4
+    batchschedule: baba, 10000
+
+
+trunc-linear4:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Linear batch ($B_\\ell=\\ell$)"
+  kwargs:
+    means: simple4
+    batchschedule: linear
+
+trunc-quadratic4:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Quadratic batch ($B_\\ell=\\ell^2$)"
+  kwargs:
+    means: simple4
+    batchschedule: quadratic
+
+trunc-cubic4:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Cubic batch ($B_\\ell=\\ell^3$)"
+  kwargs:
+    means: simple4
+    batchschedule: cubic
+trunc-exp4:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Exponential batch ($B_\\ell=2^\\ell$)"
+  kwargs:
+    means: simple4
+    batchschedule: exp
+
+
+trunc-sexp4:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Surexponential batch ($B_\\ell=e^{\\ell^{1.5}}$)"
+  kwargs:
+    means: simple4
+    batchschedule: surexp
+
+
+trunc-doubleexp4:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Double-exponential batch ($B_\\ell=e^{2^\\ell}$)"
+  kwargs:
+    means: simple4
+    batchschedule: doubleexp
+
+trunc-abrupt4:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Abrupt batch schedule"
+  kwargs:
+    means: simple4
+    batchschedule: abrupt
+
+trunc-exotic4:
+  entrypoint: "parametric:BatchTruncatedGaussianBandit"
+  displayname: "Truncated Gaussian - Exotic batch schedule"
+  kwargs:
+    means: simple4
+    batchschedule: exotic

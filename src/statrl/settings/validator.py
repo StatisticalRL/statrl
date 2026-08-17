@@ -168,7 +168,7 @@ def validate_interaction(setting_dir):
 
     success = True
 
-    for method in ["run", "renderrun"]:
+    for method in ["run", "renderrun", "plotlabels"]:
         success &= report(
             hasattr(cls, method),
             f"Interaction.{method}()"
@@ -291,4 +291,4 @@ if __name__ == "__main__":
 
     #validate_setting(sys.argv[1])
 
-    validate_setting("bandits/stochastic/knownhorizon")
+    validate_setting("bandits/stochastic/anytime")

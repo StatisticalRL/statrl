@@ -96,6 +96,7 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title, mean: list[np.n
     ax.set_ylim([max(m,1e-0),max(M,2e-0)])
     fig.savefig(textfile + '_ylog.png')
     fig.savefig(textfile + '_ylog.pdf')
+    fig.savefig(root_folder+"Regrets" + str(timeHorizon)+"_"+envName+'.pdf')
     # pl.xscale('log')
     # pl.savefig(textfile + '_loglog.png')
     # pl.savefig(textfile + '_loglog.pdf')

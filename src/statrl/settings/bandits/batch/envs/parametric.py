@@ -13,18 +13,16 @@ _B_LINEAR    = lambda ell: int(ell + 1)
 _B_QUADRATIC = lambda ell: int((ell + 1) ** 2)
 _B_CUBIC     = lambda ell: int((ell + 1) ** 3)
 _B_EXP       = lambda ell: int(2 ** ell)
+_B_SEXP      =  lambda ell: int(math.exp(ell**1.5))
 _B_DOUBLE_EXP = lambda ell: int(math.exp(2 ** ell))
-_B_ABRUPT = lambda ell: 100 if ell<3 else int((ell+1)**3)
+_B_ABRUPT = lambda ell: 100 if (ell % 4==1) else int((ell+1)**3)
 
-def exotic_schedule1(t):
-    schedule= {0:_B_CONST, 1: _B_LINEAR, 2: _B_CUBIC, 3: _B_EXP}
-    return schedule[(t % 4)](t)
-def exotic_schedule2(t):
-    schedule= {0:_B_CONST, 1: _B_EXP, 2:_B_LINEAR, 3:_B_CUBIC}
+def exotic_schedule(t):
+    schedule= {0:_B_LINEAR, 1: _B_EXP, 2:_B_CONST, 3:_B_CUBIC}
     return schedule[(t % 4)](t)
 
-_B_EXOTIC1 = exotic_schedule1
-_B_EXOTIC2 = exotic_schedule2
+_B_EXOTIC = exotic_schedule
+#_B_EXOTIC2 = exotic_schedule2
 
 from statrl.settings.bandits.batch.agents.baba_schedule import compute_baba_grid
 def baba_schedule(horizon, nbArms):
@@ -33,9 +31,8 @@ def baba_schedule(horizon, nbArms):
 
 
 schedule_catalogue= {"constant": _B_CONST, "linear": _B_LINEAR, "quadratic": _B_QUADRATIC, "cubic":_B_CUBIC,
-            "exp": _B_EXP, "doubleexp":_B_DOUBLE_EXP, "abrupt":_B_ABRUPT, "exotic1":_B_EXOTIC1, "exotic2":_B_EXOTIC2,
+            "exp": _B_EXP, "surexp": _B_SEXP,"doubleexp":_B_DOUBLE_EXP, "abrupt":_B_ABRUPT, "exotic":_B_EXOTIC
                      }
-
 
 mean_catalogue = {"simple4": [0.1, 0.4, 0.7, 0.9],
                   "simple6": [0.2, 0.6, 0.8, 0.8, 0.95, 0.9]

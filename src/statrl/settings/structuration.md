@@ -34,11 +34,13 @@ Example:
 ```yaml
 bernoulli_simple:
   entrypoint: "parametric:BernoulliBandit"
+  displayname: "Bandit Bernoulli (4 arms)"
   kwargs:
     means: [0.2, 0.8, 0.7, 0.5]
 
 random:
-  entrypoint: "parametric:RandomBernoulliBandit"
+  entrypoint: "parametric:RandomBernoulliBandit"  
+  displayname: "Random Bandit Bernoulli (gap $0.2$)"
   kwargs:
     Delta: 0.2
     K: 5

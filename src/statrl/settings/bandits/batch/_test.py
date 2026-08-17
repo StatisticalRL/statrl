@@ -29,7 +29,7 @@ def test_run() -> None:
 
 def test_massive() -> None:
 
-    from statrl.settings.bandits.batch.agents.BatchIMED import BatchIMED
+    #from statrl.settings.bandits.batch.agents.BatchIMED import BatchIMED
     from statrl.settings.bandits.batch.agents.BCB import BCB
     from statrl.settings.bandits.batch.agents.BABA import BABA
     means=[0.2,0.9,0.7,0.5]
@@ -40,8 +40,9 @@ def test_massive() -> None:
     oracle = Oracle(env)
     agents = [BCB(env.number_arms),
               BABA(env.number_arms, horizon=50),
-              BatchIMED(env.number_arms,bound=1,batchagnostic=True),
-              BatchIMED(env.number_arms,bound=1,batchagnostic=False)]
+              #BatchIMED(env.number_arms,bound=1,batchagnostic=True),
+              #BatchIMED(env.number_arms,bound=1,batchagnostic=False)
+              ]
     runLargeMulticoreExperiment(env,agents,oracle, interaction,timeHorizon=50,  nbReplicates=30)
 
 

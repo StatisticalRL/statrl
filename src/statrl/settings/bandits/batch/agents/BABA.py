@@ -58,6 +58,7 @@ class BABA(BatchBanditAgent):
     Parameters
     ----------
     nbArms       : int
+    horizon      : int - the time horizon, if it is known, otherwise setup at  default value.
     bound        : float  — upper bound of reward support (passed through,
                             used for KL clipping in Bernoulli mode)
     phase_labels : list[int]  — phase 1..5 per round (from compute_baba_grid)
