@@ -15,6 +15,7 @@ class PlotRenderer:
         self.pause = pause
         self.fig = None
         self.ax = None
+        self.colorbar = None
         self.started = False
 
     def start(self, env: KernelBanditEnv) -> None:
@@ -35,6 +36,9 @@ class PlotRenderer:
             plt.show()
             plt.close(self.fig)
 
+        self.fig = None
+        self.ax = None
+        self.colorbar = None
         self.started = False
 
     def render(
@@ -57,6 +61,11 @@ class PlotRenderer:
         env: KernelBanditEnv,
         last: tuple[Optional[int], float] = (None, 0.0),
     ) -> None:
+
+        # Remove the previous colorbar before clearing/redrawing.
+        if self.colorbar is not None:
+            self.colorbar.remove()
+            self.colorbar = None
 
         self.ax.clear()
 
@@ -85,8 +94,8 @@ class PlotRenderer:
 
         self.ax.plot(x, f, label="latent function")
 
-        # Optimal arm
         optimal = env.optimal_arm
+
         self.ax.scatter(
             x[optimal],
             f[optimal],
@@ -95,7 +104,6 @@ class PlotRenderer:
             label="optimal",
         )
 
-        # Last selected arm
         lastaction, lastreward = last
 
         if lastaction is not None:
@@ -127,13 +135,12 @@ class PlotRenderer:
             s=40,
         )
 
-        self.fig.colorbar(
+        self.colorbar = self.fig.colorbar(
             scatter,
             ax=self.ax,
             label="f(x)",
         )
 
-        # Optimal arm
         optimal = env.optimal_arm
 
         self.ax.scatter(
@@ -145,7 +152,6 @@ class PlotRenderer:
             label="optimal",
         )
 
-        # Last selected arm
         lastaction, lastreward = last
 
         if lastaction is not None:
