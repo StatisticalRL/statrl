@@ -22,7 +22,7 @@ import math
 import numpy as np
 from statrl.settings.bandits.stochastic.batch.agent import BatchBanditAgent
 from statrl.settings.bandits.stochastic.batch.agents.baba_schedule import g_baba
-
+from statrl.settings.utils import randmin,randmax
 
 # ---------------------------------------------------------------------------
 # KL utilities
@@ -116,6 +116,7 @@ class BABA(BatchBanditAgent):
     # ------------------------------------------------------------------
 
     def reset(self):
+        super().reset()
         self._round = 0
 
         # Cumulative arm statistics (updated via batchupdate)
@@ -249,7 +250,8 @@ class BABA(BatchBanditAgent):
         # ── per-phase state transitions ───────────────────────────────────
         if phase == 1:
             # Identify the arm with the highest empirical mean after phase 1
-            self._a1_r      = int(np.argmax(self._means))
+            #self._a1_r      = int(np.argmax(self._means))
+            self._a1_r      = randmax(self._means)
             self._means_p1  = self._means.copy()
             self._counts_p1 = self._counts.copy()
 
@@ -279,7 +281,9 @@ class BABA(BatchBanditAgent):
             if not self._F:
                 self._cr = self._a1_r
             else:
-                self._cr = int(np.argmax(self._means))
+                #self._cr = int(np.argmax(self._means))
+                self._cr = randmax(self._means)
+
 
         # phase 5: no state change; cr carries over to next epoch
 
