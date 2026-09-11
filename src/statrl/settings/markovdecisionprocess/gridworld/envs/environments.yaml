@@ -15,7 +15,7 @@ grid-random-1616:
 
 grid-random-1212:
   entrypoint: "gridworlds:GridWorld"
-  displayname: "Random GridWorld map 12x12 states"
+  displayname: "Random GridWorld map 12x12 states "
   kwargs:
     map_name: "random"
     sizeX: 12
