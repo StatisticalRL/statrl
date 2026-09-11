@@ -1,6 +1,6 @@
 from statrl.settings.markovdecisionprocess.gridworld.envs.gridworlds import GridWorld
 from statrl.settings.markovdecisionprocess.gridworld.agents._Random import Random
-#from statrl.settings.markovdecisionprocess.gridworld.agents._Oracle import Oracle
+from statrl.settings.markovdecisionprocess.gridworld.agents._Oracle import MDPOracle as Oracle
 from statrl.settings.markovdecisionprocess.gridworld.interaction import MDPInteraction
 from statrl.experiments.massiveruns import runLargeMulticoreExperiment
 
@@ -56,7 +56,7 @@ def test_massive() -> None:
 
 
 if __name__ == "__main__":
-    #test_render()
-    #test_run()
+    test_render()
+    test_run()
     test_load()
-    #test_massive()
+    test_massive()
