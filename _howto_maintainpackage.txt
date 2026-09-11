@@ -1,46 +1,28 @@
 
+# First change version in pyproject.toml (.e. "v1.2609").
+# Then (see .github/workflows/pypi.ml configuration file):
+git tag v1.2609
+git push origin v1.2609
+
+
+##### EXPLANATIONS#
+
+1. Create a PyPI account at pypi.org if you don't have one, and verify your email.
+2. Register the trusted publisher. Since statrl isn't registered yet, go to https://pypi.org/manage/account/publishing/ and add a "pending publisher" with:
+   - PyPI project name: statrl
+   - Owner: StatisticalRL
+   - Repository name: statrl
+   - Workflow filename: pypi.yml
+   - Environment name: pypi
+3. (Recommended) In that GitHub repo's Settings → Environments, create an environment named pypi and optionally add required reviewers, so every publish needs manual approval.
+
+Then to actually publish:
+
+4. Commit and push this workflow file to main (in whichever repo you registered above).
+5. Tag the release and push the tag, e.g.:
+git tag v1.2609
+git push origin v1.2609
+   That triggers the workflow, which builds and publishes statrl to PyPI.
+
 ###########################
-## First do (once):
-python -m pip install build twine
-
-
-pip freeze > requirements_full.txt
-## Remove unused packages from the list to generate requirements.txt
-
-git tag -a v1.250716.3 -m "testPyPI release"
-## Don't forget to push tags (not by default in git push):  git push origin --tags or tick "push tags' in PyCharm
-
-##When finalized: (use n version for TestPy and n1+ for Pypi)
-git tag -a v2.2507 -m "Official PyPI release"
-
-# Setup
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-
-# Build the package
-python -m build
-
-
-# Upload to TestPyPI (should be a new version, new file name etc)
-twine upload  --repository testpypi  -u __token__ -p <YOUR_TESTPYPI_TOKEN>  dist/*
-
-Need a PyPI account and API token. You can test first with TestPyPI, by uploading to that instead.
-
-
-#Once setup, upload to real PYPI:
-
-# Upload to PyPI
-twine upload -u __token__ -p <YOUR_TESTPYPI_TOKEN>  dist/*
-
-# After uploading to TestPyPI, test with:
-pip install --index-url https://test.pypi.org/simple/ statisticalRL-learners
-
-#Once setup, upload to real PYPI and do:
-pip install statisticalRL-learners
-
-
-python -m twine upload  --repository testpypi  -u __token__ -p <YOUR_TESTPYPI_TOKEN>  dist/*
-
-
+# Mau require :  python -m pip install build twine
