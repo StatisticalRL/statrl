@@ -36,7 +36,7 @@ Comparison of scores:
 
 ![](screenshots/Regret_Riverswim.png)
 
-Rendering of different settings:
+Different rendering of runs:
 
 - Text rendering: 
 
