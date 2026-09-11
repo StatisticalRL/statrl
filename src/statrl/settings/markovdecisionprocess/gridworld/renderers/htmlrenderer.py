@@ -3,6 +3,9 @@ import json
 import html
 import os
 
+from typing import Any
+
+
 class GridWorldHTMLRenderer:
     def __init__(self,  output_dir: str | os.PathLike = "renderings", filename='gridworld.html', cell_size=72,
                  show_state_ids=True, show_transitions=True, autoplay=False):
@@ -12,7 +15,7 @@ class GridWorldHTMLRenderer:
         self.show_state_ids = bool(show_state_ids)
         self.show_transitions = bool(show_transitions)
         self.autoplay = bool(autoplay)
-        self.frames = []
+        self.frames: list[dict[str, Any]] = []
         self.env = None
         self.started = False
 

@@ -120,7 +120,7 @@ class HTMLRenderer:
 
         state, action, reward = last
 
-        frame = {
+        frame: dict[str, Any] = {
             "state": None if state is None else int(state),
             "action": None if action is None else int(action),
             "reward": float(reward) if reward is not None else 0.0,
