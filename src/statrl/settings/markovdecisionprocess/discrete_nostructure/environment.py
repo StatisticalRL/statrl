@@ -61,6 +61,7 @@ class DiscreteMDP(Env):
 
     def __init__(self, nS, nA, P, R, isd, nameActions=[], seed=None, name="DiscreteMDP"):
         self.name=name
+        self.displayname=f"Markov Decisio Process {nS}x{nA}"
         self.nS = nS
         self.nA = nA
         self.P = P

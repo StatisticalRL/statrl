@@ -43,7 +43,8 @@ class GridWorldHTMLRenderer:
 
     def stop(self, env):
         self.env = env or self.env
-        if self.env is None: return
+        if self.env is None:
+            return
 
 
         self.output_dir.mkdir(parents=True, exist_ok=True)

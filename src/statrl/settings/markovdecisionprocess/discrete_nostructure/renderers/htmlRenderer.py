@@ -125,6 +125,7 @@ class HTMLRenderer:
             "action": None if action is None else int(action),
             "reward": float(reward) if reward is not None else 0.0,
             "step": len(self.frames),
+            "transitions": []
         }
 
         # Add the currently selected transition when it can be inferred.
