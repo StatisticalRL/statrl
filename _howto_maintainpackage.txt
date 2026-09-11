@@ -1,8 +1,8 @@
 
-# First change version in pyproject.toml (.e. "v1.2609").
+# First change version in pyproject.toml (.e. "v1.260911").
 # Then (see .github/workflows/pypi.ml configuration file):
-git tag v1.2609
-git push origin v1.2609
+git tag v1.260911 -m "PyPi release"
+git push origin v1.260911
 
 
 ##### EXPLANATIONS#
