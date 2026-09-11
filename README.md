@@ -34,7 +34,7 @@ Comparison of scores:
 ![](screenshots/Regret_BanditBernoulli.png)
 
 
-![](screenshots/Regret_RiverSwim.png)
+![](screenshots/Regret_Riverswim.png)
 
 Rendering of different settings:
 
