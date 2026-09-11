@@ -1,5 +1,7 @@
 from pathlib import Path
-import json, html, os
+import json
+import html
+import os
 
 class GridWorldHTMLRenderer:
     def __init__(self,  output_dir: str | os.PathLike = "renderings", filename='gridworld.html', cell_size=72,
