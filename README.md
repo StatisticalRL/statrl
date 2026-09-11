@@ -27,6 +27,26 @@ cd statrl
 pip install -e .          # editable install for development
 ```
 
+## Screenshots
+
+Comparison of scores:
+
+![](screenshots/Regret_BanditBernoulli.png)
+
+
+![](screenshots/Regret_RiverSwim.png)
+
+Rendering of different settings:
+
+- Text rendering: 
+
+![](screenshots/GridWorldText.png)
+
+- HTML rendering: 
+
+![](screenshots/MDP.png)
+
+
 ## Quickstart
 
 ```python

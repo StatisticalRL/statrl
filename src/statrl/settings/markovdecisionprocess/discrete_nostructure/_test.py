@@ -64,5 +64,5 @@ def test_massive() -> None:
 if __name__ == "__main__":
     #test_render()
     #test_run()
-    test_load()
-    #test_massive()
+    #test_load()
+    test_massive()
