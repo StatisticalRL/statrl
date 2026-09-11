@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "statrl"
-version = "1.260911"
+version = "1.260911.13"
 description = "The Statistical Reinforcement Learning Toolkit Library"
 authors = [{ name = "Odalric-Ambrym Maillard", email = "odalricambrym.maillard@inria.fr" }]
 readme = "README.md"
