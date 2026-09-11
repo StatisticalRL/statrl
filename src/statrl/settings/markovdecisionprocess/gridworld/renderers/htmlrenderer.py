@@ -5,14 +5,20 @@ class GridWorldHTMLRenderer:
     def __init__(self,  output_dir: str | os.PathLike = "renderings", filename='gridworld.html', cell_size=72,
                  show_state_ids=True, show_transitions=True, autoplay=False):
         self.output_dir = Path(output_dir)
-        self.filename = str(filename); self.cell_size = int(cell_size)
+        self.filename = str(filename)
+        self.cell_size = int(cell_size)
         self.show_state_ids = bool(show_state_ids)
-        self.show_transitions = bool(show_transitions); self.autoplay = bool(autoplay)
-        self.frames = []; self.env = None; self.started = False
+        self.show_transitions = bool(show_transitions)
+        self.autoplay = bool(autoplay)
+        self.frames = []
+        self.env = None
+        self.started = False
 
     def start(self, env):
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        self.env = env; self.frames = []; self.started = True
+        self.env = env
+        self.frames = []
+        self.started = True
 
         name = getattr(env, "name", None)
         if name is None:
@@ -30,7 +36,8 @@ class GridWorldHTMLRenderer:
                 self.output_path = self.output_path.with_suffix(".html")
 
     def render(self, env, last):
-        if not self.started: self.start(env)
+        if not self.started:
+            self.start(env)
         state, action, reward = last
 
         frame = {
@@ -55,7 +62,8 @@ class GridWorldHTMLRenderer:
         self.started = False
 
     def _cells(self):
-        e = self.env; mapping = getattr(e, 'mapping', None)
+        e = self.env
+        mapping = getattr(e, 'mapping', None)
         if mapping is None:
             return [[s // e.sizeY, s % e.sizeY] for s in range(e.nS)]
         return [list(e.from_s(int(mapping[s]))) for s in range(e.nS)]
@@ -75,8 +83,10 @@ class GridWorldHTMLRenderer:
         for s in range(e.nS):
             R[str(s)] = {}
             for a in range(e.nA):
-                try: R[str(s)][str(a)] = float(e.R[s][a].mean())
-                except Exception: R[str(s)][str(a)] = 0.0
+                try:
+                    R[str(s)][str(a)] = float(e.R[s][a].mean())
+                except Exception:
+                    R[str(s)][str(a)] = 0.0
         return {'name': str(getattr(e,'displayname',None) or getattr(e,'name',None) or e.__class__.__name__),
                 'sizeX': int(e.sizeX), 'sizeY': int(e.sizeY), 'nS': int(e.nS), 'nA': int(e.nA),
                 'actions': [str(x) for x in getattr(e,'nameActions',[])], 'maze': maze,
@@ -85,9 +95,11 @@ class GridWorldHTMLRenderer:
                 'transitions': P, 'rewards': R}
 
     def _html(self):
-        m = self._model(); data = json.dumps(m, ensure_ascii=False, separators=(',',':'))
+        m = self._model()
+        data = json.dumps(m, ensure_ascii=False, separators=(',',':'))
         frames = json.dumps(self.frames, ensure_ascii=False, separators=(',',':'))
-        title = html.escape(m['name']); cell = self.cell_size
+        title = html.escape(m['name'])
+        cell = self.cell_size
         return f'''<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title>
 <style>
 *{{box-sizing:border-box}}body{{margin:0;background:#f4f6f8;color:#20242a;font-family:system-ui,sans-serif}}header{{height:72px;background:#fff;border-bottom:1px solid #d9dee5;padding:14px 20px;display:flex;justify-content:space-between}}h1{{margin:0;font-size:20px}}.sub{{color:#69717d;font-size:12px}}.layout{{display:grid;grid-template-columns:minmax(0,1fr) 330px;height:calc(100vh - 72px)}}.map{{overflow:hidden;background:#e9edf2}}#map{{width:100%;height:100%;display:block;touch-action:none;cursor:grab}}#map.dragging{{cursor:grabbing}}aside{{background:#fff;padding:15px;overflow:auto}}section{{border-bottom:1px solid #e1e5ea;padding-bottom:14px;margin-bottom:14px}}h2{{font-size:12px;text-transform:uppercase;color:#69717d;letter-spacing:.06em}}button,select{{font:inherit;border:1px solid #d9dee5;background:#fff;border-radius:7px;padding:7px;cursor:pointer}}button:hover{{background:#f1f4f8}}button.primary{{background:#3867d6;color:#fff}}.controls{{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}}input[type=range]{{width:100%}}.row{{display:flex;justify-content:space-between;align-items:center;gap:8px}}.info{{background:#f7f8fa;border:1px solid #d9dee5;border-radius:8px;padding:9px;font-size:12px;line-height:1.45}}.check{{display:block;margin:8px 0;font-size:13px}}table{{width:100%;font-size:11px;border-collapse:collapse}}td,th{{padding:4px;border-bottom:1px solid #edf0f3;text-align:left}}.cell{{stroke:#cfd5dc;stroke-width:1;cursor:pointer}}.grid-cell:hover{{stroke:#3867d6;stroke-width:2}}.state-label,.goal-mark,.action-label{{pointer-events:none;text-anchor:middle}}.state-label{{font-size:11px;fill:#5b6470;dominant-baseline:central}}.goal-mark{{font-size:18px;font-weight:700;fill:#6b5200;dominant-baseline:central}}.current{{fill:#e85d04;stroke:#fff;stroke-width:3;pointer-events:none}}.initial-dot{{fill:#3867d6;opacity:.25;pointer-events:none}}.arrow{{fill:none;stroke:#3867d6;marker-end:url(#ah)}}.action-label{{font-size:11px;font-weight:700;fill:#20242a}}
