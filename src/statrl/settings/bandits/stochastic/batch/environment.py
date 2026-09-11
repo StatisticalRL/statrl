@@ -1,7 +1,9 @@
 
+from itertools import groupby
 from typing import Any, Optional
 
 from statrl.settings.bandits.stochastic.anytime.environment import StochasticBanditEnv as MAB
+from statrl.settings.bandits.stochastic.anytime.envs.distributions import Arm
 
 class BatchMAB(MAB):
     """Wrap a stochastic bandit into a batched one.
@@ -106,16 +108,20 @@ class BatchMAB(MAB):
         """
         B= self.batchsize(self.round)
         assert len(action)==B
-        batchreward = []
-        #batchobservation=[]
-        batchmean=[]
-        for aa in action:
-            reward = self.mab.step(aa)                       # MAB.step returns the reward only
-            #batchobservation.append(0)                       # bandit is stateless: constant dummy observation
-            batchreward.append(reward)
-            batchmean.append(self.mab.rewarddistributions[aa].mean)   # arm mean, for regret accounting
+        batchreward: list[float] = []
+        batchmean = []
+        for arm, group in groupby(action):
+            distribution = self.mab.rewarddistributions[arm]
+            run_size = sum(1 for _ in group)
+            if isinstance(distribution, Arm):
+                batchreward.extend(distribution.sample_many(run_size))
+            else:
+                batchreward.extend(self.mab.step(arm) for _ in range(run_size))
+            batchmean.extend([distribution.mean] * run_size)
 
         self.last = (action, batchreward)
+        if batchreward:
+            self.mab.last = (action[-1], batchreward[-1])
         self.round=self.round+1
         info = {"nextbatchsize": self.batchsize(self.round), "mean": sum(batchmean)}
         return (batchreward,info)

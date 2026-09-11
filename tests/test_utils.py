@@ -1,5 +1,7 @@
 import math
 
+import numpy as np
+
 from statrl.settings.utils import klBern, klGauss, klPoisson, klExp
 
 
@@ -10,6 +12,12 @@ def test_klBern_zero_and_clipping():
     assert klBern(1.0, 1.0) == 0.0
     assert math.isclose(klBern(0.0, 1.0), 34.53957599234081, rel_tol=1e-9)
     assert math.isclose(klBern(0.3, 0.6), 0.18378689738681217, rel_tol=1e-9)
+
+
+def test_klBern_accepts_arrays():
+    actual = klBern(np.array([0.0, 0.3, 1.0]), 0.6)
+    expected = np.array([klBern(0.0, 0.6), klBern(0.3, 0.6), klBern(1.0, 0.6)])
+    np.testing.assert_allclose(actual, expected)
 
 
 def test_klGauss_known_values():

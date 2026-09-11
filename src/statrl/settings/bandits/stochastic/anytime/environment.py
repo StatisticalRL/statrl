@@ -57,6 +57,9 @@ class StochasticBanditEnv(Environment):
 
     def __init__(self, rewarddistributions: list, name: str, last: tuple[Optional[int], float] = (None, 0.0)) -> None:
         self.rewarddistributions = rewarddistributions
+        self._means = np.asarray(
+            [arm.mean for arm in rewarddistributions], dtype=float
+        )
         self.name = name
         self.displayname: str = name
         self.renderers: list = []
@@ -72,7 +75,7 @@ class StochasticBanditEnv(Environment):
         """
         Mean reward of every arm. 
         """
-        return [arm.mean for arm in self.rewarddistributions]
+        return self._means.tolist()
 
     @property
     def optimal_mean(self) -> float:
@@ -80,7 +83,7 @@ class StochasticBanditEnv(Environment):
 
         Used to define regret.
         """
-        return max(self.means)
+        return float(np.max(self._means))
 
     @property
     def optimal_arm(self) -> int:
@@ -88,7 +91,7 @@ class StochasticBanditEnv(Environment):
 
         Ties are broken by :func:`numpy.argmax`, i.e. the lowest index wins. 
         """
-        return int(np.argmax(self.means))
+        return int(np.argmax(self._means))
 
     def step(self, arm: int) -> float:  # type: ignore[override]  # bandit API: reward only, not gym's 5-tuple
         """Sample one reward from the given arm.
@@ -121,7 +124,7 @@ class StochasticBanditEnv(Environment):
         float
             That arm's true mean. Never pass this to a learner.
         """
-        return self.means[arm]
+        return float(self._means[arm])
 
     def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> int:  # type: ignore[override]  # bandit API: no observation tuple
         """Start a new run by reseeding the environment.
