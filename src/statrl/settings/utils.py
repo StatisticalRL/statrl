@@ -1,5 +1,7 @@
 """Numerical helpers shared by every settings"""
 
+from typing import Union, overload
+
 import numpy as np
 from math import log
 from scipy.optimize import minimize_scalar, root_scalar
@@ -98,7 +100,21 @@ def allmax(a):
 
 eps = 1e-15
 
-def klBern(x: float, y: float) -> float:
+@overload
+def klBern(x: float, y: float) -> float: ...
+
+
+@overload
+def klBern(x: np.ndarray, y: Union[float, np.ndarray]) -> np.ndarray: ...
+
+
+@overload
+def klBern(x: float, y: np.ndarray) -> np.ndarray: ...
+
+
+def klBern(
+    x: Union[float, np.ndarray], y: Union[float, np.ndarray]
+) -> Union[float, np.ndarray]:
     """Kullback-Leibler divergence between two Bernoulli distributions.
 
     .. math::
@@ -128,9 +144,10 @@ def klBern(x: float, y: float) -> float:
     >>> klBern(0.5, 0.9) > 0
     True
     """
-    x = min(max(x, eps), 1 - eps)
-    y = min(max(y, eps), 1 - eps)
-    return x * log(x / y) + (1 - x) * log((1 - x) / (1 - y))
+    x = np.clip(x, eps, 1 - eps)
+    y = np.clip(y, eps, 1 - eps)
+    divergence = x * np.log(x / y) + (1 - x) * np.log((1 - x) / (1 - y))
+    return float(divergence) if np.ndim(divergence) == 0 else divergence
 
 
 def klGauss(x: float, y: float, sig2: float = 1.) -> float:

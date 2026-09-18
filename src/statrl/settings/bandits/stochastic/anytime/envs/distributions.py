@@ -1,9 +1,12 @@
 """arms: each exposes .mean and a sample() method producing rewards"""
 
-from math import sqrt, log, exp
+from functools import partial
+from math import exp, log, sqrt
 from random import random
 
-from typing import Any
+from typing import Any, Callable, Optional
+
+import numpy as np
 
 from scipy.stats import bernoulli, binom, norm, expon, truncnorm
 
@@ -29,8 +32,11 @@ class Arm:
     0.3
     """
 
-    def __init__(self, dist: Any) -> None:
+    def __init__(
+        self, dist: Any, sampler: Optional[Callable[..., Any]] = None
+    ) -> None:
         self._dist = dist
+        self._sampler = sampler
         self.mean = dist.mean()
 
     def sample(self) -> float:
@@ -41,27 +47,35 @@ class Arm:
         float
             A sample from the underlying distribution.
         """
+        if self._sampler is not None:
+            return self._sampler()
         return self._dist.rvs()
+
+    def sample_many(self, size: int) -> np.ndarray:
+        """Draw several independent rewards in one vectorized call."""
+        if self._sampler is not None:
+            return np.asarray(self._sampler(size=size))
+        return np.asarray(self._dist.rvs(size=size))
 
 
 def Bernoulli(p: float) -> Arm:
     """Bernoulli arm with success probability ``p``, so rewards are 0 or 1."""
-    return Arm(bernoulli(p))
+    return Arm(bernoulli(p), sampler=partial(np.random.binomial, 1, p))
 
 
 def Binomial(n: int, p: float) -> Arm:
     """Binomial arm: the number of successes in ``n`` trials of probability ``p``."""
-    return Arm(binom(n, p))
+    return Arm(binom(n, p), sampler=partial(np.random.binomial, n, p))
 
 
 def Gaussian(mu: float, var: float = 1) -> Arm:
     """Gaussian arm of mean ``mu`` and variance ``var`` (unbounded rewards)."""
-    return Arm(norm(mu, sqrt(var)))
+    return Arm(norm(mu, sqrt(var)), sampler=partial(np.random.normal, mu, sqrt(var)))
 
 
 def Exponential(p: float) -> Arm:
     """Exponential arm of rate ``p``, hence mean ``1 / p``."""
-    return Arm(expon(scale=1 / p))
+    return Arm(expon(scale=1 / p), sampler=partial(np.random.exponential, 1 / p))
 
 
 def TruncatedGaussian(mean: float, sigma: float, low: float, high: float) -> Arm:
