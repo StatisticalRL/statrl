@@ -31,9 +31,10 @@ pip install -e .          # editable install for development
 
 Comparison of scores:
 
+-  A Multi-armed bandit example:
 ![](screenshots/Regret_BanditBernoulli.png)
 
-
+- A Markov decision process example (in log-scale):
 ![](screenshots/Regret_Riverswim.png)
 
 Different rendering of runs:
