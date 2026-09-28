@@ -66,8 +66,8 @@ class _KernelTSBase(KernelBanditAgent, ABC):
         self.observed_arms: list[int] = []
         self.rewards: list[float] = []
 
-        self.lambda_: float | None = None
-        self.sigma_plus: float | None = None
+        self.lambda_: float = 0.0
+        self.sigma_plus: float = 0.0
 
     # ------------------------------------------------------------------
     # Kernel computations
@@ -316,15 +316,14 @@ class KernelTSKnownVariance(_KernelTSBase):
         self.observed_arms = []
         self.rewards = []
 
-        self.lambda_ = self.sigma ** 2 / self.C ** 2
-        self.sigma_plus = self.sigma
+        self.lambda_: float = self.sigma ** 2 / self.C ** 2
+        self.sigma_plus: float = self.sigma
 
     def select_arm(self) -> int:
         """
         Sample a function from the inflated posterior and return
         its maximizing arm.
         """
-        assert self.lambda_ is not None
         mean, covariance = self._posterior(self.lambda_)
 
         B = self._B(
@@ -417,18 +416,16 @@ class KernelTSUnknownVariance(_KernelTSBase):
                 "sigma_minus must not exceed sigma_plus."
             )
 
-        self.sigma_plus = float(sigma_plus)
-        self.sigma_plus_initial = float(sigma_plus)
-        self.sigma_minus_initial = float(sigma_minus)
+        self.sigma_plus_initial: float = float(sigma_plus)
+        self.sigma_minus_initial: float = float(sigma_minus)
 
-        self.delta0 = float(delta0)
+        self.delta0: float = float(delta0)
 
-        self.sigma_plus = self.sigma_plus_initial
-        self.sigma_minus = self.sigma_minus_initial
+        self.sigma_plus: float = self.sigma_plus_initial
+        self.sigma_minus: float = self.sigma_minus_initial
 
-        # lambda_0 = sigma_+^2 / C^2
-        self.lambda_ = (
-            self.sigma_plus ** 2 / self.C ** 2
+        self.lambda_: float = (
+                self.sigma_plus ** 2 / self.C ** 2
         )
 
     def reset(self) -> None:
@@ -437,11 +434,11 @@ class KernelTSUnknownVariance(_KernelTSBase):
         self.observed_arms = []
         self.rewards = []
 
-        self.sigma_plus = self.sigma_plus_initial
-        self.sigma_minus = self.sigma_minus_initial
+        self.sigma_plus: float = self.sigma_plus_initial
+        self.sigma_minus: float = self.sigma_minus_initial
 
-        self.lambda_ = (
-            self.sigma_plus ** 2 / self.C ** 2
+        self.lambda_: float = (
+                self.sigma_plus ** 2 / self.C ** 2
         )
 
     # ------------------------------------------------------------------
@@ -716,8 +713,7 @@ class KernelTSUnknownVariance(_KernelTSBase):
         if t < 2:
             return
 
-        assert self.lambda_ is not None
-        lambda_previous = self.lambda_
+        lambda_previous: float = self.lambda_
 
         # --------------------------------------------------------------
         # Lower bound on sigma
@@ -772,7 +768,6 @@ class KernelTSUnknownVariance(_KernelTSBase):
         At time t, lambda_t and sigma_{+,t-1} depend only on
         observations up to t-1.
         """
-        assert self.lambda_ is not None
 
         mean, covariance = self._posterior(
             self.lambda_
