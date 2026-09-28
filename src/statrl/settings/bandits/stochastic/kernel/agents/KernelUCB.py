@@ -7,6 +7,7 @@ import numpy as np
 from statrl.settings.bandits.stochastic.kernel.agent import KernelBanditAgent
 from statrl.settings.bandits.stochastic.kernel.environment import KernelBanditEnv
 
+from abc import ABC, abstractmethod
 
 class _KernelUCBBase(KernelBanditAgent):
     """Common implementation of kernel ridge regression for Kernel UCB.
@@ -208,8 +209,8 @@ class _KernelUCBBase(KernelBanditAgent):
 
         self._ucb = np.zeros(len(self.arms))
 
-        self._lambda = None
-        self._beta = None
+        self._lambda: float = 0.0
+        self._beta: float = 0.0
 
     # ------------------------------------------------------------------
     # Selection
@@ -253,10 +254,11 @@ class _KernelUCBBase(KernelBanditAgent):
     # ------------------------------------------------------------------
     # Methods supplied by subclasses
     # ------------------------------------------------------------------
-
+    @abstractmethod
     def _regularization(self) -> float:
         raise NotImplementedError
 
+    @abstractmethod
     def _confidence_bound(self, lam: float) -> float:
         raise NotImplementedError
 
@@ -449,8 +451,8 @@ class KernelUCBUnknownVariance(_KernelUCBBase):
         super().reset()
 
         # sigma_{+,0} and sigma_{-,0}
-        self._sigma_plus = self.sigma_upper
-        self._sigma_minus = self.sigma_lower
+        self._sigma_plus: float = self.sigma_upper
+        self._sigma_minus: float = self.sigma_lower
 
         # Initial regularization:
         #
@@ -459,8 +461,8 @@ class KernelUCBUnknownVariance(_KernelUCBBase):
             self._sigma_plus ** 2 / self.C ** 2
         )
 
-        self._sigma_plus_history = []
-        self._sigma_minus_history = []
+        self._sigma_plus_history: list[float] = []
+        self._sigma_minus_history: list[float] = []
 
     # ------------------------------------------------------------------
     # Confidence schedule
@@ -650,7 +652,7 @@ class KernelUCBUnknownVariance(_KernelUCBBase):
         if self._n_obs == 0:
             return
 
-        previous_lambda = self._lambda
+        previous_lambda: float = self._lambda
 
         sigma_minus_tilde, _ = self._variance_estimate(
             previous_lambda,

@@ -417,6 +417,7 @@ class KernelTSUnknownVariance(_KernelTSBase):
                 "sigma_minus must not exceed sigma_plus."
             )
 
+        self.sigma_plus = float(sigma_plus)
         self.sigma_plus_initial = float(sigma_plus)
         self.sigma_minus_initial = float(sigma_minus)
 
