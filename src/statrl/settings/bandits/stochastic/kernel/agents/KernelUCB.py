@@ -554,12 +554,12 @@ class KernelUCBUnknownVariance(_KernelUCBBase):
         # computable expression from Theorem 3.
         D = self._D(lam, t)
 
-        alpha = max(
-            1.0
-            - np.sqrt(Ct / t)
-            - np.sqrt((Ct + 2.0 * D) / t),
-            0.0,
-        )
+        # alpha = max(
+        #     1.0
+        #     - np.sqrt(Ct / t)
+        #     - np.sqrt((Ct + 2.0 * D) / t),
+        #     0.0,
+        # )
 
         # k_lambda,t(x_t, x_t) for the observed points.
         #
@@ -663,10 +663,10 @@ class KernelUCBUnknownVariance(_KernelUCBBase):
             sigma_minus_tilde,
         )
 
-        lambda_minus = (
-            self._sigma_minus ** 2
-            / self.C ** 2
-        )
+        # lambda_minus = (
+        #     self._sigma_minus ** 2
+        #     / self.C ** 2
+        # )
 
         # Recompute the upper estimate using lambda_-.
         #
