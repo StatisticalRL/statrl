@@ -434,10 +434,10 @@ class KernelTSUnknownVariance(_KernelTSBase):
         self.observed_arms = []
         self.rewards = []
 
-        self.sigma_plus: float = self.sigma_plus_initial
-        self.sigma_minus: float = self.sigma_minus_initial
+        self.sigma_plus = self.sigma_plus_initial
+        self.sigma_minus = self.sigma_minus_initial
 
-        self.lambda_: float = (
+        self.lambda_ = (
                 self.sigma_plus ** 2 / self.C ** 2
         )
 

@@ -7,7 +7,7 @@ import numpy as np
 from statrl.settings.bandits.stochastic.kernel.agent import KernelBanditAgent
 from statrl.settings.bandits.stochastic.kernel.environment import KernelBanditEnv
 
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 
 class _KernelUCBBase(KernelBanditAgent):
     """Common implementation of kernel ridge regression for Kernel UCB.
