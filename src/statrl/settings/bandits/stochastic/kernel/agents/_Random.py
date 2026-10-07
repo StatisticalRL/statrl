@@ -12,7 +12,7 @@ class Random(KernelBanditAgent):
 
     See Also
     --------
-    statrl.settings.bandits.stochastic.kernel.agents._Oracle.Oracle :
+    statrl.settings.bandits.stochastic.kernel.agents.Oracle.Oracle :
         The opposite baseline, which always exploits.
     """
 

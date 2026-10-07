@@ -13,7 +13,7 @@ class Random(BanditAgent):
 
     See Also
     --------
-    statrl.settings.bandits.stochastic.anytime.agents._Oracle.Oracle :
+    statrl.settings.bandits.stochastic.anytime.agents.Oracle.Oracle :
         The opposite baseline, which always plays the best arm.
 
     Examples

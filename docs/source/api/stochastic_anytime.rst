@@ -24,7 +24,7 @@ Agents
    :nosignatures:
 
    agents.IMED.IMED
-   agents._Oracle.Oracle
+   agents.Oracle.Oracle
    agents._Random.Random
 
 Environments

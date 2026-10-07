@@ -15,7 +15,7 @@ from statrl.experiments.plotruns import plotScoreDiffs
 from statrl.experiments.massiveruns import runLargeMulticoreExperiment
 from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
 from statrl.settings.bandits.stochastic.anytime.agents.IMED import IMED
-from statrl.settings.bandits.stochastic.anytime.agents._Oracle import Oracle
+from statrl.settings.bandits.stochastic.anytime.agents.Oracle import Oracle
 from statrl.settings.bandits.stochastic.anytime.interaction import BanditInteraction
 
 MEANS = [0.2, 0.9, 0.5]

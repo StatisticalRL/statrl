@@ -52,6 +52,6 @@ Regret
 
 A score is never meaningful on its own, only against what was achievable. So
 every experiment also runs an **oracle**, an agent holding the ground truth:
-:class:`~statrl.settings.bandits.stochastic.anytime.agents._Oracle.Oracle`
+:class:`~statrl.settings.bandits.stochastic.anytime.agents.Oracle.Oracle`
 plays the best arm every round.
  

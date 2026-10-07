@@ -53,7 +53,7 @@ Different rendering of runs:
 ```python
 from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
 from statrl.settings.bandits.stochastic.anytime.agents.IMED import IMED
-from statrl.settings.bandits.stochastic.anytime.agents._Oracle import Oracle
+from statrl.settings.bandits.stochastic.anytime.agents.Oracle import Oracle
 from statrl.settings.bandits.stochastic.anytime.interaction import BanditInteraction
 from statrl.settings.utils import klBern
 

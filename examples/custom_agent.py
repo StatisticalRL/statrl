@@ -20,7 +20,7 @@ import numpy as np
 
 from statrl.experiments.massiveruns import runLargeMulticoreExperiment
 from statrl.settings.bandits.stochastic.anytime.agent import BanditAgent
-from statrl.settings.bandits.stochastic.anytime.agents._Oracle import Oracle
+from statrl.settings.bandits.stochastic.anytime.agents.Oracle import Oracle
 from statrl.settings.bandits.stochastic.anytime.agents.IMED import IMED
 from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
 from statrl.settings.bandits.stochastic.anytime.interaction import BanditInteraction
