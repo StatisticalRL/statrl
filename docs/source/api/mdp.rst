@@ -25,9 +25,9 @@ Agents
 
    agents.IMED_RL.IMEDRL
    agents.PSRL.PSRL
-   agents._Oracle.build_opti
-   agents._Oracle.Opti_controller
-   agents._Oracle.Opti_swimmer
+   agents.Oracle.build_opti
+   agents.Oracle.Opti_controller
+   agents.Oracle.Opti_swimmer
    agents._Random.Random
    agents.Human.Human
    agents.Human.keyboard_waitfor

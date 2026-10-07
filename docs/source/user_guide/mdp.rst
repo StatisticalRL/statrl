@@ -92,9 +92,9 @@ Shipped agents
        rather than perturbing each pair independently is what makes its
        exploration deep enough for RiverSwim. Assumes Bernoulli rewards. See
        [Osband2013]_.
-   * - :class:`~statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Oracle.Opti_controller`
+   * - :class:`~statrl.settings.markovdecisionprocess.discrete_nostructure.agents.Oracle.Opti_controller`
      - Solves the true MDP by value iteration; the regret reference. Build it
-       with :func:`~statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Oracle.build_opti`.
+       with :func:`~statrl.settings.markovdecisionprocess.discrete_nostructure.agents.Oracle.build_opti`.
    * - :class:`~statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Random.Random`
      - Uniform exploration. On RiverSwim it essentially never reaches the far
        state, which is the point of the benchmark.
@@ -118,7 +118,7 @@ environment and continues. ``horizon`` therefore counts **steps**, not episodes.
 .. doctest::
 
    >>> from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.PSRL import PSRL
-   >>> from statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Oracle import Opti_swimmer
+   >>> from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.Oracle import Opti_swimmer
    >>> from statrl.settings.markovdecisionprocess.discrete_nostructure.interaction import MDPInteraction
    >>>
    >>> env = RiverSwim(5)

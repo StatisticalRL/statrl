@@ -121,7 +121,7 @@ Shipped agents
    * - :class:`~statrl.settings.bandits.stochastic.batch.agents.BABA.BABA`
      - Five-phase schedule-driven learner. See [Jin2021]_. Requires the
        ``"baba,<horizon>"`` schedule.
-   * - :class:`~statrl.settings.bandits.stochastic.batch.agents._Oracle.Oracle`
+   * - :class:`~statrl.settings.bandits.stochastic.batch.agents.Oracle.Oracle`
      - Fills every batch with the best arm; the regret reference.
    * - :class:`~statrl.settings.bandits.stochastic.batch.agents._Random.Random`
      - Uniform exploration; the control whose regret batching does not affect.
@@ -138,7 +138,7 @@ A full run
 .. doctest::
 
    >>> from statrl.settings.bandits.stochastic.batch.agents.BIMED import BIMED
-   >>> from statrl.settings.bandits.stochastic.batch.agents._Oracle import Oracle
+   >>> from statrl.settings.bandits.stochastic.batch.agents.Oracle import Oracle
    >>> from statrl.settings.bandits.stochastic.batch.interaction import BatchBanditInteraction
    >>>
    >>> env = BatchMAB(BernoulliBandit([0.2, 0.9, 0.5]), batchsize=[8] * 100)

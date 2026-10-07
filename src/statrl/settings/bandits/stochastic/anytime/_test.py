@@ -1,6 +1,6 @@
 from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
 from statrl.settings.bandits.stochastic.anytime.agents._Random import Random
-from statrl.settings.bandits.stochastic.anytime.agents._Oracle import Oracle
+from statrl.settings.bandits.stochastic.anytime.agents.Oracle import Oracle
 from statrl.settings.bandits.stochastic.anytime.interaction import BanditInteraction
 from statrl.experiments.massiveruns import runLargeMulticoreExperiment
 

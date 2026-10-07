@@ -15,7 +15,7 @@ class Random(BatchBanditAgent):
 
     See Also
     --------
-    statrl.settings.bandits.stochastic.batch.agents._Oracle.Oracle :
+    statrl.settings.bandits.stochastic.batch.agents.Oracle.Oracle :
         The opposite baseline.
     """
 

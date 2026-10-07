@@ -1,5 +1,5 @@
 from statrl.settings.bandits.stochastic.batch.envs.parametric import BatchBernoulliBandit
-from statrl.settings.bandits.stochastic.batch.agents._Oracle import Oracle
+from statrl.settings.bandits.stochastic.batch.agents.Oracle import Oracle
 from statrl.settings.bandits.stochastic.batch.agents._Random import Random
 from statrl.settings.bandits.stochastic.batch.interaction import BatchBanditInteraction
 

@@ -45,7 +45,7 @@ comparable:
 
 .. doctest::
 
-   >>> from statrl.settings.bandits.stochastic.anytime.agents._Oracle import Oracle
+   >>> from statrl.settings.bandits.stochastic.anytime.agents.Oracle import Oracle
    >>>
    >>> oracle_scores = BanditInteraction().run(env, Oracle(env), horizon=2000)
    >>> regret = oracle_scores - scores

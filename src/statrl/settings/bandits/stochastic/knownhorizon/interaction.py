@@ -110,7 +110,7 @@ if __name__ == "__main__":
     # These are all ANYTIME environments and agents.
     from statrl.settings.bandits.stochastic.anytime.envs.parametric import  BernoulliBandit
     from statrl.settings.bandits.stochastic.anytime.agents.IMED import IMED
-    from statrl.settings.bandits.stochastic.anytime.agents._Oracle import Oracle
+    from statrl.settings.bandits.stochastic.anytime.agents.Oracle import Oracle
 
     from statrl.settings.bandits.stochastic.knownhorizon.wrappers.wrapper_anytime_knownhorizon import AnytimeToKnownHorizonAgentWrapper
 

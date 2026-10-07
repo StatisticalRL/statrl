@@ -45,7 +45,7 @@ Shipped agents
    * - :class:`~statrl.settings.bandits.stochastic.anytime.agents.IMED.IMED`
      - Indexed Minimum Empirical Divergence — an asymptotically optimal, index-based
        algorithm. See the deep dive below.
-   * - :class:`~statrl.settings.bandits.stochastic.anytime.agents._Oracle.Oracle`
+   * - :class:`~statrl.settings.bandits.stochastic.anytime.agents.Oracle.Oracle`
      - Baseline that always plays the best arm; used as the regret reference.
    * - :class:`~statrl.settings.bandits.stochastic.anytime.agents._Random.Random`
      - Uniform exploration — samples an arm uniformly at random each round.

@@ -27,7 +27,7 @@ Agents
    agents.BCB.BCB
    agents.BCB.BCBnaif
    agents.BABA.BABA
-   agents._Oracle.Oracle
+   agents.Oracle.Oracle
    agents._Random.Random
 
 Environments

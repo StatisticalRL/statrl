@@ -1,6 +1,6 @@
 from statrl.settings.markovdecisionprocess.discrete_nostructure.envs.riverswim import RiverSwim
 from statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Random import Random
-from statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Oracle import Opti_swimmer as Oracle
+from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.Oracle import Opti_swimmer as Oracle
 from statrl.settings.markovdecisionprocess.discrete_nostructure.interaction import MDPInteraction
 from statrl.experiments.massiveruns import runLargeMulticoreExperiment
 

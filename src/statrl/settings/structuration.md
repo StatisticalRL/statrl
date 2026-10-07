@@ -19,7 +19,7 @@ setting_name/
 ├── _test.py          # Contains test_render(), test_run(),
 │                     # test_load(), test_massive().
 ├── agents/
-│   ├── _Oracle.py    # Oracle agent following the optimal policy.
+│   ├── Oracle.py     # Oracle agent following the optimal policy.
 │   └── _Random.py    # Uniform random policy.
 ├── envs/
 │   └── environments.yaml

@@ -1,6 +1,6 @@
 
 from statrl.settings.bandits.stochastic.kernel.agents._Random import Random
-from statrl.settings.bandits.stochastic.kernel.agents._Oracle import Oracle
+from statrl.settings.bandits.stochastic.kernel.agents.Oracle import Oracle
 from statrl.settings.bandits.stochastic.kernel.interaction import KernelBanditInteraction
 from statrl.experiments.massiveruns import runLargeMulticoreExperiment
 

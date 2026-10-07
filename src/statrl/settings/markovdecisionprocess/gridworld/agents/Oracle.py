@@ -1,7 +1,7 @@
 import numpy as np
 
 
-from statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Oracle import Opti_controller
+from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.Oracle import Opti_controller
 MDPOracle = Opti_controller
 
 class Opti_77_4room:
