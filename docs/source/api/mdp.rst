@@ -28,8 +28,6 @@ Agents
    agents._Oracle.build_opti
    agents._Oracle.Opti_controller
    agents._Oracle.Opti_swimmer
-   agents._Oracle.Opti_77_4room
-   agents._Oracle.Opti_911_2room
    agents._Random.Random
    agents.Human.Human
    agents.Human.keyboard_waitfor

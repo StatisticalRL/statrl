@@ -62,12 +62,12 @@ class Opti_controller(MDPAgent):
 
     """
 
-    def __init__(self, env, nS, nA, epsilon=0.001, max_iter=100):
+    def __init__(self, env, epsilon=0.001, max_iter=100):
         self.name="Oracle"
         self.env = env
-        self.nS = nS
-        self.nA = nA
-        super(Opti_controller, self).__init__(nS, nA, self.name)
+        self.nS = env.nS
+        self.nA = env.nA
+        super(Opti_controller, self).__init__(self.nS, self.nA, self.name)
         self.u = np.zeros(self.nS)
         self.epsilon = epsilon
         self.max_iter = max_iter

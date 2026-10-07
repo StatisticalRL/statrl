@@ -1,6 +1,9 @@
 import numpy as np
 
 
+from statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Oracle import Opti_controller
+MDPOracle = Opti_controller
+
 class Opti_77_4room:
     """Hand-coded oracle for the 7x7 four-room gridworld.
 

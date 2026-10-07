@@ -1,0 +1,28 @@
+
+# First change version in pyproject.toml (.e. "v1.260911").
+# Then (see .github/workflows/pypi.ml configuration file):
+git tag v1.260911 -m "PyPi release"
+git push origin v1.260911
+
+
+##### EXPLANATIONS#
+
+1. Create a PyPI account at pypi.org if you don't have one, and verify your email.
+2. Register the trusted publisher. Since statrl isn't registered yet, go to https://pypi.org/manage/account/publishing/ and add a "pending publisher" with:
+   - PyPI project name: statrl
+   - Owner: StatisticalRL
+   - Repository name: statrl
+   - Workflow filename: pypi.yml
+   - Environment name: pypi
+3. (Recommended) In that GitHub repo's Settings → Environments, create an environment named pypi and optionally add required reviewers, so every publish needs manual approval.
+
+Then to actually publish:
+
+4. Commit and push this workflow file to main (in whichever repo you registered above).
+5. Tag the release and push the tag, e.g.:
+git tag v1.2609
+git push origin v1.2609
+   That triggers the workflow, which builds and publishes statrl to PyPI.
+
+###########################
+# Mau require :  python -m pip install build twine

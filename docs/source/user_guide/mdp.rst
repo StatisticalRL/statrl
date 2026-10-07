@@ -118,7 +118,7 @@ environment and continues. ``horizon`` therefore counts **steps**, not episodes.
 .. doctest::
 
    >>> from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.PSRL import PSRL
-   >>> from statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Oracle import build_opti
+   >>> from statrl.settings.markovdecisionprocess.discrete_nostructure.agents._Oracle import Opti_swimmer
    >>> from statrl.settings.markovdecisionprocess.discrete_nostructure.interaction import MDPInteraction
    >>>
    >>> env = RiverSwim(5)
@@ -127,7 +127,7 @@ environment and continues. ``horizon`` therefore counts **steps**, not episodes.
    >>> scores.shape
    (2000,)
 
-   >>> oracle = build_opti(env.name, env, env.nS, env.nA)
+   >>> oracle = Opti_swimmer(env)
    >>> oracle_scores = interaction.run(env, oracle, horizon=2000)
    >>> bool((oracle_scores - scores)[-1] >= 0)
    True

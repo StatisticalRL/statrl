@@ -3,7 +3,7 @@
 [![Tests](https://github.com/StatisticalRL/statrl/actions/workflows/tests.yml/badge.svg)](https://github.com/StatisticalRL/statrl/actions/workflows/tests.yml)
 [![Lint](https://github.com/StatisticalRL/statrl/actions/workflows/lint.yml/badge.svg)](https://github.com/StatisticalRL/statrl/actions/workflows/lint.yml)
 [![Documentation](https://github.com/StatisticalRL/statrl/actions/workflows/docs.yml/badge.svg)](https://github.com/StatisticalRL/statrl/actions/workflows/docs.yml)
-[![Python](https://img.shields.io/badge/python-3.9%2B-blue)](pyproject.toml)
+[![Python](https://img.shields.io/badge/python-3.14%2B-blue)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 The Statistical Reinforcement Learning Toolkit is a research library organised as a
@@ -13,13 +13,40 @@ taxonomy of *settings*, each with a matching environment, agent, and interaction
 
 ## Install
 
-Requires Python 3.9+. Not yet on PyPI (install from source):
+Requires Python 3.14+. 
+
+```bash
+pip install statrl
+```
+
+Installation from sources
 
 ```bash
 git clone https://github.com/StatisticalRL/statrl.git
 cd statrl
 pip install -e .          # editable install for development
 ```
+
+## Screenshots
+
+Comparison of scores:
+
+-  A Multi-armed bandit example:
+![](screenshots/Regret_BanditBernoulli.png)
+
+- A Markov decision process example (in log-scale):
+![](screenshots/Regret_Riverswim.png)
+
+Different rendering of runs:
+
+- Text rendering: 
+
+![](screenshots/GridWorldText.png)
+
+- HTML rendering: 
+
+![](screenshots/MDP.png)
+
 
 ## Quickstart
 
