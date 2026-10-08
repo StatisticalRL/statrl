@@ -4,7 +4,7 @@ import numpy as np
 from statrl.settings.bandits.stochastic.anytime.agent import BanditAgent
 from statrl.settings.utils import randmax
 
-class NPTS(BanditAgent):
+class NPTS_old(BanditAgent):
     """
     Non-Parametric Thompson Sampling (NPTS)
     a.k.a. Bounded Dirichlet Sampling (BDS)
@@ -35,7 +35,7 @@ class NPTS(BanditAgent):
         Temporary scheduling buffer used to enforce structured exploration.
     """
 
-    def __init__(self, nbArms, bound=1.0,name="NPTS"):
+    def __init__(self, nbArms, bound=1.0,name="NPTS_old"):
         """
         Parameters
         ----------
@@ -47,7 +47,7 @@ class NPTS(BanditAgent):
         self.nA=nbArms
         self.bound = bound
         if name is None:
-            BanditAgent.__init__(self, name="NPTS")
+            BanditAgent.__init__(self, name="NPTS_old")
         else:
             BanditAgent.__init__(self, name=name)
 
@@ -79,24 +79,22 @@ class NPTS(BanditAgent):
         - If the internal buffer is non-empty, pop the next arm.
         - Otherwise, recompute a candidate set of under-explored arms:
             * Identify leader arm (most sampled)
-            * For each other arm, compute Dirichlet resampled mean
+            * For less-sampled arms, compute Dirichlet resampled mean
             * Add arms that may compete with leader into buffer
-            * If no arm competes, add the leader
         """
         if len(self.playbuffer) == 0:
             leader = randmax(self.nbDraws)
             muleader = self.meanRewards[leader]
 
             for a in range(self.nA):
-                if a != leader:
+                if (
+                    self.nbDraws[a] < self.nbDraws[leader]
+                    and self.nbDraws[a] > 0
+                ):
                     tmua = self._dirichletmean(self.rewardHistory[a])
 
                     if max(self.meanRewards[a], tmua) >= muleader:
                         self.playbuffer.append(a)
-
-            # No challenger beats the leader: play the leader
-            if len(self.playbuffer) == 0:
-                self.playbuffer.append(leader)
 
         return self.playbuffer.pop()
 
