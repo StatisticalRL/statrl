@@ -26,7 +26,7 @@ probabilities are modeled by Dirichlet posteriors.
 import numpy as np
 import scipy.stats as stat
 from statrl.settings.markovdecisionprocess.discrete_nostructure.agent import MDPAgent
-from statrl.settings.utils import allmax, categorical_sample
+from statrl.settings.utils import categorical_sample
 
 
 class PSRL(MDPAgent):
@@ -232,32 +232,30 @@ class PSRL(MDPAgent):
             current iterate is kept and a warning is printed.
         """
         u0 = self.u - min(self.u)
-        u1 = np.zeros(self.nS)
 
         for _ in range(max_iter):
-            for s in range(self.nS):
-                temp = self.r_sampled[s] + self.p_sampled[s] @ u0
-                u1[s] = np.max(temp)
+            action_values = self.r_sampled + self.p_sampled @ u0
+            u1 = np.max(action_values, axis=1)
 
             diff = u1 - u0
-            if max(diff) - min(diff) < epsilon:
+            if np.ptp(diff) < epsilon:
                 break
-            u0 = u1 - min(u1)
-            u1 = np.zeros(self.nS)
+            u0 = u1 - np.min(u1)
         else:
             print("[PSRL] No convergence in the VI at time ", self.t, " before ", max_iter, " iterations.")
 
-        self.u = u1 - min(u1)
+        self.u = u1 - np.min(u1)
 
         # Greedy policy w.r.t. the converged bias function, tie-breaking by
         # choosing: Uniform(Argmin(Nk)) among the greedy actions.
+        action_values = self.r_sampled + self.p_sampled @ self.u
+        u1 = np.max(action_values, axis=1)
         for s in range(self.nS):
-            temp = self.r_sampled[s] + self.p_sampled[s] @ self.u
-            (_, arg) = allmax(temp)
-            nn = [-self.Nk[s, a] for a in arg]
-            (_, arg2) = allmax(nn)
-            choice = [arg[a] for a in arg2]
-            self.policy[s] = [1. / len(choice) if x in choice else 0 for x in range(self.nA)]
+            greedy_actions = np.flatnonzero(action_values[s] == u1[s])
+            greedy_counts = self.Nk[s, greedy_actions]
+            choice = greedy_actions[greedy_counts == np.min(greedy_counts)]
+            self.policy[s] = 0.0
+            self.policy[s, choice] = 1.0 / len(choice)
 
     def new_episode(self):
         """Fold in the last episode's counts, sample a fresh MDP, and solve it.
@@ -351,6 +349,5 @@ class PSRL(MDPAgent):
         self.p_pseudoCounts[state,action,observation] +=1
 
         self.t += 1
-
 
 

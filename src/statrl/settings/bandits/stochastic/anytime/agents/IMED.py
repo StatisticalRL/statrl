@@ -2,8 +2,7 @@ from typing import Callable
 
 import numpy as np
 from statrl.settings.bandits.stochastic.anytime.agent import BanditAgent
-from statrl.settings.utils import randmin, klGauss
-from math import log
+from statrl.settings.utils import klBern, klGauss, randmin
 
 
 class IMED(BanditAgent):
@@ -125,12 +124,12 @@ class IMED(BanditAgent):
         return randmin(self.indexes)
 
     def update(self, arm: int, reward: float) -> None:
-        """Refresh the empirical means and recompute every index.
+        """Refresh the empirical means and all affected indices.
 
         Increments the pull count and cumulative reward of ``arm``, updates
-        its empirical mean and the running best mean, then recomputes
-        :math:`I_a(t)` for all arms — all of them, because they share
-        :math:`\\hat{\\mu}^\\star(t)`.
+        its empirical mean and the running best mean. If the best mean changes,
+        every index is recomputed, otherwise only the pulled arm's index
+        can have changed.
 
         Parameters
         ----------
@@ -139,6 +138,7 @@ class IMED(BanditAgent):
         reward : float
             Reward observed for that arm.
         """
+        previous_max = self.maxMeans
         self.cumRewards[arm] += reward
         self.nbDraws[arm] += 1
 
@@ -148,9 +148,28 @@ class IMED(BanditAgent):
         # Best empirical mean across arms
         self.maxMeans = float(np.max(self.means))
 
-        # IMED index computation
-        self.indexes = np.array([
-            (self.nbDraws[a] * self.kl(self.means[a], self.maxMeans)
-             + log(self.nbDraws[a])) if self.nbDraws[a] > 0 else 0
-            for a in range(self.nA)
-        ])
+        if self.maxMeans == previous_max:
+            draws = self.nbDraws[arm]
+            self.indexes[arm] = (
+                draws * self.kl(self.means[arm], self.maxMeans)
+                + np.log(draws)
+            )
+            return
+
+        selected = self.nbDraws > 0 # Identify arms that have been pulled
+        means = self.means[selected]
+        draws = self.nbDraws[selected]
+
+        if self.kl is klBern:
+            divergences = klBern(means, self.maxMeans)
+        elif self.kl is klGauss:
+            divergences = (means - self.maxMeans) ** 2 / 2
+        else:
+            divergences = np.array([
+                self.kl(mean, self.maxMeans)
+                for mean in means
+            ])
+
+        indexes = np.zeros(self.nA)
+        indexes[selected] = draws * divergences + np.log(draws)
+        self.indexes = indexes

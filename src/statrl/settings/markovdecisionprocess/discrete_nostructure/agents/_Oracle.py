@@ -1,5 +1,5 @@
 import numpy as np
-from statrl.settings.utils import   categorical_sample, allmax
+from statrl.settings.utils import categorical_sample
 
 from statrl.settings.markovdecisionprocess.discrete_nostructure.agent import MDPAgent
 def build_opti(name, env, nS, nA):
@@ -172,27 +172,28 @@ class Opti_controller(MDPAgent):
             non-convergence warning is printed.
         """
         u0 = self.u - min(self.u)  # np.zeros(self.nS)
-        u1 = np.zeros(self.nS)
         itera = 0
         while True:
-            #print("[Opt]",itera)
-            for s in range(self.nS):
-                temp = np.zeros(self.nA)
-                for a in range(self.nA):
-                    temp[a] = self.meanrewards[s, a] + 0.999 * sum([u0[ns] * self.transitions[s, a, ns] for ns in range(self.nS)])
-                (u1[s], choice) = allmax(temp)
-                self.policy[s]= [ 1./len(choice) if x in choice else 0 for x in range(self.nA) ]
-            diff = [abs(x - y) for (x, y) in zip(u1, u0)]
-            if (max(diff) - min(diff)) < epsilon:
-                self.u = u1-min(u1)
+            action_values = (
+                self.meanrewards
+                + 0.999 * (self.transitions @ u0)
+            )
+            u1 = np.max(action_values, axis=1)
+            optimal_actions = action_values == u1[:, None]
+            self.policy = optimal_actions / np.sum(
+                optimal_actions, axis=1, keepdims=True
+            )
+
+            diff = np.abs(u1 - u0)
+            if np.ptp(diff) < epsilon:
+                self.u = u1 - np.min(u1)
                 break
             elif itera > max_iter:
-                self.u = u1-min(u1)
+                self.u = u1 - np.min(u1)
                 print("[Opt] No convergence in VI at time ", self.t, " before ", max_iter, " iterations.")
                 break
             else:
-                u0 = u1- min(u1)
-                u1 = np.zeros(self.nS)
+                u0 = u1 - np.min(u1)
                 itera += 1
 
 
