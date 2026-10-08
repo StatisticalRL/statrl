@@ -420,13 +420,13 @@ class KernelTSUnknownVariance(_KernelTSBase):
         self.sigma_minus_initial: float = float(sigma_minus)
 
         self.delta0: float = float(delta0)
-
-        self.sigma_plus: float = self.sigma_plus_initial
-        self.sigma_minus: float = self.sigma_minus_initial
-
-        self.lambda_: float = (
-                self.sigma_plus ** 2 / self.C ** 2
-        )
+        #
+        # self.sigma_plus: float = self.sigma_plus_initial
+        # self.sigma_minus: float = self.sigma_minus_initial
+        #
+        # self.lambda_: float = (
+        #         self.sigma_plus ** 2 / self.C ** 2
+        #)
 
     def reset(self) -> None:
         super().reset()
