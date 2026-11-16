@@ -121,7 +121,7 @@ def plotScoreDiffs(learnersName: list[str], envName: str, title, mean: list[np.n
     ax.set_xlabel(fig_xlabel, fontsize=13, fontname = "Arial")
     ax.set_ylabel(fig_ylabel, fontsize=13, fontname = "Arial")
 
-    ax.set_xlim(0,min(timeHorizon,len(mean[0]))-1)
+    ax.set_xlim(0, times[-1])
     #pl.xticks(times)
     ax.ticklabel_format(axis='both', useMathText = True, useOffset = True, style='sci', scilimits=(0, 0))
     ax.set_ylim([m,M])
