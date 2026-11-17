@@ -1,5 +1,3 @@
-from build import env
-
 import statrl.experiments.onerun as oR
 import statrl.experiments.parallelruns as pR
 import statrl.experiments.analyzeruns as aR
