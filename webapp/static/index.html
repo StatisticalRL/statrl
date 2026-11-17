@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>STATRL — Interactive Playground</title>
+<style>
+body{margin:0;background:#f4f6f8;color:#20242a;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+header{padding:18px 24px;background:#fff;border-bottom:1px solid #dce1e7}
+h1{margin:0;font-size:22px}.sub{color:#6b7280;font-size:13px;margin-top:4px}
+main{max-width:1300px;margin:20px auto;padding:0 18px;display:grid;grid-template-columns:360px 1fr;gap:18px}
+.panel{background:#fff;border:1px solid #dce1e7;border-radius:10px;padding:16px}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#69717d}
+label{display:block;font-size:13px;margin:12px 0 5px}
+select,input,button,textarea{font:inherit}
+select,input,textarea{width:100%;padding:8px;border:1px solid #cfd5dc;border-radius:7px;box-sizing:border-box}
+button{border:1px solid #cfd5dc;background:#fff;border-radius:7px;padding:8px 12px;cursor:pointer}
+button.primary{background:#3867d6;color:#fff;border-color:#3867d6}
+button:disabled{opacity:.45;cursor:not-allowed}
+.card{background:#f7f8fa;border:1px solid #e4e7eb;border-radius:8px;padding:10px;margin-top:10px}
+#history{max-height:420px;overflow:auto;font-size:12px}
+table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:6px;border-bottom:1px solid #e8ebef}
+.mode{display:flex;gap:8px}.mode button{flex:1}
+#message{margin-top:10px;color:#6b7280;font-size:13px}
+pre{white-space:pre-wrap;word-break:break-word;font-size:12px}
+.setting-tree{margin-top:8px;border:1px solid #e1e5ea;border-radius:8px;padding:6px;max-height:300px;overflow:auto;background:#fff}
+.setting-node{margin:1px 0}.setting-row{display:flex;align-items:center;gap:3px;min-height:30px}
+.setting-expand{width:28px;padding:3px;border:0;background:transparent;color:#66707c}
+.setting-select{flex:1;text-align:left;border:0;background:transparent;padding:6px 7px;border-radius:6px;color:#303640}
+.setting-select:hover{background:#f1f3f5}.setting-select.selected{background:#eaf0ff;color:#274caa;font-weight:600}
+.setting-children{margin-left:16px;border-left:1px solid #e5e8ec;padding-left:4px}
+.selected-setting{font-size:12px;color:#69717d;margin-top:7px}.selected-setting b{color:#303640}
+@media(max-width:850px){main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>STATRL Interactive Playground</h1>
+<div class="sub">Explore an environment, intervene manually, or switch learners while preserving the same interaction history.</div>
+</header>
+
+<main>
+<section class="panel">
+<h2>1. Setting</h2>
+<input id="settingSearch" type="search" placeholder="Search settings..." autocomplete="off">
+<div id="settingTree" class="setting-tree">Loading settings...</div>
+<div class="selected-setting">Selected: <b id="selectedSetting">—</b></div>
+
+<h2>2. Environment</h2>
+<select id="environment"></select>
+<div id="envInfo" class="card">Select an environment.</div>
+
+<div class="mode" style="margin-top:12px">
+<button id="normalMode" class="primary">Real environment</button>
+<button id="customMode">Custom outcome</button>
+</div>
+
+<label>Action</label>
+<input id="action" placeholder="e.g. 0">
+
+<div id="customFields" style="display:none">
+<label>Next state</label><input id="nextState" placeholder="state">
+<label>Reward</label><input id="reward" type="number" step="any">
+<label>Done</label><input id="done" type="checkbox">
+<label>Info (JSON, optional)</label><textarea id="info">{}</textarea>
+</div>
+
+<button id="step" class="primary" style="margin-top:12px;width:100%">Take step</button>
+
+<h2>3. Learner</h2>
+<select id="learner"><option value="">Manual control</option></select>
+<button id="attach" style="margin-top:8px;width:100%">Switch / attach learner</button>
+<div id="recommendation" class="card">No learner selected.</div>
+<button id="recommend" style="width:100%;margin-top:8px">Ask learner for action</button>
+
+<div id="message"></div>
+</section>
+
+<section class="panel">
+<h2>Interaction history</h2>
+<div class="card">
+<b>Current state:</b> <span id="state">—</span><br>
+<b>Steps:</b> <span id="steps">0</span>
+</div>
+<div id="history" style="margin-top:12px"></div>
+<h2>Session data</h2>
+<pre id="sessionData">{}</pre>
+</section>
+</main>
+
+<script>
+let token=null, custom=false, settingTree=[], selectedSetting=null;
+
+const $=id=>document.getElementById(id);
+
+async function api(url, options={}) {
+  const r=await fetch(url,{headers:{"Content-Type":"application/json"},...options});
+  const data=await r.json();
+  if(!r.ok) throw new Error(data.error||"Request failed");
+  return data;
+}
+
+function showError(e){$("message").textContent=e.message}
+function clearError(){$("message").textContent=""}
+function escapeHtml(x){return String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+async function loadSettings(){
+  try {
+    settingTree=await api("/api/settings/tree");
+    renderSettingTree();
+
+    const first=findFirstSelectable(settingTree);
+    if(first) await selectSetting(first.id);
+  } catch(e) {
+    $("settingTree").textContent="Could not load settings: "+e.message;
+    showError(e);
+    console.error(e);
+  }
+}
+
+function findFirstSelectable(nodes){
+  for(const node of nodes){
+    if(node.selectable) return node;
+    const child=findFirstSelectable(node.children||[]);
+    if(child) return child;
+  }
+  return null;
+}
+
+function renderSettingTree(){
+  const query=$("settingSearch").value.trim().toLowerCase();
+  $("settingTree").innerHTML="";
+  for(const node of settingTree){
+    const rendered=renderSettingNode(node,query);
+    if(rendered) $("settingTree").appendChild(rendered);
+  }
+  if(!$("settingTree").children.length){
+    $("settingTree").textContent="No matching settings.";
+  }
+}
+
+function renderSettingNode(node,query){
+  const childNodes=(node.children||[]).map(x=>renderSettingNode(x,query)).filter(Boolean);
+  const selfMatch=!query || node.label.toLowerCase().includes(query) || node.id.toLowerCase().includes(query);
+  if(!selfMatch && !childNodes.length) return null;
+
+  const wrapper=document.createElement("div");
+  wrapper.className="setting-node";
+
+  const row=document.createElement("div");
+  row.className="setting-row";
+
+  const expand=document.createElement("button");
+  expand.className="setting-expand";
+  expand.type="button";
+  expand.textContent=(childNodes.length||node.children?.length)?"▾":"";
+
+  const button=document.createElement("button");
+  button.type="button";
+  button.className="setting-select"+(selectedSetting===node.id?" selected":"");
+  button.textContent=node.label;
+  if(!node.selectable){
+    button.style.fontWeight="600";
+    button.style.color="#59616d";
+  }
+
+  row.appendChild(expand); row.appendChild(button); wrapper.appendChild(row);
+
+  if(childNodes.length){
+    const children=document.createElement("div");
+    children.className="setting-children";
+    for(const child of childNodes) children.appendChild(child);
+    wrapper.appendChild(children);
+  }
+
+  let expanded=true;
+  if(!query && !selectedSetting) expanded=false;
+  if(query) expanded=true;
+  if(selectedSetting && (node.id===selectedSetting || selectedSetting.startsWith(node.id+"."))) expanded=true;
+  if(childNodes.length && expanded) expand.textContent="▾";
+  else if(node.children?.length) expand.textContent="▸";
+  if(childNodes.length && !expanded) wrapper.querySelector(".setting-children").style.display="none";
+
+  expand.onclick=()=>{
+    const children=wrapper.querySelector(".setting-children");
+    if(!children) return;
+    const visible=children.style.display!=="none";
+    children.style.display=visible?"none":"block";
+    expand.textContent=visible?"▸":"▾";
+  };
+
+  button.onclick=()=>{
+    if(node.selectable) selectSetting(node.id).catch(showError);
+    else {
+      const children=wrapper.querySelector(".setting-children");
+      if(children){children.style.display="block";expand.textContent="▾";}
+    }
+  };
+  return wrapper;
+}
+
+async function selectSetting(settingId){
+  selectedSetting=settingId;
+  $("selectedSetting").textContent=settingId;
+  renderSettingTree();
+  token=null;
+  resetSessionView();
+  clearError();
+
+  const encoded=encodeURIComponent(settingId);
+  const envs=await api("/api/environments/"+encoded);
+  $("environment").innerHTML=envs.map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(x.label)}</option>`).join("");
+
+  const ls=await api("/api/learners/"+encoded);
+  $("learner").innerHTML='<option value="">Manual control</option>'+
+    ls.map(x=>`<option value="${escapeHtml(x.id)}">${escapeHtml(x.label)}</option>`).join("");
+
+  await showEnvironment();
+}
+
+async function showEnvironment(){
+  if(!selectedSetting || !$('environment').value){
+    $("envInfo").textContent="Select an environment.";
+    return;
+  }
+  const xs=await api("/api/environments/"+encodeURIComponent(selectedSetting));
+  const e=xs.find(x=>String(x.id)===String($("environment").value));
+  $("envInfo").innerHTML="<pre>"+escapeHtml(JSON.stringify(e,null,2))+"</pre>";
+  token=null;
+  resetSessionView();
+}
+
+function resetSessionView(){
+  $("state").textContent="—";
+  $("steps").textContent="0";
+  $("history").innerHTML="";
+  $("sessionData").textContent="{}";
+  $("recommendation").textContent="No learner selected.";
+}
+
+$("settingSearch").oninput=renderSettingTree;
+$("environment").onchange=showEnvironment;
+
+$("normalMode").onclick=()=>{
+  custom=false;
+  $("normalMode").classList.add("primary");
+  $("customMode").classList.remove("primary");
+  $("customFields").style.display="none";
+};
+$("customMode").onclick=()=>{
+  custom=true;
+  $("customMode").classList.add("primary");
+  $("normalMode").classList.remove("primary");
+  $("customFields").style.display="block";
+};
+
+$("attach").onclick=async()=>{
+  try{
+    clearError();
+    if(!$("learner").value){$("recommendation").textContent="Manual control.";return}
+    if(!token) throw new Error("Take at least one step before attaching a learner.");
+    const d=await api(`/api/session/${token}/learner`,{
+      method:"POST",body:JSON.stringify({
+        setting:selectedSetting,learner:$("learner").value
+      })
+    });
+    renderSession(d.session);
+    $("recommendation").textContent="Learner attached and replayed over the complete history.";
+  }catch(e){showError(e)}
+};
+
+$("recommend").onclick=async()=>{
+  try{
+    clearError();
+    if(!token) throw new Error("Create the session first by taking a step.");
+    const d=await api(`/api/session/${token}/recommend`,{method:"POST",body:"{}"});
+    $("action").value=d.action;
+    $("recommendation").textContent="Recommended action: "+d.action;
+  }catch(e){showError(e)}
+};
+
+$("step").onclick=async()=>{
+  try{
+    clearError();
+    if(!selectedSetting) throw new Error("Select a setting first.");
+    if(!$("environment").value) throw new Error("Select an environment first.");
+
+    if(!token){
+      const d=await api("/api/session",{method:"POST",body:JSON.stringify({
+        setting:selectedSetting,
+        environment:$("environment").value
+      })});
+      token=d.token;
+    }
+
+    const action=$("action").value;
+    if(action==="") throw new Error("Specify an action.");
+    const payload={action:Number(action),custom};
+    if(custom){
+      payload.next_state=$("nextState").value;
+      payload.reward=Number($("reward").value);
+      payload.done=$("done").checked;
+      try{payload.info=JSON.parse($("info").value||"{}")}catch(_){throw new Error("Info must be valid JSON.")}
+    }
+    const d=await api(`/api/session/${token}/step`,{
+      method:"POST",body:JSON.stringify(payload)
+    });
+    renderSession(d.session);
+  }catch(e){showError(e)}
+};
+
+function renderSession(s){
+  $("state").textContent=s.state??"—";
+  $("steps").textContent=s.history.length;
+  $("history").innerHTML=`<table><thead><tr><th>t</th><th>s</th><th>a</th><th>r</th><th>s'</th></tr></thead><tbody>`+
+    s.history.map(t=>`<tr><td>${escapeHtml(t.step)}</td><td>${escapeHtml(t.state)}</td><td>${escapeHtml(t.action)}</td><td>${escapeHtml(t.reward)}</td><td>${escapeHtml(t.next_state)}</td></tr>`).join("")+"</tbody></table>";
+  $("sessionData").textContent=JSON.stringify(s,null,2);
+}
+
+loadSettings().catch(showError);
+</script>
+</body>
+</html>
