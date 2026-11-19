@@ -499,7 +499,7 @@ class UCRL3Lazy(MDPAgent):
 
         u = np.zeros(self.nS, dtype=np.float64)
         policy = np.zeros(self.nS, dtype=np.int64)
-        active_supports = np.zeros((self.nS, self.nA), dtype=np.bool_)
+        active_supports = np.zeros((self.nS, self.nA, self.nS), dtype=np.bool_)
         q_vals = np.empty((self.nS, self.nA), dtype=np.float64)
 
         for n_iter in range(self._max_evi_iter):

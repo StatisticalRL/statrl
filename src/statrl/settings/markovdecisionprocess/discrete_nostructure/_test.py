@@ -50,13 +50,14 @@ def test_run() -> None:
 def test_massive() -> None:
     from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.IMED_RL import IMEDRL
     from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.PSRL import PSRL
+    from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.UCRL3 import UCRL3Lazy
 
     nS=6
     env =RiverSwim(nS)
     nA=env.nA
 
     interaction = MDPInteraction()
-    agents = [IMEDRL(nS, nA),PSRL(nS, nA)]
+    agents = [UCRL3Lazy(nS, nA),IMEDRL(nS, nA),PSRL(nS, nA)]
     oracle = Oracle(env)
     runLargeMulticoreExperiment(env,agents,oracle, interaction,timeHorizon=1000,  nbReplicates=50)
 
