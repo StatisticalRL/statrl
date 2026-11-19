@@ -20,9 +20,9 @@ class BAIInteraction(Interaction):
 
     Examples
     --------
-    >>> from statrl.settings.bandits.stochastic.bestarmidentification.envs.parametric import BernoulliBandit
-    >>> from statrl.settings.bandits.stochastic.bestarmidentification.agents.IMED import IMED
-    >>> env = BernoulliBandit([0.2, 0.9, 0.5])
+    #>>> from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
+    #>>> from statrl.settings.bandits.stochastic.anytime.agents.TopTwoTS import TopTwoTS
+    #>>> env = BernoulliBandit([0.2, 0.9, 0.5])
     #>>> scores = BAIInteraction().run(env, TopTwoTS(env.number_arms), horizon=100)
     #>>> scores.shape
     (100,)
