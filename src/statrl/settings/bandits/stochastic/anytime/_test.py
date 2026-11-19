@@ -29,6 +29,19 @@ def test_load() -> None:
 
     interaction.renderrun(env, random, 10)
 
+def test_algos() -> None:
+
+    from statrl.experiments.utils import load, make,makealgo
+    envs = load("envs/environments.yaml")
+    env = make(envs["bernoulli_hard"])
+
+    interaction = BanditInteraction()
+
+    algos = load("agents/agents.yaml")
+    for alg in algos:
+        algo = makealgo(algos[alg], env)
+        interaction.renderrun(env, algo, 10)
+
 def test_run() -> None:
 
     means=[0.2,0.9,0.7,0.5]
@@ -68,7 +81,8 @@ def test_massive() -> None:
 
 
 if __name__ == "__main__":
-    test_render()
-    test_run()
-    test_load()
-    test_massive()
+    #test_render()
+    #test_run()
+    #test_load()
+    test_algos()
+    #test_massive()

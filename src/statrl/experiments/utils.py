@@ -1,3 +1,5 @@
+
+import importlib
 import importlib.util
 import os
 import pickle
@@ -138,3 +140,82 @@ def make(spec: dict) -> Any:
     env = cls(**kwargs)
     env.displayname = spec["displayname"] if "displayname" in spec else env.name
     return env
+
+
+
+
+def _load_local_entrypoint(entrypoint: str, base_dir: str) -> Any:
+    """Load an object from a Python file relative to the registry."""
+    module_name, object_name = entrypoint.split(":", maxsplit=1)
+
+    module_path = Path(base_dir) / f"{module_name}.py"
+
+    spec = importlib.util.spec_from_file_location(module_name, module_path)
+    if spec is None or spec.loader is None:
+        raise ImportError(
+            f"Cannot load module {module_name} from {module_path}"
+        )
+
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    try:
+        return getattr(module, object_name)
+    except AttributeError as exc:
+        raise ImportError(
+            f"Cannot find {object_name} in module {module_name}"
+        ) from exc
+
+
+def _load_import(entrypoint: str) -> Any:
+    """Load an object using its absolute Python import path."""
+    module_name, object_name = entrypoint.split(":", maxsplit=1)
+    module = importlib.import_module(module_name)
+
+    try:
+        return getattr(module, object_name)
+    except AttributeError as exc:
+        raise ImportError(
+            f"Cannot find {object_name} in module {module_name}"
+        ) from exc
+
+def makealgo(spec: dict, env: Any) -> Any:
+    module_name, class_name = spec["entrypoint"].split(":", maxsplit=1)
+
+    module_path = Path(spec["_base_dir"]) / f"{module_name}.py"
+
+    module_spec = importlib.util.spec_from_file_location(
+        module_name, module_path
+    )
+    if module_spec is None or module_spec.loader is None:
+        raise ImportError(f"Cannot load module {module_name} from {module_path}")
+
+    module = importlib.util.module_from_spec(module_spec)
+    module_spec.loader.exec_module(module)
+
+    cls = getattr(module, class_name)
+
+    def resolve_value(value):
+        if isinstance(value, dict):
+            if "env" in value:
+                return getattr(env, value["env"])
+
+            if "import" in value:
+                return _load_import(value["import"])
+
+            if "callable" in value:
+                factory_spec = value["callable"]
+                factory = getattr(module, factory_spec["name"])
+                return factory(**factory_spec.get("kwargs", {}))
+
+        return value
+
+    kwargs = {
+        key: resolve_value(value)
+        for key, value in spec.get("kwargs", {}).items()
+    }
+
+    algo = cls(**kwargs)
+    algo.displayname = spec.get("displayname", algo.name)
+
+    return algo

@@ -5,6 +5,8 @@ from statrl.settings.bandits.stochastic.anytime.agent import BanditAgent
 from statrl.settings.utils import randmax
 from math import sqrt, log
 
+def polynomial_delta(exponent: float = 3):
+    return lambda t: 1.0 / (t + 1) ** exponent
 
 class UCB(BanditAgent):
     """

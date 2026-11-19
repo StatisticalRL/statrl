@@ -1,0 +1,38 @@
+
+IMED:
+  entrypoint: "IMED:IMED"
+  displayname: "IMED (Gaussian)"
+  kwargs:
+    nbArms:
+      env: "number_arms"
+    kullback:
+      import: "statrl.settings.utils:klGauss"
+
+TS:
+  entrypoint: "TS:TS"
+  displayname: "Thompson Sampling (Bernoulli)"
+  kwargs:
+    nbArms:
+      env: "number_arms"
+
+UCB:
+  entrypoint: "UCB:UCB"
+  displayname: "UCB"
+  kwargs:
+    nbArms:
+      env: "number_arms"
+    delta:
+      callable:
+        name: "polynomial_delta"
+        kwargs:
+          exponent: 3
+    sigma: 0.5
+
+
+NPTS:
+  entrypoint: "NPTS:NPTS"
+  displayname: "NPTS"
+  kwargs:
+    nbArms:
+      env: "number_arms"
+    bound: 1.0
