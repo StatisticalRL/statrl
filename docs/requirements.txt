@@ -2,5 +2,5 @@
 # separately via `pip install .`).
 sphinx>=9.2.0
 pydata-sphinx-theme>=0.22.0
-myst-parser>=5.1.0
+myst-parser>=5.2.0
 sphinx-design>=0.7.0
