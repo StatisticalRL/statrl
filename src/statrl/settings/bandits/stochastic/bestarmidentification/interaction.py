@@ -2,7 +2,7 @@
 
 import numpy as np
 from statrl.settings.bandits.stochastic.bestarmidentification.environment import StochasticBanditEnv
-from statrl.settings.bandits.stochastic.bestarmidentification.agent import BanditAgent
+from statrl.settings.bandits.stochastic.bestarmidentification.agent import BAIBanditAgent
 
 
 from statrl.settings.bandits.stochastic.bestarmidentification.renderers.textrenderer import Textrenderer
@@ -28,7 +28,7 @@ class BAIInteraction(Interaction):
     (100,)
     """
 
-    def run(self, env: StochasticBanditEnv, learner: BanditAgent, horizon: int) -> np.ndarray:
+    def run(self, env: StochasticBanditEnv, learner: BAIBanditAgent, horizon: int) -> np.ndarray:
         """Run one interaction and return its best-arm identification score.
 
         Parameters
@@ -70,7 +70,7 @@ class BAIInteraction(Interaction):
 
         return np.array(steps_scores)
 
-    def renderrun(self, env: StochasticBanditEnv, learner: BanditAgent, horizon: int) -> None:
+    def renderrun(self, env: StochasticBanditEnv, learner: BAIBanditAgent, horizon: int) -> None:
         """Run one interaction, printing each round to stdout.
 
         Same loop as :meth:`run`, but a
