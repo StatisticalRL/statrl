@@ -40,6 +40,19 @@ def test_run() -> None:
     print(f"{env.name}:{oracle.name}:\t{scores0}")
 
 
+def test_algos() -> None:
+
+    from statrl.experiments.utils import load, make,makealgo
+    envs = load("envs/environments.yaml")
+    env = make(envs["grid-random-88"])
+
+    interaction = MDPInteraction()
+
+    algos = load("agents/agents.yaml")
+    for alg in algos:
+        algo = makealgo(algos[alg], env)
+        interaction.renderrun(env, algo, 10)
+
 def test_massive() -> None:
     from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.IMED_RL import IMEDRL
     from statrl.settings.markovdecisionprocess.discrete_nostructure.agents.PSRL import PSRL
@@ -59,4 +72,5 @@ if __name__ == "__main__":
     test_render()
     test_run()
     test_load()
+    test_algos()
     test_massive()

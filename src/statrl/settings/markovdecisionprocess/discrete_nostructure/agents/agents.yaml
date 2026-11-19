@@ -1,0 +1,41 @@
+UCRL3:
+  entrypoint: "UCRL3:UCRL3Lazy"
+  displayname: "UCRL3"
+  kwargs:
+    nS:
+      env: "nS"
+    nA:
+      env: "nA"
+    delta: 0.05
+    eta: 1.12
+    gamma: 10.0
+    lazy_update_freq: 5
+
+IMEDRL:
+  entrypoint: "IMED_RL:IMEDRL"
+  displayname: "IMED-RL"
+  kwargs:
+    nbr_states:
+      env: "nS"
+    nbr_actions:
+      env: "nA"
+
+PSRL:
+  entrypoint: "PSRL:PSRL"
+  displayname: "PSRL"
+  kwargs:
+    nS:
+      env: "nS"
+    nA:
+      env: "nA"
+    delta: 0.05
+
+PSRLOriginal:
+  entrypoint: "PSRL_original:PSRLOriginal"
+  displayname: "PSRL (original)"
+  kwargs:
+    nS:
+      env: "nS"
+    nA:
+      env: "nA"
+    delta: 0.05

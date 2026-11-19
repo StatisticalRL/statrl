@@ -1,0 +1,42 @@
+BABA:
+  entrypoint: "BABA:BABA"
+  displayname: "BABA"
+  kwargs:
+    nbArms:
+      env: "number_arms"
+    horizon: 100000
+    bound: 1.0
+
+BABA2:
+  entrypoint: "BABA:BABA2"
+  displayname: "BABA2"
+  kwargs:
+    nbArms:
+      env: "number_arms"
+    horizon: 100000
+    bound: 1.0
+
+BIMED:
+  entrypoint: "BIMED:BIMED"
+  displayname: "Batched IMED"
+  kwargs:
+    nbArms:
+      env: "number_arms"
+    bound: 1.0
+
+BCB:
+  entrypoint: "BCB:BCB"
+  displayname: "BCB"
+  kwargs:
+    nbArms:
+      env: "number_arms"
+    bound: 1.0
+
+BCBnaif:
+  entrypoint: "BCB:BCBnaif"
+  displayname: "BCB (naive)"
+  kwargs:
+    nbArms:
+      env: "number_arms"
+    bound: 1.0
+

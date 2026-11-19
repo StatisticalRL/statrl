@@ -26,6 +26,18 @@ def test_run() -> None:
 
 
 
+def test_algos() -> None:
+
+    from statrl.experiments.utils import load, make,makealgo
+    envs = load("envs/environments.yaml")
+    env = make(envs["bern-quadratic6"])
+
+    interaction = BatchBanditInteraction()
+
+    algos = load("agents/agents.yaml")
+    for alg in algos:
+        algo = makealgo(algos[alg], env)
+        interaction.renderrun(env, algo, 10)
 
 def test_massive() -> None:
 
@@ -57,4 +69,5 @@ if __name__ == "__main__":
     #test_render()
     #test_run()
     #test_load()
-    test_massive()
+    test_algos()
+    #test_massive()
