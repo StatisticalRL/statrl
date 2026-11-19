@@ -20,6 +20,7 @@ class BAIInteraction(Interaction):
 
     Examples
     --------
+    # TODO: update the example.
     #>>> from statrl.settings.bandits.stochastic.anytime.envs.parametric import BernoulliBandit
     #>>> from statrl.settings.bandits.stochastic.anytime.agents.TopTwoTS import TopTwoTS
     #>>> env = BernoulliBandit([0.2, 0.9, 0.5])
