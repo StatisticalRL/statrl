@@ -21,52 +21,52 @@ class UCRL3Lazy(MDPAgent):
     1. **Time-uniform component-wise confidence intervals** (Section 3.1):
        Rewards use a combination of a Hoeffding-Laplace mixture bound and a
        time-uniform empirical Bernstein peeling bound. Each transition
-       probability :math:`p(s' \mid s, a)` is bounded by intersecting a
+       probability :math:`p(s' \\mid s, a)` is bounded by intersecting a
        time-uniform Bernstein peeling inequality with a Bernoulli
        sub-Gaussian Laplace mixture bound, plus an atypical-sequence lower
-       bound :math:`(1/2)^n` when :math:`\hat{p}_t(s' \mid s, a) = 1` and
+       bound :math:`(1/2)^n` when :math:`\\hat{p}_t(s' \\mid s, a) = 1` and
        :math:`n > 1` (Appendix D).
     2. **Near-Optimistic Support-adaptive Optimization (EVI-NOSS)**
        (Section 3.2, Algorithms 2 and 3): Instead of optimizing over the full
-       state space :math:`\mathcal{S}`, NOSS restricts transition optimization
+       state space :math:`\\mathcal{S}`, NOSS restricts transition optimization
        for each :math:`(s, a)` to an adaptively augmented subset
-       :math:`\widetilde{\mathcal{S}}_{s,a} \supseteq \operatorname{supp}(\hat{p}_t(\cdot \mid s, a))`
+       :math:`\\widetilde{\\mathcal{S}}_{s,a} \\supseteq \\operatorname{supp}(\\hat{p}_t(\\cdot \\mid s, a))`
        until the outside optimistic contribution is below
-       :math:`\min(\kappa, \overline{f}_{s,a}(\widetilde{\mathcal{S}}_{s,a}))`.
+       :math:`\\min(\\kappa, \\overline{f}_{s,a}(\\widetilde{\\mathcal{S}}_{s,a}))`.
        Following Appendix D, the lazy variant recomputes these supports once
        every ``lazy_update_freq`` iterations of extended value iteration.
 
     Parameters
     ----------
     nS : int
-        Number of states :math:`|\mathcal{S}|` in the discrete MDP.
+        Number of states :math:`|\\mathcal{S}|` in the discrete MDP.
     nA : int
-        Number of actions :math:`|\mathcal{A}|` in the discrete MDP.
+        Number of actions :math:`|\\mathcal{A}|` in the discrete MDP.
     delta : float, default=0.05
         High-probability confidence level parameter in ``(0, 1)``. Used with
-        confidence scaling :math:`\delta_0 = \delta / (3 + 3 |\mathcal{S}|)`.
+        confidence scaling :math:`\\delta_0 = \\delta / (3 + 3 |\\mathcal{S}|)`.
     eta : float, default=1.12
-        Peeling parameter :math:`\eta > 1` in
-        :math:`\ell_n(\delta') = \eta \log(\log(n)\log(\eta n) / (\log^2(\eta)\delta'))`.
+        Peeling parameter :math:`\\eta > 1` in
+        :math:`\\ell_n(\\delta') = \\eta \\log(\\log(n)\\log(\\eta n) / (\\log^2(\\eta)\\delta'))`.
     gamma : float, default=10.0
-        Scaling constant :math:`\gamma > 0` in the NOSS threshold
-        :math:`\kappa_{t,n}(s,a) = \gamma \mathbb{S}(u_n) |\operatorname{supp}(\hat{p}_t(\cdot\mid s,a))| / \max_{s',a'} N_t(s',a')^{2/3}`.
+        Scaling constant :math:`\\gamma > 0` in the NOSS threshold
+        :math:`\\kappa_{t,n}(s,a) = \\gamma \\mathbb{S}(u_n) |\\operatorname{supp}(\\hat{p}_t(\\cdot\\mid s,a))| / \\max_{s',a'} N_t(s',a')^{2/3}`.
     lazy_update_freq : int, default=5
-        Interval :math:`L \ge 1` of EVI iterations between NOSS support
+        Interval :math:`L \\ge 1` of EVI iterations between NOSS support
         recomputations (Appendix D). Setting ``lazy_update_freq=1`` recovers
         exact Algorithm 3.
     name : str, default='UCRL3'
         Human-readable label used in logs and plots.
     seed : int, optional
         Random seed used by ``self.np_random`` for uniform tie-breaking among
-        :math:`\operatorname{Argmin}_{a \in \mathcal{A}} N_k(s, a)`.
+        :math:`\\operatorname{Argmin}_{a \\in \\mathcal{A}} N_k(s, a)`.
 
     Attributes
     ----------
     t : int
-        Global decision time step :math:`t \ge 1`.
+        Global decision time step :math:`t \\ge 1`.
     episode : int
-        Current episode index :math:`k \ge 1`.
+        Current episode index :math:`k \\ge 1`.
     N : ndarray of shape (nS, nA)
         Cumulative visit counts :math:`N_t(s, a)`.
     N_ep : ndarray of shape (nS, nA)
@@ -77,11 +77,11 @@ class UCRL3Lazy(MDPAgent):
     P_counts : ndarray of shape (nS, nA, nS)
         Cumulative transition counts :math:`N_t(s, a, s')`.
     mean_rewards : ndarray of shape (nS, nA)
-        Running empirical mean reward :math:`\hat{\mu}_t(s, a)`.
+        Running empirical mean reward :math:`\\hat{\\mu}_t(s, a)`.
     m2_rewards : ndarray of shape (nS, nA)
         Running sum of squared reward deviations for Welford variance.
     policy : ndarray of shape (nS,)
-        Current near-optimistic policy :math:`\pi^+_{t_k}`.
+        Current near-optimistic policy :math:`\\pi^+_{t_k}`.
     u : ndarray of shape (nS,)
         Optimistic relative value vector from the latest EVI-NOSS run.
 
@@ -92,15 +92,15 @@ class UCRL3Lazy(MDPAgent):
 
     Notes
     -----
-    - **Time complexity**: There are :math:`\mathcal{O}(SA \log T)` episodes
+    - **Time complexity**: There are :math:`\\mathcal{O}(SA \\log T)` episodes
       over horizon :math:`T`. Each episode computes component-wise confidence
-      bounds in :math:`\mathcal{O}(SA + \sum_{s,a} |\operatorname{supp}(\hat{p}_{s,a})|)`
+      bounds in :math:`\\mathcal{O}(SA + \\sum_{s,a} |\\operatorname{supp}(\\hat{p}_{s,a})|)`
       scalar solves (since all zero-count transitions for a given :math:`(s, a)`
       share the same upper bound) and runs EVI-NOSS in
-      :math:`\mathcal{O}(I \cdot (SA \cdot \bar{K} + \frac{1}{L} SA \cdot S))`
+      :math:`\\mathcal{O}(I \\cdot (SA \\cdot \\bar{K} + \\frac{1}{L} SA \\cdot S))`
       operations, where :math:`I` is the number of value iterations and
-      :math:`\bar{K}` is the average active support size.
-    - **Space complexity**: :math:`\mathcal{O}(S^2 A)` to store transition
+      :math:`\\bar{K}` is the average active support size.
+    - **Space complexity**: :math:`\\mathcal{O}(S^2 A)` to store transition
       counts and confidence intervals.
 
     References
@@ -113,7 +113,7 @@ class UCRL3Lazy(MDPAgent):
     --------
     >>> from statrl.settings.markovdecisionprocess.discrete_nostructure.envs.riverswim import RiverSwim
     >>> from statrl.settings.markovdecisionprocess.discrete_nostructure.interaction import MDPInteraction
-    >>> env = RiverSwim(nbStates=6, seed=0)
+    >>> env = RiverSwim(nbStates=6)
     >>> agent = UCRL3Lazy(nS=env.nS, nA=env.nA, delta=0.05, seed=0)
     >>> scores = MDPInteraction().run(env, agent, horizon=200)
     >>> scores.shape
@@ -248,7 +248,7 @@ class UCRL3Lazy(MDPAgent):
 
         Notes
         -----
-        Implements :math:`\ell_n(\delta') = \eta \log(\frac{\log(n)\log(\eta n)}{\log^2(\eta)\delta'})`
+        Implements :math:`\\ell_n(\\delta') = \\eta \\log(\\frac{\\log(n)\\log(\\eta n)}{\\log^2(\\eta)\\delta'})`
         from Section 3.1 (Eq. 5). For :math:`n = 1`, the numerator inside the
         logarithm is clamped to at least ``1.0`` (matching Lemma 7's
         ``ceil(log(n)/log(eta)) >= 1``) so ``l_1`` remains finite.
