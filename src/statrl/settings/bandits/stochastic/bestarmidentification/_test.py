@@ -12,9 +12,6 @@ from statrl.settings.bandits.stochastic.anytime.envs.parametric import (
     BernoulliBandit,
 )
 
-from statrl.settings.bandits.stochastic.bestarmidentification.agents.TopTwoTS import (
-    TopTwoTS,
-)
 from statrl.settings.bandits.stochastic.bestarmidentification.interaction import (
     BAIInteraction,
 )
@@ -80,7 +77,7 @@ def test_load() -> None:
 
 def test_algos() -> None:
     """Instantiate TTTS through StatRL's algorithm factory and run it."""
-    from statrl.experiments.utils import load, make,makealgo
+    from statrl.experiments.utils import load,makealgo
 
     env = _small_environment()
 
