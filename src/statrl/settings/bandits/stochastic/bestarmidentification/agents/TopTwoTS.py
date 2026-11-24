@@ -16,6 +16,7 @@ import numpy as np
 from statrl.settings.bandits.stochastic.bestarmidentification.agent import (
     BAIBanditAgent,
 )
+from statrl.settings.utils import randmax
 
 
 class TopTwoTS(BAIBanditAgent):
@@ -74,7 +75,7 @@ class TopTwoTS(BAIBanditAgent):
     def _sample_posterior_winner(self):
         """Draw one independent posterior sample per arm and return its argmax."""
         samples = self.np_random.beta(self.alpha, self.b)
-        return int(np.argmax(samples))
+        return  randmax(samples)#int(np.argmax(samples))
 
     def select_arm(self):
         """Select the next arm according to Top-Two Thompson Sampling.
@@ -136,7 +137,7 @@ class TopTwoTS(BAIBanditAgent):
         ``alpha[a] / (alpha[a] + b[a])``.
         """
         posterior_means = self.alpha / (self.alpha + self.b)
-        return int(np.argmax(posterior_means))
+        return randmax(posterior_means)#int(np.argmax(posterior_means))
 
     def is_done(self):
         """Return whether the agent has reached its stopping condition.
