@@ -1,0 +1,7 @@
+TopTwoTS:
+  entrypoint: "TopTwoTS:TopTwoTS"
+  displayname: "Top-Two Thompson Sampling (Bernoulli)"
+  kwargs:
+    nbArms:
+      env: "number_arms"
+    beta: 0.5

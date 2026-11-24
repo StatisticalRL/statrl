@@ -110,7 +110,8 @@ class BAIInteraction(Interaction):
     @property
     def plotlabels(self):
         """tuple of (str, str): Axis labels ``(x, y)`` for the regret plots."""
-        return ("Time step", "1[a is opt]")
+        # Remember that we plot the regret, so 1[a' chosen by orcle is opt]-1[a is opt] = 1-1[a is opt] = 1[a is not opt]
+        return ("Time step", "1[a is not opt]")
 
 
 
