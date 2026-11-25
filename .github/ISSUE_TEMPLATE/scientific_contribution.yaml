@@ -1,0 +1,66 @@
+
+name: Scientific Contribution
+description: Propose an algorithm, environment, interaction protocol, or scientific idea for StatRL.
+title: "[Proposal] "
+labels: ["scientific-proposal"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your interest in contributing to StatRL!
+
+        We welcome scientific contributions based on published
+        research, new ideas, or existing implementations.
+
+        You do not need to provide code. A paper reference
+        and a short description are already valuable.
+
+  - type: dropdown
+    id: contribution_type
+    attributes:
+      label: Contribution type
+      description: What would you like to propose?
+      options:
+        - Algorithm
+        - Environment
+        - Interaction protocol
+        - Benchmark
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: reference
+    attributes:
+      label: Scientific reference
+      description: DOI, arXiv URL, paper URL, or bibliographic reference.
+      placeholder: https://arxiv.org/...
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Briefly describe the proposed contribution.
+      placeholder: What is the idea? What does it do?
+      render: markdown
+
+  - type: textarea
+    id: relevance
+    attributes:
+      label: Relevance to StatRL
+      description: Why would this be interesting to include in StatRL?
+      placeholder: Potential applications, theoretical interest, comparisons...
+
+  - type: dropdown
+    id: implementation
+    attributes:
+      label: Implementation interest
+      description: Would you be interested in helping with the implementation?
+      options:
+        - Just suggesting the idea
+        - Interested in discussing it
+        - Interested in implementing it
+        - Already have an implementation
+    validations:
+      required: false
