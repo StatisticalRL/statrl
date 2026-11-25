@@ -127,3 +127,19 @@ sphinx-build -b html -W --keep-going docs/source docs/_build/html
 sphinx-build -b doctest docs/source docs/_build/doctest
 xdg-open docs/_build/html/index.html
 ```
+
+## Contributing to StatRL
+
+StatRL is an open-source scientific library, and we welcome contributions from the research community.
+
+Beyond software contributions, we are particularly interested in identifying and integrating scientific advances in reinforcement learning and sequential decision-making.
+
+Have you encountered an interesting algorithm, experimental environment, interaction protocol, or benchmark in a scientific publication?
+
+**We would love to hear about it!**
+
+You can submit a [Scientific Contribution](https://github.com/StatisticalRL/statrl/issues/new?template=scientific_contribution.yml) directly through GitHub Issues.
+
+A short description and a link to the original paper are already sufficient. You do not need to provide an implementation.
+
+Proposals can be discussed, reviewed, and progressively integrated into StatRL. Contributors interested in implementing their proposals are also very welcome!
