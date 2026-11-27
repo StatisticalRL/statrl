@@ -1,6 +1,5 @@
-
 name: Scientific Contribution
-description: Propose an algorithm, environment, interaction protocol, or scientific idea for StatRL.
+description: Propose a setting, environment, algorithm, interaction protocol, benchmark, or theoretical contribution for StatRL.
 title: "[Proposal] "
 labels: ["scientific-proposal"]
 
@@ -8,59 +7,117 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for your interest in contributing to StatRL!
+        Thank you for contributing to StatRL!
 
-        We welcome scientific contributions based on published
-        research, new ideas, or existing implementations.
+        StatRL aims to provide a modular and reproducible collection of statistical
+        reinforcement-learning and bandit settings, environments, interaction protocols,
+        and algorithms.
 
-        You do not need to provide code. A paper reference
-        and a short description are already valuable.
+        You do not need to provide code. A relevant paper and a concise description
+        are already useful. Please distinguish the mathematical setting (assumptions
+        and objective) from a particular environment (a concrete simulator or instance)
+        and from an algorithm (a decision rule).
 
   - type: dropdown
     id: contribution_type
     attributes:
       label: Contribution type
-      description: What would you like to propose?
+      description: Select the main object being proposed. Select the closest match if the proposal spans several categories.
       options:
+        - Setting / problem class
+        - Environment / simulator
         - Algorithm
-        - Environment
-        - Interaction protocol
-        - Benchmark
+        - Interaction / feedback protocol
+        - Benchmark / evaluation
+        - Theory / analysis
         - Other
     validations:
       required: true
 
   - type: input
+    id: setting_path
+    attributes:
+      label: Suggested StatRL location
+      description: Optional proposed place in the setting tree (for example, bandits/stochastic/nonstationary).
+      placeholder: bandits/stochastic/...
+    validations:
+      required: false
+
+  - type: input
     id: reference
     attributes:
       label: Scientific reference
-      description: DOI, arXiv URL, paper URL, or bibliographic reference.
+      description: DOI, arXiv URL, publisher URL, code repository, or bibliographic reference. Add multiple references in the description if needed.
       placeholder: https://arxiv.org/...
+    validations:
+      required: false
 
   - type: textarea
-    id: description
+    id: problem
     attributes:
-      label: Description
-      description: Briefly describe the proposed contribution.
-      placeholder: What is the idea? What does it do?
+      label: Problem definition and assumptions
+      description: What is the objective, what is observed, and what assumptions distinguish this setting from existing StatRL settings?
+      placeholder: |
+        - Decision process / action space:
+        - Reward or loss model:
+        - Feedback available to the learner:
+        - Main assumptions / constraints:
+        - Objective and performance criterion:
       render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: contribution
+    attributes:
+      label: Proposed contribution
+      description: Describe the specific algorithm, environment, interaction protocol, or theoretical component to add. Mention the paper's main method where applicable.
+      placeholder: Explain what should be implemented and how it works.
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: evaluation
+    attributes:
+      label: Evaluation and validation
+      description: Suggest baselines, metrics, representative instances, or tests. It is fine to leave this incomplete.
+      placeholder: |
+        - Baselines:
+        - Metrics / theoretical guarantees:
+        - Example environments or parameter regimes:
+        - Reproducibility considerations:
+      render: markdown
+    validations:
+      required: false
 
   - type: textarea
     id: relevance
     attributes:
       label: Relevance to StatRL
-      description: Why would this be interesting to include in StatRL?
-      placeholder: Potential applications, theoretical interest, comparisons...
+      description: Why is this contribution useful or scientifically interesting for the library? Does it connect to existing settings or enable new comparisons?
+      render: markdown
+    validations:
+      required: false
 
   - type: dropdown
     id: implementation
     attributes:
       label: Implementation interest
-      description: Would you be interested in helping with the implementation?
+      description: Would you be interested in helping with the implementation or validation?
       options:
         - Just suggesting the idea
         - Interested in discussing it
         - Interested in implementing it
         - Already have an implementation
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional information
+      description: Related papers, code, datasets, implementation notes, or possible combinations with other settings.
+      render: markdown
     validations:
       required: false
